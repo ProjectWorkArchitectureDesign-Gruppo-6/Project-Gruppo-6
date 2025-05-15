@@ -32,17 +32,13 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.scene.canvas.Canvas?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="principalPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.FirstSprintController">
+<AnchorPane fx:id="principalPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.FirstSprintController">
    <children>
       <AnchorPane fx:id="topPane" layoutY="-2.0" prefHeight="104.0" prefWidth="743.0">
          <children>
@@ -59,7 +55,7 @@
                      <graphic>
                         <ImageView fitHeight="21.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Images/5234222.png" />
+                              <Image url="@../../Images/5234222.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -68,9 +64,9 @@
             </MenuBar>
             <Button fx:id="rctBtn" contentDisplay="CENTER" layoutX="8.0" layoutY="36.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="82.0">
                <graphic>
-                  <ImageView fitHeight="47.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="rectBtn" fitHeight="47.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Images/b1.png" />
+                        <Image url="@../../Images/b1.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -79,7 +75,7 @@
                <graphic>
                   <ImageView fitHeight="48.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Images/b2.png" />
+                        <Image url="@../../Images/b2.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -88,7 +84,7 @@
                <graphic>
                   <ImageView fitHeight="47.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Images/b3.png" />
+                        <Image url="@../../Images/b3.png" />
                      </image>
                   </ImageView>
                </graphic>
