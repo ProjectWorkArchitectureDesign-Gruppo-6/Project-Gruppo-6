@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 
 public class Line implements Shape {
     private double x1, y1, x2, y2;
+
     private Color color;
 
     public Line(double x1, double y1, Color color, double x2, double y2) {

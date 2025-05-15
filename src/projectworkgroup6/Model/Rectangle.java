@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 
 public class Rectangle implements Shape {
     private double x, y, width, height;
+
     private Color color;
 
     public Rectangle(double x, double y, Color color, double width, double height) {

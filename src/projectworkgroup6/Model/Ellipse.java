@@ -7,6 +7,7 @@ public class Ellipse implements Shape {
     private double x, y, diam1, diam2;
     private Color color = Color.BLACK;
 
+
     public Ellipse(double x, double y, Color color, double diam1, double diam2) {
         this.x = x;
         this.y = y;
