@@ -1,0 +1,8 @@
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.CanvasController">
+    <children>
+        <Canvas fx:id="canvas" width="743.0" height="418.0"/>
+    </children>
+</AnchorPane>

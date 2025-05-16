@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="30.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.MenuBarController">
-    <MenuBar fx:id="topMenuBar" prefHeight="34.0" prefWidth="760.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <MenuBar fx:id="topMenuBar" prefHeight="34.0" prefWidth="760.0" AnchorPane.bottomAnchor="0.0">
         <menus>
             <Menu fx:id="fileBtn" mnemonicParsing="false" text="File">
                 <items>

@@ -19,7 +19,8 @@ public class Rectangle implements Shape {
     @Override
     public void draw(GraphicsContext gc) {
         gc.setStroke(color);
-        gc.strokeRect(x, y, width, height);
+        gc.strokeRect(x - width / 2, y - height / 2, width, height);
+
     }
 
     @Override
