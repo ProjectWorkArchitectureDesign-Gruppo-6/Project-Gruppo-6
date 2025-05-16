@@ -38,5 +38,6 @@
             </image>
         </ImageView>
         <Button fx:id="slcButton" layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#onSelectBtn" prefHeight="49.0" prefWidth="82.0" text="Select" />
+        <fx:include fx:id="colorPalette" source="Color.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="550.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0" />
     </children>
 </AnchorPane>
