@@ -19,7 +19,6 @@ public class StateController implements Initializable {
     // --- Singleton classico ---
     private static StateController instance;
 
-
     private StateController() {
         // Costruttore privato per Singleton
     }
@@ -35,6 +34,7 @@ public class StateController implements Initializable {
     private CursorMode currentMode = CursorMode.SELECT;
     private ShapeCreator currentCreator = null;
 
+
     //Subject degli Observer
     private List<CursorObserver> observers = new ArrayList<>();
 
@@ -42,6 +42,7 @@ public class StateController implements Initializable {
     public void setCursorMode(CursorMode mode, ShapeCreator creator) {
         this.currentMode = mode;
         this.currentCreator = creator;
+
         notifyObservers();
     }
 
@@ -57,7 +58,9 @@ public class StateController implements Initializable {
     private void notifyObservers() {
         for (CursorObserver o : observers) {
             o.onCursorModeChanged(currentMode);
+
             o.onCurrentCreatorChanged(currentCreator);
+
         }
     }
 

@@ -1,8 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.CanvasController">
+<AnchorPane fx:id="canvasPane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.CanvasController">
     <children>
-        <Canvas fx:id="canvas" width="743.0" height="418.0"/>
+        <Canvas fx:id="canvas" height="418.0" width="743.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+
     </children>
 </AnchorPane>

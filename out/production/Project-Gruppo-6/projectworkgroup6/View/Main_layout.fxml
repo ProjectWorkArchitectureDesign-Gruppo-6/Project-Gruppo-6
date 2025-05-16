@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/17.0.2"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="projectworkgroup6.Controller.MainController"
-            fx:id="principalPane"
-            prefWidth="743.0" prefHeight="516.0">
-
+<AnchorPane fx:id="principalPane" prefHeight="516.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.MainController">
     <children>
-        <VBox prefWidth="743.0" prefHeight="516.0">
-            <fx:include source="MenuBar.fxml"/>
-            <fx:include source="ToolBar.fxml"/>
-            <fx:include source="Canvas.fxml"/>
-        </VBox>
+        <VBox fx:id="mainVBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
     </children>
+
 </AnchorPane>

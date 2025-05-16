@@ -6,6 +6,7 @@ import projectworkgroup6.Factory.RectangleCreator;
 import projectworkgroup6.Factory.ShapeCreator;
 import projectworkgroup6.Model.CursorMode;
 import projectworkgroup6.Model.Shape;
+import projectworkgroup6.Model.CursorMode;
 
 public class CanvasController implements CursorObserver{
 
@@ -15,6 +16,7 @@ public class CanvasController implements CursorObserver{
     private MainController mainController;
 
     private CursorMode cursorMode;
+
     private ShapeCreator currentCreator;
 
     public CursorMode getCursorMode() {
@@ -32,6 +34,7 @@ public class CanvasController implements CursorObserver{
     public void setCurrentCreator(ShapeCreator currentCreator) {
         this.currentCreator = currentCreator;
     }
+
 
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
@@ -72,4 +75,5 @@ public class CanvasController implements CursorObserver{
         }
 
     }
+
 }

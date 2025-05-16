@@ -24,6 +24,7 @@ public class MainController implements Initializable {
 
    // @FXML
     //private AnchorPane principalPane;
+
     @FXML
     private VBox mainVBox;
 
@@ -54,6 +55,7 @@ public class MainController implements Initializable {
         mainVBox.getChildren().addAll(menu, tool, canvas);
 
         // Puoi anche posizionarli con AnchorPane.setTopAnchor(...) ecc.
+
     }
 
 
@@ -64,6 +66,7 @@ public class MainController implements Initializable {
             loadInterfaceComponents();
 
             //stateController.addObserver(canvasController); /*l'osservazione dell'evento che avviene sul convas va implementata direttamente nel canvas controller*/
+
         } catch (IOException e) {
             e.printStackTrace();
         }
