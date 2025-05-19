@@ -3,23 +3,42 @@ package projectworkgroup6.Model;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Ellipse implements Shape {
-    private double x, y, diam1, diam2;
+public class Ellipse extends Shape {
+    private double diam1, diam2;
     private Color color = Color.BLACK;
 
 
-    public Ellipse(double x, double y, Color color, double diam1, double diam2) {
-        this.x = x;
-        this.y = y;
+    public Ellipse(double x, double y, boolean selected, Color color, double diam1, double diam2) {
+        super(x,y,selected);
         this.color = color;
         this.diam1 = diam1;
         this.diam2 = diam2;
     }
 
     @Override
+    public double getDim1() {
+        return diam1;
+    }
+
+    @Override
+    public double getDim2() {
+        return diam2;
+    }
+
+    @Override
+    public double getXc() {
+        return this.getX() - diam1/2;
+    }
+
+    @Override
+    public double getYc() {
+        return this.getY() - diam2/2;
+    }
+
+    @Override
     public void draw(GraphicsContext gc) {
         gc.setStroke(color);
-        gc.strokeOval(x, y, diam1, diam2);
+        gc.strokeOval(this.getXc(), this.getYc(), diam1, diam2);
     }
 
     @Override
@@ -37,5 +56,12 @@ public class Ellipse implements Shape {
     @Override
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    @Override
+    public boolean contains(double x, double y) {
+        double left = this.getX() - diam1 / 2;
+        double top = this.getY() - diam2 / 2;
+        return x >= left && x <= left + diam1 && y >= top && y <= top + diam2;
     }
 }

@@ -19,6 +19,6 @@ public class EllipseCreator extends ShapeCreator {
     }
     @Override
     public Shape createShape(double x, double y, Color color) {
-        return new Ellipse(x, y, color, 80, 40);
+        return new Ellipse(x, y, false, color, 80, 40);
     }
 }

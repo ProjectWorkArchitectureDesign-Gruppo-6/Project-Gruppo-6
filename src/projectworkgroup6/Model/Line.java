@@ -3,39 +3,83 @@ package projectworkgroup6.Model;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Line implements Shape {
-    private double x1, y1, x2, y2;
+public class Line extends Shape {
+    private double x2, y2;
 
     private Color color;
 
-    public Line(double x1, double y1, Color color, double x2, double y2) {
-        this.x1 = x1;
-        this.y1 = y1;
+    public Line(double x1, double y1, boolean selected, Color color, double x2, double y2) {
+        super(x1,y1,selected);
         this.color = color;
         this.x2 = x2;
         this.y2 = y2;
     }
 
     @Override
+    public double getDim1() {
+        return x2 - ((x2-x)/2);
+    }
+
+    @Override
+    public double getDim2() {
+        return y2 - ((y2-y)/2);
+    }
+
+    @Override
+    public double getXc() {
+        return this.getX() - ((x2-x)/2);
+    }
+
+    @Override
+    public double getYc() {
+        return this.getY() - ((y2-y)/2);
+    }
+
+    @Override
     public void draw(GraphicsContext gc) {
         gc.setStroke(color);
-        gc.strokeLine(x1, y1, x2, y2);
+        gc.strokeLine(getXc(), getYc(), x2 - ((x2-x)/2), y2 - ((y2-y)/2));
     }
 
     @Override
     public void move(double dx, double dy) {
-        x1 += dx;
-        y1 += dy;
+        x += dx;
+        y += dy;
+        x2 += dx;
+        y2 += dy;
     }
 
     @Override
     public void resize(double factor) {
-        x1 *= factor;
-        y1 *= factor;
+        x *= factor;
+        y *= factor;
     }
 
     @Override
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    @Override
+    public boolean contains(double x, double y) {
+
+        double tollerance = 3.0; //Aggiunta per il click sulla linea
+
+        // Verifico che il click sta nei confini della linea
+        boolean first = x >= getXc() && y >= getYc();
+        boolean second = x <= getDim1() && y <= getDim2();
+
+        // Coefficienti per il calcolo della distanza punto retta su cui giace la linea
+        double a = getYc()-getDim2();
+        double b = getDim1()-getXc();
+        double c = -getYc()*getDim1() + getXc()*getDim2();
+
+        // Calcolo della distanza
+        double distanza = (a*x+b*y+c)/(Math.sqrt(Math.pow(a,2) + Math.pow(b,2)));
+
+        // Verifico che il click avviene sulla linea, considerando una tolleranza
+        boolean onLine = distanza<=tollerance && distanza >= -tollerance;
+
+        return first && second && onLine;
     }
 }

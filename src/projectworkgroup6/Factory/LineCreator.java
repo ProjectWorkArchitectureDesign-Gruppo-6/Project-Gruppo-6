@@ -6,6 +6,8 @@ import projectworkgroup6.Model.Shape;
 
 public class LineCreator extends ShapeCreator {
 
+    private static final double DEFAULT_LENGTH = 100;
+
     private static LineCreator instance;
 
     private LineCreator() {
@@ -20,6 +22,7 @@ public class LineCreator extends ShapeCreator {
     }
     @Override
     public Shape createShape(double x, double y, Color color) {
-        return new Line(x, y, color, x + 50, y + 50);
+
+        return new Line(x, y, false, color, x + DEFAULT_LENGTH, y + DEFAULT_LENGTH);
     }
 }

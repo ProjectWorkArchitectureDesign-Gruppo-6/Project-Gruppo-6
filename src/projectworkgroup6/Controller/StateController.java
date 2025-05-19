@@ -1,20 +1,18 @@
 package projectworkgroup6.Controller;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.layout.AnchorPane;
-import projectworkgroup6.Factory.ShapeCreator;
-import projectworkgroup6.Model.CursorMode;
+import projectworkgroup6.Model.Shape;
+import projectworkgroup6.State.CanvasState;
+import projectworkgroup6.State.MultipleSelectState;
+import projectworkgroup6.State.SingleSelectState;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
-public class StateController implements Initializable {
+public class StateController{
 
+    //StateController rappresenta il contesto degli stati concreti, implementati con il pattern State
+    //Per ogni stato attivo, StateController gestisce le comunicazioni tra i vari Controller,
+    // che effettuano operazioni diverse in base allo stato in cui ci troviamo
 
     // --- Singleton classico ---
     private static StateController instance;
@@ -30,45 +28,63 @@ public class StateController implements Initializable {
         return instance;
     }
 
-    // Stato del cursore
-    private CursorMode currentMode = CursorMode.SELECT;
-    private ShapeCreator currentCreator = null;
+    //// STATO DEL CURSORE ////
+    private CanvasState currentState = SingleSelectState.getInstance();
 
 
     //Subject degli Observer
     private List<CursorObserver> observers = new ArrayList<>();
 
     // --- Gestione stato cursore ---
-    public void setCursorMode(CursorMode mode, ShapeCreator creator) {
-        this.currentMode = mode;
-        this.currentCreator = creator;
-
+    public void setState(CanvasState state) {
+        this.currentState = state;
         notifyObservers();
-    }
-
-    public CursorMode getCursorMode() {
-
-        return currentMode;
-    }
-
-    public void addObserver(CursorObserver o) {
-        observers.add(o);
     }
 
     private void notifyObservers() {
         for (CursorObserver o : observers) {
-            o.onCursorModeChanged(currentMode);
-
-            o.onCurrentCreatorChanged(currentCreator);
-
+            o.onStateChanged(currentState);
         }
     }
 
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        instance = this;
+    public void addObserver(CursorObserver o) {
+        if (!observers.contains(o)) {
+            observers.add(o);
+        }
     }
+
+    //// STATO DEL CANVAS ////
+
+    private final List<CanvasObserver> canvasObservers = new ArrayList<>();
+
+    public void addCanvasObserver(CanvasObserver o) {
+        if (!canvasObservers.contains(o))
+            canvasObservers.add(o);
+    }
+
+    private void notifyCanvasToRepaint() {
+        for (CanvasObserver o : canvasObservers)
+            o.onCanvasChanged(getShapes());
+    }
+
+    private final List<Shape> shapes = new ArrayList<>();
+
+    public List<Shape> getShapes() {
+        return shapes;
+    }
+
+    public void addShape(Shape shape) {
+        shapes.add(shape);
+        notifyCanvasToRepaint();
+    }
+
+    public void removeShape(Shape shape){
+        shapes.remove(shape);
+        notifyCanvasToRepaint();
+    }
+
+
 
 
 

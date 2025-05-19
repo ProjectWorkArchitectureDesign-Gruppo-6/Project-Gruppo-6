@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import projectworkgroup6.Controller.MainController;
 
 /**
  *
@@ -18,12 +19,21 @@ public class ProjectWorkGroup6 extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("View/Main_layout.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/View/Main_layout.fxml"));
+        Parent root = loader.load();
+
         
         Scene scene = new Scene(root);
-        
+
         stage.setScene(scene);
         stage.show();
+
+        passScene(scene, loader);
+    }
+
+    private void passScene(Scene scene, FXMLLoader loader) {
+        MainController mainController = loader.getController();
+        mainController.passScene(scene);
     }
 
     /**

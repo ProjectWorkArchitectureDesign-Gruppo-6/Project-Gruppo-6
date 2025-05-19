@@ -1,12 +1,10 @@
 package projectworkgroup6.Controller;
 
-import projectworkgroup6.Factory.ShapeCreator;
-
-import projectworkgroup6.Model.CursorMode;
+import projectworkgroup6.State.CanvasState;
 
 public interface CursorObserver {
-    void onCursorModeChanged(CursorMode newMode);
+    void onStateChanged(CanvasState newMode);
 
-    void onCurrentCreatorChanged(ShapeCreator currentCreator);
+
 
 }

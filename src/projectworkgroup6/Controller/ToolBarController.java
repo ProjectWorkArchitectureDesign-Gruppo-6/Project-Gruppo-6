@@ -8,21 +8,11 @@ import projectworkgroup6.Factory.EllipseCreator;
 import projectworkgroup6.Factory.LineCreator;
 import projectworkgroup6.Factory.RectangleCreator;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
-import projectworkgroup6.Model.ColorModel;
-import projectworkgroup6.Model.CursorMode;
+import projectworkgroup6.State.InsertState;
+import projectworkgroup6.State.MultipleSelectState;
+import projectworkgroup6.State.SingleSelectState;
 
 public class ToolBarController {
 
@@ -68,7 +58,7 @@ public class ToolBarController {
     // Handler per i pulsanti
 
     public void onSelectBtn(ActionEvent event) {
-        StateController.getInstance().setCursorMode(CursorMode.SELECT, null);
+        StateController.getInstance().setState(SingleSelectState.getInstance());
     }
 
 
@@ -76,16 +66,16 @@ public class ToolBarController {
     //al click il cursore deve cambiare modalità, quindi deve essere modificato lo stato tramite state controller
     //notifico gli observer setCursorMode richiama notifyObservers permette di notificare gli Observer del cambio di modalità del cursore
     public void onRctBtn(ActionEvent event) {
-        StateController.getInstance().setCursorMode(CursorMode.INSERT_RECTANGLE, RectangleCreator.getInstance());
+        StateController.getInstance().setState(new InsertState(RectangleCreator.getInstance()));
     }
 
 
     public void onElpBtn(ActionEvent actionEvent) {
-        StateController.getInstance().setCursorMode(CursorMode.INSERT_ELLIPSE, EllipseCreator.getInstance());
+        StateController.getInstance().setState(new InsertState(EllipseCreator.getInstance()));
     }
 
     public void onLnBtn(ActionEvent actionEvent) {
-        StateController.getInstance().setCursorMode(CursorMode.INSERT_LINE, LineCreator.getInstance());
+        StateController.getInstance().setState(new InsertState(LineCreator.getInstance()));
     }
 
 }

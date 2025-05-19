@@ -3,9 +3,9 @@ package projectworkgroup6.Controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import projectworkgroup6.Model.CursorMode;
 
 import java.io.IOException;
 import java.net.URL;
@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 
 
+    private Scene scene;
     // Riferimenti ad altri controller
     private ToolBarController toolBarController;
     private CanvasController canvasController;
@@ -51,7 +52,6 @@ public class MainController implements Initializable {
         canvasController.setMainController(this);
 
         // Aggiungi tutto alla vista principale
-        //principalPane.getChildren().addAll(menu, tool, canvas);
         mainVBox.getChildren().addAll(menu, tool, canvas);
 
         // Puoi anche posizionarli con AnchorPane.setTopAnchor(...) ecc.
@@ -62,10 +62,10 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            stateController = StateController.getInstance();
-            loadInterfaceComponents();
 
-            //stateController.addObserver(canvasController); /*l'osservazione dell'evento che avviene sul convas va implementata direttamente nel canvas controller*/
+            loadInterfaceComponents();
+            stateController = StateController.getInstance();
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -87,4 +87,7 @@ public class MainController implements Initializable {
         this.menuBarController = menuBarController;
     }
 
+    public void passScene(Scene scene) {
+        canvasController.setScene();
+    }
 }
