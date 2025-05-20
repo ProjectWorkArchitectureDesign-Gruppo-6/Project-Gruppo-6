@@ -1,33 +1,33 @@
-package Test;
+package ViewTest;
 
+import javafx.scene.canvas.GraphicsContext;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import projectworkgroup6.Model.Ellipse;
 import projectworkgroup6.View.EllipseView;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class EllipseViewTest {
 
-    @Test
-    void testStoresShape() {
-        double x = 10;
-        double y = 10;
-        double diam1 = 20;
-        double diam2 = 30;
+    private Ellipse ellipse;
+    private EllipseView ellipseView;
+    private GraphicsContext gc;
 
-        Ellipse ellipse = new Ellipse(x, y, false, diam1, diam2);
-        EllipseView view = new EllipseView(ellipse);
-
-        // Controlla che la shape contenuta in EllipseView sia quella passata
-        assertSame(ellipse, view.getShape());
-
-        // Controlla i calcoli di getXc() e getYc()
-        assertEquals(x - diam1 / 2, ellipse.getXc(), "Xc dovrebbe essere x - diam1/2");
-        assertEquals(y - diam2 / 2, ellipse.getYc(), "Yc dovrebbe essere y - diam2/2");
-
-        // Controlla i diametri
-        assertEquals(diam1, ellipse.getDim1());
-        assertEquals(diam2, ellipse.getDim2());
+    @BeforeEach
+    public void setUp() {
+        ellipse = new Ellipse(10, 20, false, 30, 40); // xc=10, yc=20, dim1=30, dim2=40
+        ellipseView = new EllipseView(ellipse);
+        gc = mock(GraphicsContext.class);
     }
 
+    @Test
+    public void testDraw_callsStrokeOvalWithCorrectParameters() {
+        ellipseView.draw(gc);
+
+        // Verifica che strokeOval sia chiamato con i parametri dell’ellisse
+
+        verify(gc).strokeOval(ellipse.getXc(), ellipse.getYc(), ellipse.getDim1(), ellipse.getDim2());
+    }
 }
