@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="71.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.ToolBarController">
+<AnchorPane prefHeight="71.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.ToolBarController" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
     <children>
         <Button fx:id="rctBtn" layoutX="190.0" layoutY="8.0" onAction="#onRctBtn" prefHeight="56.0" prefWidth="82.0" />

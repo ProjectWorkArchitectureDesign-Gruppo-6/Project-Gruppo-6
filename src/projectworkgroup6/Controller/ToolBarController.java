@@ -6,16 +6,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
-import projectworkgroup6.Decorator.BorderDecorator;
 import projectworkgroup6.Factory.EllipseCreator;
 import projectworkgroup6.Factory.LineCreator;
 import projectworkgroup6.Factory.RectangleCreator;
-import java.io.IOException;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.AnchorPane;
-import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.State.InsertState;
-import projectworkgroup6.State.MultipleSelectState;
 import projectworkgroup6.State.SingleSelectState;
 
 public class ToolBarController {
@@ -86,19 +80,6 @@ public class ToolBarController {
         Color borderColor = colorPicker.getValue(); // Colore scelto dall'utente nella GUI
         StateController.getInstance().setStrokeColor(borderColor);
 
-        /*
-        BorderDecorator strokeColor = new BorderDecorator(); // Conversione al tuo modello
-        System.out.println("Colore selezionato: " + selectedColor.toHex());
-        StateController.getInstance().setStrokeColor(selectedColor);
-
-         */
     }
 
-    private static ColorModel fromJavaFXColor(Color fxColor) {
-        int r = (int) Math.round(fxColor.getRed() * 255);
-        int g = (int) Math.round(fxColor.getGreen() * 255);
-        int b = (int) Math.round(fxColor.getBlue() * 255);
-        int a = (int) Math.round(fxColor.getOpacity() * 255);
-        return new ColorModel(r, g, b, a);
-    }
 }

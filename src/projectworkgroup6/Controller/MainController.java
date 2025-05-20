@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -53,8 +54,10 @@ public class MainController implements Initializable {
 
         // Aggiungi tutto alla vista principale
         mainVBox.getChildren().addAll(menu, tool, canvas);
+        VBox.setVgrow(canvas, Priority.ALWAYS);
 
-        // Puoi anche posizionarli con AnchorPane.setTopAnchor(...) ecc.
+        canvasController.bindCanvasSize(canvas);
+
 
     }
 
@@ -71,6 +74,8 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
     }
+
+
 
 
 

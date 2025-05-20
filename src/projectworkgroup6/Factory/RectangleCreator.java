@@ -1,7 +1,5 @@
 package projectworkgroup6.Factory;
 
-import projectworkgroup6.Controller.StateController;
-import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Rectangle;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.RectangleView;

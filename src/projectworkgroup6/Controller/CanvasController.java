@@ -3,21 +3,16 @@ package projectworkgroup6.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.State.CanvasState;
-import projectworkgroup6.State.MultipleSelectState;
 import projectworkgroup6.State.SingleSelectState;
 import projectworkgroup6.View.CanvasView;
 import projectworkgroup6.View.ShapeView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CanvasController implements StateObserver{
@@ -127,5 +122,13 @@ public class CanvasController implements StateObserver{
         canvasView = new CanvasView(canvas,canvasPane,this, scene);
     }
 
+    public void bindCanvasSize(AnchorPane pane) {
+        canvas.widthProperty().bind(pane.widthProperty());
+        canvas.heightProperty().bind(pane.heightProperty());
+
+        // Puoi anche aggiungere un listener per ridisegnare il contenuto dopo il resize
+        canvas.widthProperty().addListener((obs, oldVal, newVal) -> onCanvasChanged(this.map));
+        canvas.heightProperty().addListener((obs, oldVal, newVal) -> onCanvasChanged(this.map));
+    }
 
 }

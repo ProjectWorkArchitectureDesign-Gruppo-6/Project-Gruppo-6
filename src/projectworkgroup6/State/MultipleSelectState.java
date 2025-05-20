@@ -2,13 +2,9 @@ package projectworkgroup6.State;
 
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-import projectworkgroup6.Controller.StateController;
-import projectworkgroup6.Decorator.SelectedDecorator;
-import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.ShapeView;
 
-import java.util.List;
 import java.util.Map;
 
 // Nello stato Seleziona, ci occupiamo della modifica delle figure presenti nel Canvas.
