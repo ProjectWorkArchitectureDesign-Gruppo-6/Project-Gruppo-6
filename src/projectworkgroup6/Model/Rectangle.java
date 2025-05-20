@@ -1,7 +1,6 @@
 package projectworkgroup6.Model;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+
 
 public class Rectangle extends Shape {
     private double width, height;
@@ -23,21 +22,14 @@ public class Rectangle extends Shape {
         return this.getY() - height/2;
     } // Yc è la coordinata del lato superiore
 
-    private Color color;
 
-    public Rectangle(double x, double y, boolean selected, Color color, double width, double height) {
+
+    public Rectangle(double x, double y, boolean selected, double width, double height) {
         super(x, y, selected);
-        this.color = color;
         this.width = width;
         this.height = height;
     }
 
-    @Override
-    public void draw(GraphicsContext gc) {
-        gc.setStroke(color);
-        gc.strokeRect(this.getXc(), this.getYc(), width, height);
-
-    }
 
     @Override
     public void move(double dx, double dy) {
@@ -49,11 +41,6 @@ public class Rectangle extends Shape {
     public void resize(double factor) {
         width *= factor;
         height *= factor;
-    }
-
-    @Override
-    public void setColor(Color color) {
-        this.color = color;
     }
 
     @Override

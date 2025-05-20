@@ -34,19 +34,19 @@ public class MainController implements Initializable {
         FXMLLoader loader;
 
         // Carica MenuBar
-        loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/View/MenuBar.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/MenuBar.fxml"));
         AnchorPane menu = loader.load();
         menuBarController = loader.getController();
         menuBarController.setMainController(this);
 
         // Carica ToolBar
-        loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/View/ToolBar.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/ToolBar.fxml"));
         AnchorPane tool = loader.load();
         toolBarController = loader.getController();
         toolBarController.setMainController(this);
 
         // Carica Canvas
-        loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/View/Canvas.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/Canvas.fxml"));
         AnchorPane canvas = loader.load();
         canvasController = loader.getController();
         canvasController.setMainController(this);
@@ -90,4 +90,5 @@ public class MainController implements Initializable {
     public void passScene(Scene scene) {
         canvasController.setScene();
     }
+
 }

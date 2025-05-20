@@ -6,54 +6,76 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.State.CanvasState;
 import projectworkgroup6.State.MultipleSelectState;
 import projectworkgroup6.State.SingleSelectState;
+import projectworkgroup6.View.CanvasView;
+import projectworkgroup6.View.ShapeView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class CanvasController implements CursorObserver, CanvasObserver{
+public class CanvasController implements StateObserver{
+
+
+
+    private MainController mainController;
+
+    private Scene scene;
+
+    private CanvasView canvasView;
 
     @FXML
     private Canvas canvas;
     @FXML
     private AnchorPane canvasPane;
 
-    private MainController mainController;
+    public void setCanvasView(CanvasView view) {
+        this.canvasView = view;
+    }
 
-    private Scene scene;
+
 
 
     //// UTILIZZO COME OBSERVER IN BASE ALLO STATE ////  (Observer + State Pattern)
 
     //variabili di stato tenute in locale dopo la notifica
     private CanvasState currentState;
+    private Color currentStroke;
 
     //Al ricevimento della notifica mantengo lo stato nuovo
     @Override
     public void onStateChanged(CanvasState newMode) {
         this.currentState = newMode;
-        currentState.recoverShapes(shapes);
+        currentState.recoverShapes(map);
+
     }
 
     /////////////////////////////////////
 
     //// UTILIZZO OBSERVER IN BASE ALLE MODIFICHE SUL CANVAS //// (Observer + State Pattern)
-    private List<Shape> shapes;
+    private Map<Shape,ShapeView> map;
+
+
 
     @Override
-    public void onCanvasChanged(List<Shape> shapes) {
-        this.shapes = shapes;
-        redrawCanvas(shapes);
+    public void onCanvasChanged(Map<Shape,ShapeView> map) {
+        this.map = map;
+        canvasView.render(map.values());
+    }
+
+    @Override
+    public void onColorChanged(Color currentStroke) {
+        this.currentStroke = currentStroke;
+        currentState.handleColorChanged(currentStroke);
     }
 
     /////////////////////////////////////
-
-
-
-
 
 
     //inizialize per ogni controller per la separazione dei ruoli, il canvasController deve riceve gli eventi del canvas
@@ -62,42 +84,34 @@ public class CanvasController implements CursorObserver, CanvasObserver{
     public void initialize() {
         // Registrazione Observer pattern
         StateController.getInstance().addObserver(this);
-        StateController.getInstance().addCanvasObserver(this);
         currentState = SingleSelectState.getInstance(); //Stato iniziale Select
-        shapes = new ArrayList<>();
-        canvas.setOnMouseClicked(event -> handleCanvasClick(event.getX(), event.getY())); //Registrazione evento al click per inserimento
-        canvas.setOnMousePressed(event -> handleMoveClick(event.getX(), event.getY())); // Registrazione evento al click su icona di movimento
-        canvas.setOnMouseDragged(event -> handleMouseDragged(event.getX(), event.getY()));
-        canvas.setOnMouseReleased(event -> handleMouseReleased(event.getX(), event.getY()));
-
+        map = new HashMap<Shape,ShapeView>();
+        currentStroke = new Color(0,0,0,1);
 
 
     }
 
-    @FXML
-    private void handleDelete(KeyEvent event) {
+
+    public void handleDelete(KeyEvent event) {
 
         System.out.println("Tasto premuto: " + event.getCode());
-        currentState.handleDelete(event, shapes);
+        currentState.handleDelete(event, map);
     }
 
-    private void handleMouseReleased(double x, double y) {
+    public void handleMouseReleased(double x, double y) {
         currentState.handleMouseReleased(x,y);
     }
 
-    private void handleMouseDragged(double x, double y) {
+    public void handleMouseDragged(double x, double y) {
         currentState.handleMouseDragged(x,y);
     }
 
-    private void handleMoveClick(double x, double y) {
+    public void handleMoveClick(double x, double y) {
         currentState.handleMoveClick(x,y);
     }
 
 
-    private void handleCanvasClick(double x, double y) {
-        currentState.handleClick(x, y, shapes);
-
-    }
+    public void handleCanvasClick(double x, double y) { currentState.handleClick(x, y, map); }
 
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
@@ -106,17 +120,12 @@ public class CanvasController implements CursorObserver, CanvasObserver{
 
 
 
-    private void redrawCanvas(List<Shape> shapes) {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); // cancella
 
-        for (Shape s : shapes) {
-            s.draw(gc);
-        }
-    }
 
     public void setScene() {
         scene = canvas.getScene();
-        scene.setOnKeyPressed(event -> handleDelete(event));
+        canvasView = new CanvasView(canvas,canvasPane,this, scene);
     }
+
+
 }

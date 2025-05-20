@@ -2,14 +2,19 @@ package projectworkgroup6.State;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import projectworkgroup6.Command.CommandManager;
 import projectworkgroup6.Command.DeleteCommand;
 import projectworkgroup6.Command.MoveCommand;
 import projectworkgroup6.Controller.StateController;
 import projectworkgroup6.Decorator.SelectedDecorator;
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Shape;
+import projectworkgroup6.View.ShapeView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // Nello stato Seleziona, ci occupiamo della modifica delle figure presenti nel Canvas.
 
@@ -29,15 +34,14 @@ public class SingleSelectState implements CanvasState {
         return instance;
     }
 
-    private List<Shape> shapes;
     private SelectedDecorator selectedShape = null;
 
 
     @Override
-    public void handleClick(double x, double y, List<Shape> shapes) {
+    public void handleClick(double x, double y, Map<Shape, ShapeView> map) {
         System.out.println("Hai cliccato in modalità SELECT su: " + x + ", " + y);
 
-        for (Shape s : shapes) {
+        for (Shape s : map.keySet()) {
             if (s.contains(x, y)) {
                 if (s.isSelected()) {
                     deselectShape(s);
@@ -45,12 +49,9 @@ public class SingleSelectState implements CanvasState {
                 }
 
                 // Deseleziona eventuale altra shape selezionata
-                shapes.stream()
-                        .filter(Shape::isSelected)
-                        .findFirst()
-                        .ifPresent(this::deselectShape);
+                deselectAll(map);
 
-                selectShape(s);
+                selectShape(s, map);
                 return;
             }
         }
@@ -58,19 +59,44 @@ public class SingleSelectState implements CanvasState {
         // Click a vuoto → nessuna azione oltre la stampa
     }
 
+    private void deselectAll(Map<Shape, ShapeView> map) {
+        Map<Shape, ShapeView> copy = new HashMap<Shape, ShapeView>(map);
+        for (Map.Entry<Shape, ShapeView> entry : copy.entrySet()) {
+            Shape s = entry.getKey();
+            ShapeView v = entry.getValue();
+
+            // Deseleziona logicamente
+            s.setSelected(false);
+
+            // Se la view è decorata (cioè è un SelectedDecorator), la sostituiamo
+            if (v instanceof SelectedDecorator) {
+                // Rimuovi la versione decorata dalla vista (cioè dallo stato attuale)
+                StateController.getInstance().removeShape(s,v);
+
+                // Crea la versione "base" della view senza decorator
+                ShapeView baseView = ((SelectedDecorator) v).undecorate();
+
+                // Aggiungi di nuovo la versione base alla vista
+                StateController.getInstance().addShape(s,baseView);
+
+            }
+        }
+    }
+
+
     private void deselectShape(Shape s) {
         s.setSelected(false);
-        s.getShapebase().setSelected(false);
-        StateController.getInstance().removeShape(s);
-        StateController.getInstance().addShape(s.getShapebase());
+        StateController.getInstance().removeShape(s, selectedShape);
+        StateController.getInstance().addShape(s, selectedShape.undecorate());
         selectedShape = null;
     }
 
-    private void selectShape(Shape s) {
+    private void selectShape(Shape s, Map<Shape, ShapeView> map) {
         s.setSelected(true);
-        StateController.getInstance().removeShape(s);
-        selectedShape = new SelectedDecorator(s);
-        StateController.getInstance().addShape(selectedShape);
+        ShapeView baseShapeView = map.get(s);
+        StateController.getInstance().removeShape(s, baseShapeView);
+        selectedShape = new SelectedDecorator(baseShapeView);
+        StateController.getInstance().addShape(s,selectedShape);
     }
 
     @Override
@@ -91,7 +117,7 @@ public class SingleSelectState implements CanvasState {
             if (isClicked) {
                 TranslationState ts = new TranslationState(selectedShape);
                 ts.startDragging(x,y);
-                ts.setMoveCommand(new MoveCommand(selectedShape));
+                ts.setMoveCommand(new MoveCommand(selectedShape.getShape()));
                 StateController.getInstance().setState(ts);
             }
 
@@ -109,21 +135,26 @@ public class SingleSelectState implements CanvasState {
     }
 
     @Override
-    public void recoverShapes(List<Shape> shapes) {
+    public void recoverShapes(Map<Shape, ShapeView> map) {
         //Non deve fare nulla
     }
 
     @Override
-    public void handleDelete(KeyEvent event, List<Shape> shapes) {
+    public void handleDelete(KeyEvent event, Map<Shape,ShapeView> map) {
         if(event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE){
-            for(Shape s : shapes){
-                if (s == selectedShape) {
-                    DeleteCommand cmd = new DeleteCommand(s);
+            for(Shape s : map.keySet()){
+                if (map.get(s) == selectedShape) {
+                    DeleteCommand cmd = new DeleteCommand(s, map.get(s));
                     CommandManager.getInstance().executeCommand(cmd);
                     selectedShape = null;
                     break;
                 }
             }
         }
+    }
+
+    @Override
+    public void handleColorChanged(Color currentStroke) {
+        // Da implementare
     }
 }

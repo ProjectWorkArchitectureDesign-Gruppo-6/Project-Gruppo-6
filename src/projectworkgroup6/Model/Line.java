@@ -1,16 +1,14 @@
 package projectworkgroup6.Model;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 public class Line extends Shape {
     private double x2, y2;
 
-    private Color color;
 
-    public Line(double x1, double y1, boolean selected, Color color, double x2, double y2) {
+
+    public Line(double x1, double y1, boolean selected, double x2, double y2) {
         super(x1,y1,selected);
-        this.color = color;
         this.x2 = x2;
         this.y2 = y2;
     }
@@ -35,11 +33,7 @@ public class Line extends Shape {
         return this.getY() - ((y2-y)/2);
     }
 
-    @Override
-    public void draw(GraphicsContext gc) {
-        gc.setStroke(color);
-        gc.strokeLine(getXc(), getYc(), x2 - ((x2-x)/2), y2 - ((y2-y)/2));
-    }
+
 
     @Override
     public void move(double dx, double dy) {
@@ -53,11 +47,6 @@ public class Line extends Shape {
     public void resize(double factor) {
         x *= factor;
         y *= factor;
-    }
-
-    @Override
-    public void setColor(Color color) {
-        this.color = color;
     }
 
     @Override

@@ -1,8 +1,10 @@
 package projectworkgroup6.Factory;
 
-import javafx.scene.paint.Color;
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Ellipse;
 import projectworkgroup6.Model.Shape;
+import projectworkgroup6.View.EllipseView;
+import projectworkgroup6.View.ShapeView;
 
 public class EllipseCreator extends ShapeCreator {
     private static EllipseCreator instance;
@@ -18,7 +20,12 @@ public class EllipseCreator extends ShapeCreator {
         return instance;
     }
     @Override
-    public Shape createShape(double x, double y, Color color) {
-        return new Ellipse(x, y, false, color, 80, 40);
+    public Shape createShape(double x, double y) {
+        return new Ellipse(x, y, false, 80, 40);
+    }
+
+    @Override
+    public ShapeView createShapeView(Shape shape) {
+        return new EllipseView((Ellipse) shape);
     }
 }

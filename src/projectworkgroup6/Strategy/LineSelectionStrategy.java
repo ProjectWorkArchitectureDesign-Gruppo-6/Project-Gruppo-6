@@ -9,7 +9,7 @@ public class LineSelectionStrategy extends SelectionStrategy {
     @Override
     public void drawSelectionBorder(GraphicsContext gc, Shape shape) {
         gc.setStroke(Color.BLUE);
-        gc.setLineWidth(2.0);
+        gc.setLineWidth(3.0);
         gc.strokeLine(shape.getXc(), shape.getYc(), shape.getDim1(), shape.getDim2());
     }
 

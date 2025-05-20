@@ -1,6 +1,7 @@
 package projectworkgroup6.Command;
 
 import projectworkgroup6.Controller.StateController;
+import projectworkgroup6.Decorator.SelectedDecorator;
 import projectworkgroup6.Model.Shape;
 
 public class MoveCommand implements Command {

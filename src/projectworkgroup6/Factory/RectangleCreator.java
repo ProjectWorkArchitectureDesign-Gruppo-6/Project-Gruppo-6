@@ -1,9 +1,11 @@
 package projectworkgroup6.Factory;
 
-import javafx.scene.paint.Color;
 import projectworkgroup6.Controller.StateController;
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Rectangle;
 import projectworkgroup6.Model.Shape;
+import projectworkgroup6.View.RectangleView;
+import projectworkgroup6.View.ShapeView;
 
 public class RectangleCreator extends ShapeCreator {
 
@@ -20,7 +22,12 @@ public class RectangleCreator extends ShapeCreator {
         return instance;
     }
     @Override
-    public Shape createShape(double x, double y, Color color) {
-        return new Rectangle(x, y, false, color, 100, 50); // dimensioni di default
+    public Shape createShape(double x, double y) {
+        return new Rectangle(x, y, false, 100, 50); // dimensioni di default
+    }
+
+    @Override
+    public ShapeView createShapeView(Shape shape) {
+        return new RectangleView((Rectangle) shape);
     }
 }

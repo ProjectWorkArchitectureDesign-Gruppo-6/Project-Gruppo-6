@@ -2,27 +2,31 @@ package projectworkgroup6.State;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import projectworkgroup6.Command.CommandManager;
 import projectworkgroup6.Command.MoveCommand;
 import projectworkgroup6.Controller.StateController;
 import projectworkgroup6.Decorator.SelectedDecorator;
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Shape;
+import projectworkgroup6.View.ShapeView;
 
 import java.util.List;
+import java.util.Map;
 
 public class TranslationState implements CanvasState{
-    private final SelectedDecorator shape;
+    private final SelectedDecorator shapeView;
     private double lastX;
     private double lastY;
 
     private MoveCommand currentMoveCommand;
 
-    public TranslationState(SelectedDecorator shape) {
-        this.shape = shape;
+    public TranslationState(SelectedDecorator shapeView) {
+        this.shapeView = shapeView;
     }
 
     @Override
-    public void handleClick(double x, double y, List<Shape> shapes) {
+    public void handleClick(double x, double y, Map<Shape, ShapeView> map) {
         //System.out.println("Non definito");
     }
 
@@ -39,7 +43,9 @@ public class TranslationState implements CanvasState{
     @Override
     public void handleMouseDragged(double x, double y) { // va in esecuzione più volte durante lo spostamento
 
-        StateController.getInstance().removeShape(shape); // rimuovo la shape dalla posizione iniziale
+        Shape shape = shapeView.getShape();
+
+        StateController.getInstance().removeShape(shape,shapeView); // rimuovo la shape dalla posizione iniziale
 
         double dx = x - lastX;
         double dy = y - lastY;
@@ -51,7 +57,7 @@ public class TranslationState implements CanvasState{
         lastX = x;
         lastY = y; // salvataggio delle coordinate ottenute in base allo spostamento
 
-        StateController.getInstance().addShape(shape); // aggiungo shape alla posizione nuova
+        StateController.getInstance().addShape(shape, shapeView); // aggiungo shape alla posizione nuova
 
     }
 
@@ -61,13 +67,18 @@ public class TranslationState implements CanvasState{
     }
 
     @Override
-    public void recoverShapes(List<Shape> shapes) {
+    public void recoverShapes(Map<Shape, ShapeView> map) {
         // Non deve fare nulla
     }
 
     @Override
-    public void handleDelete(KeyEvent event, List<Shape> shapes) {
+    public void handleDelete(KeyEvent event, Map<Shape, ShapeView> map) {
         // Poi
+    }
+
+    @Override
+    public void handleColorChanged(Color currentStroke) {
+        // Nulla
     }
 
     public void setMoveCommand(MoveCommand moveCommand) {

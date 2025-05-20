@@ -1,12 +1,17 @@
 package projectworkgroup6.Controller;
 
+import javafx.scene.paint.Color;
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.State.CanvasState;
 import projectworkgroup6.State.MultipleSelectState;
 import projectworkgroup6.State.SingleSelectState;
+import projectworkgroup6.View.ShapeView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StateController{
 
@@ -32,8 +37,12 @@ public class StateController{
     private CanvasState currentState = SingleSelectState.getInstance();
 
 
+    //// STATO DEL COLORE ////
+    private Color currentStroke = new Color(0,0,0,1); //nero di default
+
+
     //Subject degli Observer
-    private List<CursorObserver> observers = new ArrayList<>();
+    private List<StateObserver> observers = new ArrayList<>();
 
     // --- Gestione stato cursore ---
     public void setState(CanvasState state) {
@@ -42,13 +51,13 @@ public class StateController{
     }
 
     private void notifyObservers() {
-        for (CursorObserver o : observers) {
+        for (StateObserver o : observers) {
             o.onStateChanged(currentState);
         }
     }
 
 
-    public void addObserver(CursorObserver o) {
+    public void addObserver(StateObserver o) {
         if (!observers.contains(o)) {
             observers.add(o);
         }
@@ -56,42 +65,42 @@ public class StateController{
 
     //// STATO DEL CANVAS ////
 
-    private final List<CanvasObserver> canvasObservers = new ArrayList<>();
-
-    public void addCanvasObserver(CanvasObserver o) {
-        if (!canvasObservers.contains(o))
-            canvasObservers.add(o);
-    }
 
     private void notifyCanvasToRepaint() {
-        for (CanvasObserver o : canvasObservers)
-            o.onCanvasChanged(getShapes());
+        for (StateObserver o : observers)
+            o.onCanvasChanged(getMap());
     }
 
-    private final List<Shape> shapes = new ArrayList<>();
 
-    public List<Shape> getShapes() {
-        return shapes;
+
+    private final Map<Shape, ShapeView> map = new HashMap<>();
+
+    public Map<Shape, ShapeView> getMap() {
+        return map;
     }
 
-    public void addShape(Shape shape) {
-        shapes.add(shape);
+
+    public void addShape(Shape shape, ShapeView shapeView) {
+        map.put(shape,shapeView);
         notifyCanvasToRepaint();
     }
 
-    public void removeShape(Shape shape){
-        shapes.remove(shape);
+
+    public void removeShape(Shape shape, ShapeView shapeView){
+        map.remove(shape,shapeView);
         notifyCanvasToRepaint();
     }
 
 
+    public void setStrokeColor(Color borderColor) {
+        this.currentStroke = borderColor;
+        notifyObserversToHandleColor();
+    }
 
-
-
-
-
-
-
+    private void notifyObserversToHandleColor() {
+        for (StateObserver o : observers)
+            o.onColorChanged(currentStroke);
+    }
 
 
 }

@@ -8,36 +8,18 @@ import projectworkgroup6.Model.Shape;
 import projectworkgroup6.Strategy.LineSelectionStrategy;
 import projectworkgroup6.Strategy.RectangleSelectionStrategy;
 import projectworkgroup6.Strategy.SelectionStrategy;
+import projectworkgroup6.View.LineView;
+import projectworkgroup6.View.ShapeView;
 
-public class SelectedDecorator extends Shape {
+public class SelectedDecorator extends ShapeView{
 
-    private Shape base;
+    private ShapeView base;
     private SelectionStrategy strategy;
 
-    public SelectedDecorator(Shape base) {
-        super(base.getX(), base.getY(), base.isSelected());
+    public SelectedDecorator(ShapeView base) {
+        super(base.getShape());
         this.base = base;
-        this.strategy = base instanceof Line ? new LineSelectionStrategy() : new RectangleSelectionStrategy(); // oppure meglio delegare questo alla Factory
-    }
-
-    @Override
-    public double getDim1() {
-        return base.getDim1();
-    }
-
-    @Override
-    public double getDim2() {
-        return base.getDim2();
-    }
-
-    @Override
-    public double getXc() {
-        return base.getXc();
-    }
-
-    @Override
-    public double getYc() {
-        return base.getYc();
+        this.strategy = base.undecorate() instanceof LineView ? new LineSelectionStrategy() : new RectangleSelectionStrategy(); // oppure meglio delegare questo alla Factory
     }
 
     @Override
@@ -56,32 +38,33 @@ public class SelectedDecorator extends Shape {
 
     }
 
-    @Override
-    public Shape getShapebase(){
+
+    public ShapeView undecorate(){
         return base;
     }
 
     private void drawSelectionBorder(GraphicsContext gc) {
-        strategy.drawSelectionBorder(gc, base);
+        strategy.drawSelectionBorder(gc, base.getShape());
     }
 
     private void drawHandles(GraphicsContext gc) {
-        strategy.drawHandles(gc, base);
+        strategy.drawHandles(gc, base.getShape());
     }
 
     private void drawMoveButton(GraphicsContext gc){
-        strategy.drawMoveButton(gc, base);
+        strategy.drawMoveButton(gc, base.getShape());
     }
 
     public double getMoveButtonX(){
-        return strategy.getMoveButtonX(this);
+        return strategy.getMoveButtonX(base.getShape());
     }
 
     public double getMoveButtonY(){
-        return strategy.getMoveButtonY(this);
+        return strategy.getMoveButtonY(base.getShape());
     }
 
 
+/*
     @Override
     public void move(double dx, double dy) {
 
@@ -103,4 +86,6 @@ public class SelectedDecorator extends Shape {
     public boolean contains(double x, double y) {
         return base.contains(x,y);
     }
+
+ */
 }

@@ -1,11 +1,15 @@
 package projectworkgroup6.State;
 
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import projectworkgroup6.Controller.StateController;
 import projectworkgroup6.Decorator.SelectedDecorator;
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Shape;
+import projectworkgroup6.View.ShapeView;
 
 import java.util.List;
+import java.util.Map;
 
 // Nello stato Seleziona, ci occupiamo della modifica delle figure presenti nel Canvas.
 
@@ -25,18 +29,23 @@ public class MultipleSelectState implements CanvasState {
         return instance;
     }
 
-    private List<Shape> shapes;
+    public void handleClick(double x, double y, Map<Shape, ShapeView> map) {
+        // Da gestire
+    }
+
+    /*
 
     @Override
-    public void handleClick(double x, double y, List<Shape> shapes) {
+    public void handleClick(double x, double y, Map<Shape, ShapeView> map) {
         // TODO: implementare selezione della shape cliccata
         System.out.println("Hai cliccato in modalità SELECT su: " + x + ", " + y);
-        for (Shape s : shapes) {
+        for (Shape s : map.keySet()) {
             if (s.contains(x, y)) {
                 if(s.isSelected()){
                     s.setSelected(false);
-                    s.getShapebase().setSelected(false);
-                    StateController.getInstance().removeShape(s);
+                    ShapeView selectedShape = map.get(s);
+                    StateController.getInstance().removeShape(s, selectedShape);
+                    ShapeView baseShape = selectedShape.get();
                     StateController.getInstance().addShape(s.getShapebase());
                     break;
                 } else{
@@ -51,6 +60,8 @@ public class MultipleSelectState implements CanvasState {
 
 
     }
+
+     */
 
     @Override
     public void handleMoveClick(double x, double y) {
@@ -69,12 +80,17 @@ public class MultipleSelectState implements CanvasState {
     }
 
     @Override
-    public void recoverShapes(List<Shape> shapes) {
+    public void recoverShapes(Map<Shape, ShapeView> map) {
 
     }
 
     @Override
-    public void handleDelete(KeyEvent event, List<Shape> shapes) {
+    public void handleDelete(KeyEvent event, Map<Shape,ShapeView> map) {
         // Per dopo
+    }
+
+    @Override
+    public void handleColorChanged(Color currentStroke) {
+        // Da implementare
     }
 }

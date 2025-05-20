@@ -19,7 +19,7 @@ public class ProjectWorkGroup6 extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/View/Main_layout.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/Main_layout.fxml"));
         Parent root = loader.load();
 
         
@@ -35,6 +35,8 @@ public class ProjectWorkGroup6 extends Application {
         MainController mainController = loader.getController();
         mainController.passScene(scene);
     }
+
+
 
     /**
      * @param args the command line arguments

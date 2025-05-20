@@ -37,14 +37,15 @@ public abstract class Shape {
         return selected;
     }
 
-    public abstract void draw(GraphicsContext gc);
+
     public abstract void move(double dx, double dy);
     public abstract void resize(double scaleFactor);
-    public abstract void setColor(Color color);
+
 
     public abstract boolean contains(double x, double y);
 
     public Shape getShapebase() {
         return this;
     }
+
 }
