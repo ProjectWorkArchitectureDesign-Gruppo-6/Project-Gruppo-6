@@ -178,5 +178,15 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" name="jackson-databind-2.19.0" level="project" />
+    <orderEntry type="library" name="jackson-core-2.19.0" level="project" />
+    <orderEntry type="library" name="jackson-annotations-2.19.0" level="project" />
+    <orderEntry type="library" name="junit-jupiter-api-5.9.2" level="project" />
+    <orderEntry type="library" name="objenesis-3.2" level="project" />
+    <orderEntry type="library" name="mockito-core-4.11.0" level="project" />
+    <orderEntry type="library" name="byte-buddy-1.14.6" level="project" />
+    <orderEntry type="library" name="junit-jupiter-engine-5.9.2" level="project" />
+    <orderEntry type="library" name="junit-platform-engine-1.9.2" level="project" />
+    <orderEntry type="library" name="junit-platform-commons-1.9.2" level="project" />
   </component>
 </module>

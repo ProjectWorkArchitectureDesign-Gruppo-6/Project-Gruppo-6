@@ -1,9 +1,15 @@
 package projectworkgroup6.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Rectangle extends Shape {
     private double width, height;
+
+    public Rectangle() {
+        super(0, 0, false);
+    }
 
     @Override
     public double getDim1() {
@@ -30,6 +36,21 @@ public class Rectangle extends Shape {
         this.height = height;
     }
 
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
 
     @Override
     public void move(double dx, double dy) {
@@ -50,3 +71,4 @@ public class Rectangle extends Shape {
         return x >= left && x <= left + width && y >= top && y <= top + height;
     }
 }
+

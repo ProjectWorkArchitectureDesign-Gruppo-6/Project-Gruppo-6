@@ -1,8 +1,21 @@
 package projectworkgroup6.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        property = "type",
+        visible = true
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Rectangle.class, name = "Rectangle"),
+        @JsonSubTypes.Type(value = Ellipse.class, name = "Ellipse"),
+        @JsonSubTypes.Type(value = Line.class, name = "Line")
+})
 public abstract class Shape {
 
     protected double x, y;
@@ -44,6 +57,7 @@ public abstract class Shape {
 
     public abstract boolean contains(double x, double y);
 
+    @JsonIgnore
     public Shape getShapebase() {
         return this;
     }
