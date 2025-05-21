@@ -1,15 +1,36 @@
 package projectworkgroup6.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javafx.scene.canvas.GraphicsContext;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Ellipse extends Shape {
     private double diam1, diam2;
 
 
+    public Ellipse() {
+        super(0, 0, false);
+    }
 
     public Ellipse(double x, double y, boolean selected, double diam1, double diam2) {
         super(x,y,selected);
         this.diam1 = diam1;
+        this.diam2 = diam2;
+    }
+
+    public double getDiam1() {
+        return diam1;
+    }
+
+    public void setDiam1(double diam1) {
+        this.diam1 = diam1;
+    }
+
+    public double getDiam2() {
+        return diam2;
+    }
+
+    public void setDiam2(double diam2) {
         this.diam2 = diam2;
     }
 

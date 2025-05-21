@@ -123,6 +123,8 @@ public class CanvasController implements StateObserver{
     }
 
     public void bindCanvasSize(AnchorPane pane) {
+        map = new HashMap<Shape,ShapeView>();
+
         canvas.widthProperty().bind(pane.widthProperty());
         canvas.heightProperty().bind(pane.heightProperty());
 
