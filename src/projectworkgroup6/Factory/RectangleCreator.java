@@ -1,11 +1,12 @@
 package projectworkgroup6.Factory;
 
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Rectangle;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.RectangleView;
 import projectworkgroup6.View.ShapeView;
 
-public class RectangleCreator extends ShapeCreator {
+public class RectangleCreator implements ShapeCreator {
 
     private static RectangleCreator instance;
 
@@ -20,8 +21,8 @@ public class RectangleCreator extends ShapeCreator {
         return instance;
     }
     @Override
-    public Shape createShape(double x, double y) {
-        return new Rectangle(x, y, false, 100, 50); // dimensioni di default
+    public Shape createShape(double x, double y, ColorModel border, ColorModel fill) {
+        return new Rectangle(x, y, false, 100, 50, border, fill); // dimensioni di default
     }
 
     @Override

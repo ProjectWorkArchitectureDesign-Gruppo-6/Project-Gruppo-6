@@ -16,6 +16,8 @@ public class TranslationState implements CanvasState{
     private double lastX;
     private double lastY;
 
+    private double StartX, StartY;
+
     private MoveCommand currentMoveCommand;
 
     public TranslationState(SelectedDecorator shapeView) {
@@ -29,14 +31,19 @@ public class TranslationState implements CanvasState{
 
     @Override
     public void handleMoveClick(double x, double y) {
-        //System.out.println("Non definito");
+        //Non definito
     }
 
-    public void startDragging(double x, double y) {
+    public void startDragging(double x, double y, double xc, double yc) {
         lastX = x;
         lastY = y;
+        StartX = x;
+        StartY = y;
+        System.out.println(StartX);
+        System.out.println(StartY);
     }
 
+    // Implementa lo spostamento solo a livello grafico
     @Override
     public void handleMouseDragged(double x, double y) { // va in esecuzione più volte durante lo spostamento
 
@@ -44,24 +51,38 @@ public class TranslationState implements CanvasState{
 
         StateController.getInstance().removeShape(shape,shapeView); // rimuovo la shape dalla posizione iniziale
 
+        // Calcolo il microspostamento
         double dx = x - lastX;
         double dy = y - lastY;
 
-        currentMoveCommand.microstep(dx,dy);// spostamento della figura
-        CommandManager.getInstance().executeCommand(currentMoveCommand);
-        currentMoveCommand.accumulate(dx, dy);
+        shape.move(dx,dy); // muovo la shape per la grafica
+        currentMoveCommand.accumulate(dx, dy); // salvo il piccolo passo per lo spostamento totale
 
         lastX = x;
-        lastY = y; // salvataggio delle coordinate ottenute in base allo spostamento
+        lastY = y; // salvataggio delle coordinate ottenute in base al piccolo passo
 
         StateController.getInstance().addShape(shape, shapeView); // aggiungo shape alla posizione nuova
 
+        // Questo permette di spostatare la shape visivamente
+
     }
 
+    // Implementa lo spostamento solo a livello logico
     @Override
-    public void handleMouseReleased(double x, double y) {
+    public void handleMouseReleased(double xf, double yf) { // evento che avviene al rilascio del mouse
+
+
+        // a livello logico riporto la shape alla sua posizione iniziale, undo si basa sullo spostamento incrementale calcolato
+        currentMoveCommand.undo();
+
+        // Ora che logicamente la shape si trova nello stato iniziale, faccio una volta l'execute per riportarla logicamente alla posizione in cui è stata spostata.
+        CommandManager.getInstance().executeCommand(currentMoveCommand);
+
+
         StateController.getInstance().setState(SingleSelectState.getInstance());
     }
+
+
 
     @Override
     public void recoverShapes(Map<Shape, ShapeView> map) {

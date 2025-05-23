@@ -3,10 +3,9 @@ package StateTest;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import projectworkgroup6.Controller.StateController;
-import projectworkgroup6.Decorator.BorderDecorator;
 import projectworkgroup6.Decorator.SelectedDecorator;
 import projectworkgroup6.Factory.ShapeCreator;
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.State.InsertState;
 import projectworkgroup6.View.ShapeView;
@@ -32,13 +31,17 @@ public class InsertStateTest {
     void testHandleClickCreatesAndAddsShape() {
         Shape mockShape = mock(Shape.class);
         ShapeView mockView = mock(ShapeView.class);
-        when(mockCreator.createShape(anyDouble(), anyDouble())).thenReturn(mockShape);
+
+        // Colori convertiti (mockati per evitare problemi)
+        ColorModel borderColor = ColorModel.fromColor(Color.BLACK);
+        ColorModel fillColor = ColorModel.fromColor(Color.WHITE);
+
+        when(mockCreator.createShape(eq(100.0), eq(200.0), any(), any())).thenReturn(mockShape);
         when(mockCreator.createShapeView(mockShape)).thenReturn(mockView);
 
         insertState.handleClick(100, 200, new HashMap<>());
 
-        // Verifica che i metodi della factory siano stati usati
-        verify(mockCreator).createShape(100, 200);
+        verify(mockCreator).createShape(eq(100.0), eq(200.0), any(), any());
         verify(mockCreator).createShapeView(mockShape);
     }
 
@@ -74,7 +77,8 @@ public class InsertStateTest {
         Map<Shape, ShapeView> map = new HashMap<>();
         map.put(shape, decoratedView);
 
-        // Usa una mappa con SelectedDecorator
+        // Evita la logica del singleton per StateController
+        // oppure potresti dover mockare questi metodi se il progetto lo consente
         insertState.recoverShapes(map);
 
         verify(shape).setSelected(false);

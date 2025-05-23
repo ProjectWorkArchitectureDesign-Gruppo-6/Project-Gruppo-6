@@ -2,6 +2,7 @@ package ModelTest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Line;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,7 +14,7 @@ public class LineTest {
     @BeforeEach
     public void setUp() {
         // Linea da (10, 20) a (30, 40)
-        line = new Line(10, 20, false, 30, 40);
+        line = new Line(10, 20, false, 30, 40,new ColorModel(0,0,0,1),null);
     }
 
     @Test

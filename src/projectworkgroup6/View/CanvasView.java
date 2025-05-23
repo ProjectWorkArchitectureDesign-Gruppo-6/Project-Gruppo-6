@@ -10,17 +10,21 @@ import projectworkgroup6.Model.Shape;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class CanvasView {
 
     @FXML
     private Canvas canvas;
+
     @FXML
     private AnchorPane canvasPane;
 
     private GraphicsContext gc;
 
-    private final CanvasController controller;
+    private GraphicsContext tgc;
+
+    public final CanvasController controller;
 
     private Scene scene;
 
@@ -50,5 +54,7 @@ public class CanvasView {
             v.draw(gc);
         }
     }
+
+
 
 }

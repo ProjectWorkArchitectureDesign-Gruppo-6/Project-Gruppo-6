@@ -6,6 +6,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import projectworkgroup6.Decorator.SelectedDecorator;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.State.CanvasState;
 import projectworkgroup6.State.SingleSelectState;
@@ -27,6 +28,8 @@ public class CanvasController implements StateObserver{
 
     @FXML
     private Canvas canvas;
+
+
     @FXML
     private AnchorPane canvasPane;
 
@@ -69,6 +72,8 @@ public class CanvasController implements StateObserver{
         this.currentStroke = currentStroke;
         currentState.handleColorChanged(currentStroke);
     }
+
+
 
     /////////////////////////////////////
 
@@ -119,7 +124,7 @@ public class CanvasController implements StateObserver{
 
     public void setScene() {
         scene = canvas.getScene();
-        canvasView = new CanvasView(canvas,canvasPane,this, scene);
+        canvasView = new CanvasView(canvas, canvasPane,this, scene);
     }
 
     public void bindCanvasSize(AnchorPane pane) {

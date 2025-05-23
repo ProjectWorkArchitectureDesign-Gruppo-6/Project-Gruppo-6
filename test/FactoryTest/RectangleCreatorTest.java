@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import projectworkgroup6.Factory.RectangleCreator;
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Rectangle;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.RectangleView;
@@ -24,7 +25,7 @@ public class RectangleCreatorTest {
         double x = 15;
         double y = 25;
 
-        Shape shape = creator.createShape(x, y);
+        Shape shape = creator.createShape(x, y,new ColorModel(0,0,0,1), new ColorModel(255,255,255,1));
         assertTrue(shape instanceof Rectangle, "createShape should return an instance of Rectangle");
 
         Rectangle rectangle = (Rectangle) shape;
@@ -38,7 +39,7 @@ public class RectangleCreatorTest {
     @Test
     void testCreateShapeView() {
         RectangleCreator creator = RectangleCreator.getInstance();
-        Rectangle rectangle = new Rectangle(10, 10, false, 100, 50);
+        Rectangle rectangle = new Rectangle(10, 10, false, 100, 50,new ColorModel(0,0,0,1), new ColorModel(255,255,255,1));
 
         ShapeView view = creator.createShapeView(rectangle);
         assertTrue(view instanceof RectangleView, "createShapeView should return an instance of RectangleView");

@@ -114,7 +114,7 @@ public class SingleSelectState implements CanvasState {
 
             if (isClicked) {
                 TranslationState ts = new TranslationState(selectedShape);
-                ts.startDragging(x,y);
+                ts.startDragging(x,y, buttonX, buttonY);
                 ts.setMoveCommand(new MoveCommand(selectedShape.getShape()));
                 StateController.getInstance().setState(ts);
             }

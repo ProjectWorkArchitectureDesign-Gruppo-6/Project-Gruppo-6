@@ -1,11 +1,12 @@
 package projectworkgroup6.Factory;
 
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Ellipse;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.EllipseView;
 import projectworkgroup6.View.ShapeView;
 
-public class EllipseCreator extends ShapeCreator {
+public class EllipseCreator implements ShapeCreator {
     private static EllipseCreator instance;
 
     private EllipseCreator() {
@@ -19,8 +20,8 @@ public class EllipseCreator extends ShapeCreator {
         return instance;
     }
     @Override
-    public Shape createShape(double x, double y) {
-        return new Ellipse(x, y, false, 80, 40);
+    public Shape createShape(double x, double y, ColorModel border, ColorModel fill) {
+        return new Ellipse(x, y, false, 80, 40, border, fill);
     }
 
     @Override

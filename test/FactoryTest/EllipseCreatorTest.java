@@ -8,6 +8,7 @@ package FactoryTest;
 
 import org.junit.jupiter.api.Test;
 import projectworkgroup6.Factory.EllipseCreator;
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Ellipse;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.EllipseView;
@@ -29,7 +30,7 @@ public class EllipseCreatorTest {
         EllipseCreator creator = EllipseCreator.getInstance();
         double x = 10;
         double y = 20;
-        Shape shape = creator.createShape(x, y);
+        Shape shape = creator.createShape(x, y,new ColorModel(0,0,0,1), new ColorModel(255,255,255,1));
 
         assertNotNull(shape);
         assertTrue(shape instanceof Ellipse);
@@ -45,7 +46,7 @@ public class EllipseCreatorTest {
     @Test
     public void testCreateShapeView() {
         EllipseCreator creator = EllipseCreator.getInstance();
-        Ellipse ellipse = new Ellipse(5, 6, false, 80, 40);
+        Ellipse ellipse = new Ellipse(5, 6, false, 80, 40,new ColorModel(0,0,0,1), new ColorModel(255,255,255,1));
         ShapeView view = creator.createShapeView(ellipse);
 
         assertNotNull(view);

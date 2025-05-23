@@ -2,6 +2,7 @@ package ModelTest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Rectangle;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,7 +14,7 @@ class RectangleTest {
     @BeforeEach
     void setUp() {
         // Centro (50, 50), larghezza 40, altezza 20
-        rectangle = new Rectangle(50, 50, false, 40, 20);
+        rectangle = new Rectangle(50, 50, false, 40, 20,new ColorModel(0,0,0,1), new ColorModel(255,255,255,1));
     }
 
     @Test

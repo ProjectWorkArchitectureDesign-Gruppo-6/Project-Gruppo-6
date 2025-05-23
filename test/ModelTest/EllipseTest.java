@@ -2,6 +2,7 @@ package ModelTest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Ellipse;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,7 +14,7 @@ class EllipseTest {
     @BeforeEach
     void setUp() {
         // Centro (50, 50), diametri 40 e 20
-        ellipse = new Ellipse(50, 50, false, 40, 20);
+        ellipse = new Ellipse(50, 50, false, 40, 20,new ColorModel(0,0,0,1), new ColorModel(255,255,255,1));
     }
 
     @Test

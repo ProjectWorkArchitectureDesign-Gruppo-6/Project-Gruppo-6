@@ -3,6 +3,7 @@ package ViewTest;
 import javafx.scene.canvas.GraphicsContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Rectangle;
 import projectworkgroup6.View.RectangleView;
 
@@ -17,7 +18,7 @@ public class RectangleViewTest {
     @BeforeEach
     public void setUp() {
         // Creo un rettangolo con coordinate e dimensioni di test
-        rectangle = new Rectangle(10, 20, false, 100, 50); // xc=10, yc=20, dim1=100, dim2=50
+        rectangle = new Rectangle(10, 20, false, 100, 50, new ColorModel(0,0,0,1), new ColorModel(255,255,255,1)); // xc=10, yc=20, dim1=100, dim2=50
         rectangleView = new RectangleView(rectangle);
         gc = mock(GraphicsContext.class);
     }

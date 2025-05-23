@@ -1,6 +1,7 @@
 package projectworkgroup6.Controller;
 
 import javafx.scene.paint.Color;
+import projectworkgroup6.Decorator.SelectedDecorator;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.State.CanvasState;
 import projectworkgroup6.View.ShapeView;
@@ -11,4 +12,5 @@ public interface StateObserver {
     void onStateChanged(CanvasState newMode);
     void onCanvasChanged(Map<Shape,ShapeView> map);
     void onColorChanged(Color currentStroke);
+
 }

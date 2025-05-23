@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Ellipse;
 import projectworkgroup6.View.EllipseView;
 
@@ -17,7 +18,7 @@ public class EllipseViewTest {
 
     @BeforeEach
     public void setUp() {
-        ellipse = new Ellipse(10, 20, false, 30, 40); // xc=10, yc=20, dim1=30, dim2=40
+        ellipse = new Ellipse(10, 20, false, 30, 40,new ColorModel(0,0,0,1), new ColorModel(255,255,255,1)); // xc=10, yc=20, dim1=30, dim2=40
         ellipseView = new EllipseView(ellipse);
         gc = mock(GraphicsContext.class);
     }

@@ -7,8 +7,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Rectangle extends Shape {
     private double width, height;
 
+    // Per serializzazione
     public Rectangle() {
-        super(0, 0, false);
+        super(0, 0, false, new ColorModel(0,0,0,1), new ColorModel(255,255,255,1));
     }
 
     @Override
@@ -30,8 +31,8 @@ public class Rectangle extends Shape {
 
 
 
-    public Rectangle(double x, double y, boolean selected, double width, double height) {
-        super(x, y, selected);
+    public Rectangle(double x, double y, boolean selected, double width, double height, ColorModel border, ColorModel fill) {
+        super(x, y, selected, border, fill);
         this.width = width;
         this.height = height;
     }
