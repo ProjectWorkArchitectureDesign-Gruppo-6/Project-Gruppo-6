@@ -3,8 +3,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import projectworkgroup6.Model.ColorModel;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -19,11 +18,38 @@ import javafx.scene.paint.Color;
 public abstract class Shape {
 
     protected double x, y;
+    protected ColorModel border, fill;
 
-    public Shape(double x, double y, boolean selected) {
+    public Shape(double x, double y, boolean selected, ColorModel border, ColorModel fill) {
         this.x = x;
         this.y = y;
         this.selected = selected;
+        this.border = border;
+        this.fill = fill;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public ColorModel getBorder() {
+        return border;
+    }
+
+    public void setBorder(ColorModel border) {
+        this.border = border;
+    }
+
+    public ColorModel getFill() {
+        return fill;
+    }
+
+    public void setFill(ColorModel fill) {
+        this.fill = fill;
     }
 
     public double getX() {

@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.stage.FileChooser;
+import projectworkgroup6.Decorator.BorderDecorator;
 import projectworkgroup6.Factory.*;
 import projectworkgroup6.Model.*;
 import projectworkgroup6.Model.Shape;
@@ -59,32 +60,19 @@ public class MenuBarController {
             if (fileCorrente != null) {
                 ObjectMapper mapper = new ObjectMapper();
 
+                Map<String,ShapeCreator> creators = StateController.getInstance().getCreators();
+
                 List<Shape> shapes = mapper.readValue(fileCorrente, new TypeReference<List<Shape>>() {});
 
                 for (Shape shape : shapes) {
-                    // Classe locale anonima per creare ShapeView
-                    ShapeCreator creator = new ShapeCreator() {
-                        @Override
-                        public Shape createShape(double x, double y) {
-                            return shape; // già esistente
-                        }
 
-                        @Override
-                        public ShapeView createShapeView(Shape s) {
-                            if (s instanceof Rectangle) {
-                                return new RectangleView((Rectangle) s);
-                            } else if (s instanceof Ellipse) {
-                                return new EllipseView((Ellipse) s);
-                            } else if (s instanceof Line) {
-                                return new LineView((Line) s);
-                            } else {
-                                throw new IllegalArgumentException("Tipo Shape non supportato: " + s.getClass());
-                            }
-                        }
-                    };
+                    String type = shape.getClass().getSimpleName(); // "Rectangle", "Ellipse", ...
+                    ShapeCreator creator = creators.get(type);
+
 
                     ShapeView view = creator.createShapeView(shape);
-                    StateController.getInstance().addShape(shape, view);
+                    BorderDecorator border = new BorderDecorator(view,shape.getBorder().toColor());
+                    StateController.getInstance().addShape(shape, border);
 
                 }
 
@@ -105,16 +93,14 @@ public class MenuBarController {
             fileChooser.setTitle("Salva disegno come JSON");
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("File JSON", "*.json"));
 
-            Map<Shape, ShapeView> shapes = StateController.getInstance().getMap();
-            List<Shape> shapeList = new ArrayList<>(shapes.keySet());
-            for(Shape s : shapeList){
-                System.out.println("Figura coordinate: "+s.getX() + "  "+s.getY());
-            }
+            Map<Shape, ShapeView> map = StateController.getInstance().getMap();
+            List<Shape> shapes = new ArrayList<>(map.keySet());
+
             fileCorrente = fileChooser.showSaveDialog(topMenuBar.getScene().getWindow());
             if (fileCorrente != null) {
                 ObjectMapper mapper = new ObjectMapper();
                 ObjectWriter writer = mapper.writerFor(new TypeReference<List<Shape>>() {}).withDefaultPrettyPrinter();
-                writer.writeValue(fileCorrente, shapeList);
+                writer.writeValue(fileCorrente, shapes);
                 System.out.println("Disegno salvato in: " + fileCorrente.getAbsolutePath());
             }
         } catch (IOException ex) {

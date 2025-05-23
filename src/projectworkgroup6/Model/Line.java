@@ -8,11 +8,11 @@ public class Line extends Shape {
     private double x2, y2;
 
     public Line() {
-        super(0, 0, false);
+        super(0, 0, false,new ColorModel(0,0,0,1), null);
     }
 
-    public Line(double x1, double y1, boolean selected, double x2, double y2) {
-        super(x1,y1,selected);
+    public Line(double x1, double y1, boolean selected, double x2, double y2, ColorModel border, ColorModel fill) {
+        super(x1,y1,selected, border, fill);
         this.x2 = x2;
         this.y2 = y2;
     }

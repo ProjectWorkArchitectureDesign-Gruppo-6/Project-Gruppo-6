@@ -1,6 +1,11 @@
 package projectworkgroup6.Controller;
 
 import javafx.scene.paint.Color;
+import projectworkgroup6.Decorator.SelectedDecorator;
+import projectworkgroup6.Factory.EllipseCreator;
+import projectworkgroup6.Factory.LineCreator;
+import projectworkgroup6.Factory.RectangleCreator;
+import projectworkgroup6.Factory.ShapeCreator;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.State.CanvasState;
 import projectworkgroup6.State.SingleSelectState;
@@ -84,6 +89,8 @@ public class StateController{
     }
 
 
+
+
     public void removeShape(Shape shape, ShapeView shapeView){
         map.remove(shape,shapeView);
         notifyCanvasToRepaint();
@@ -99,6 +106,21 @@ public class StateController{
         for (StateObserver o : observers)
             o.onColorChanged(currentStroke);
     }
+
+
+    // Mappa per se
+    private static final Map<String, ShapeCreator> creators = new HashMap<>();
+
+    static {
+        creators.put("Rectangle", RectangleCreator.getInstance());
+        creators.put("Ellipse", EllipseCreator.getInstance());
+        creators.put("Line", LineCreator.getInstance());
+    }
+
+    public Map<String, ShapeCreator> getCreators(){
+        return creators;
+    }
+
 
 
 }

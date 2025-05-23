@@ -8,7 +8,6 @@ public class MoveCommand implements Command {
     private Shape shape;
     private double dx, dy; // spostamento totale
 
-    private double stepx, stepy; // microspostamento
     private StateController stateController;
 
     public MoveCommand(Shape shape) {
@@ -23,7 +22,7 @@ public class MoveCommand implements Command {
 
     @Override
     public void execute() {
-        shape.move(stepx, stepy);
+        shape.move(dx, dy);
     }
 
     @Override
@@ -31,9 +30,5 @@ public class MoveCommand implements Command {
         shape.move(-dx, -dy);
     }
 
-    public void microstep(double deltax, double deltay){
-        this.stepx = deltax;
-        this.stepy = deltay;
-    }
 }
 

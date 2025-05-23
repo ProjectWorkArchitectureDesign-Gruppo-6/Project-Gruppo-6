@@ -14,7 +14,7 @@ import projectworkgroup6.View.ShapeView;
 public class SelectedDecorator extends ShapeView{
 
     private ShapeView base;
-    private SelectionStrategy strategy;
+    protected SelectionStrategy strategy;
 
     public SelectedDecorator(ShapeView base) {
         super(base.getShape());

@@ -9,11 +9,11 @@ public class Ellipse extends Shape {
 
 
     public Ellipse() {
-        super(0, 0, false);
+        super(0, 0, false, new ColorModel(0,0,0,1), new ColorModel(255,255,255,1));
     }
 
-    public Ellipse(double x, double y, boolean selected, double diam1, double diam2) {
-        super(x,y,selected);
+    public Ellipse(double x, double y, boolean selected, double diam1, double diam2, ColorModel border, ColorModel fill) {
+        super(x,y,selected, border, fill);
         this.diam1 = diam1;
         this.diam2 = diam2;
     }

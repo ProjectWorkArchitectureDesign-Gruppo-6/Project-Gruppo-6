@@ -1,11 +1,12 @@
 package projectworkgroup6.Factory;
 
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Line;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.LineView;
 import projectworkgroup6.View.ShapeView;
 
-public class LineCreator extends ShapeCreator {
+public class LineCreator implements ShapeCreator {
 
     private static final double DEFAULT_LENGTH = 100;
 
@@ -22,9 +23,9 @@ public class LineCreator extends ShapeCreator {
         return instance;
     }
     @Override
-    public Shape createShape(double x, double y) {
+    public Shape createShape(double x, double y, ColorModel border, ColorModel fill) {
 
-        return new Line(x, y, false, x + DEFAULT_LENGTH, y + DEFAULT_LENGTH);
+        return new Line(x, y, false, x + DEFAULT_LENGTH, y + DEFAULT_LENGTH, border, fill);
     }
 
     @Override
