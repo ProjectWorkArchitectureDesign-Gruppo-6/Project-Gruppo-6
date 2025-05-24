@@ -59,18 +59,24 @@ public class ToolBarController {
     //notifico gli observer setCursorMode richiama notifyObservers permette di notificare gli Observer del cambio di modalità del cursore
     public void onRctBtn(ActionEvent event) {
         StateController.getInstance().setState(new InsertState(RectangleCreator.getInstance()));
+        //
+        StateController.getInstance().notifyShapeDeselected();
         colorPicker.setVisible(true);
     }
 
 
     public void onElpBtn(ActionEvent actionEvent) {
         StateController.getInstance().setState(new InsertState(EllipseCreator.getInstance()));
+       //
+        StateController.getInstance().notifyShapeDeselected();
         colorPicker.setVisible(true);
 
     }
 
     public void onLnBtn(ActionEvent actionEvent) {
         StateController.getInstance().setState(new InsertState(LineCreator.getInstance()));
+        //
+        StateController.getInstance().notifyShapeDeselected();
         colorPicker.setVisible(true);
 
     }

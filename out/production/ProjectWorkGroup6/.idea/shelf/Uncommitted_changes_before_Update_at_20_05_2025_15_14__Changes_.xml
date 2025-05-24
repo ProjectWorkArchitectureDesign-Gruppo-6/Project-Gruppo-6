@@ -1,0 +1,122 @@
+<changelist name="Uncommitted_changes_before_Update_at_20_05_2025_15_14_[Changes]" date="1747746859889" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_05_2025_15_14_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 20/05/2025 15:14 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Decorator/SelectedDecorator.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Factory/RectangleCreator.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Command/CommandManager.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Strategy/LineSelectionStrategy.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Model/Shape.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/State/SingleSelectState.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Command/DeleteCommand.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/State/TranslationState.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="dist/ProjectWorkGroup6.jar" />
+    <option name="AFTER_PATH" value="dist/ProjectWorkGroup6.jar" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_05_2025_15_14_[Changes]/ProjectWorkGroup6.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/View/ShapeView.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/ProjectWorkGroup6.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Factory/EllipseCreator.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/View/RectangleView.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Strategy/SelectionStrategy.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Decorator/BorderDecorator.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Model/Ellipse.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="build/classes/projectworkgroup6/ProjectWorkGroup6.class" />
+    <option name="AFTER_PATH" value="build/classes/projectworkgroup6/ProjectWorkGroup6.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20_05_2025_15_14_[Changes]/ProjectWorkGroup6.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Command/MoveCommand.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="build/classes/projectworkgroup6/FirstSprintController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/State/CanvasState.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Model/ColorModel.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/State/InsertState.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/View/CanvasView.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Model/Line.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/View/EllipseView.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Controller/MenuBarController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Strategy/RectangleSelectionStrategy.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Factory/LineCreator.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Command/Command.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/State/MultipleSelectState.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Controller/StateObserver.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Controller/MainController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Controller/StateController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Factory/ShapeCreator.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Controller/CanvasController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Controller/ToolBarController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/View/LineView.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/Project-Gruppo-6/projectworkgroup6/Model/Rectangle.class" />
+  </binary>
+</changelist>

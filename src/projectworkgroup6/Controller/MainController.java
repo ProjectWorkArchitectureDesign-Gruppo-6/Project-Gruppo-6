@@ -20,6 +20,8 @@ public class MainController implements Initializable {
     private ToolBarController toolBarController;
     private CanvasController canvasController;
     private MenuBarController menuBarController;
+    //
+    private DropDownController dropDownMenuController;
 
     private StateController stateController;
 
@@ -52,8 +54,20 @@ public class MainController implements Initializable {
         canvasController = loader.getController();
         canvasController.setMainController(this);
 
+        // Carica Menu a Tendina
+        loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/DropDownMenu.fxml"));
+        AnchorPane dropdownmenu = loader.load();
+        dropDownMenuController = loader.getController();
+        dropDownMenuController.setMainController(this);
+
+
         // Aggiungi tutto alla vista principale
+
+        //Aggiungo il menu a tendina prima al canvas, se l'aggiungo direttamente a VBox il menu
+        //comparirebbe sotto il canvas
+        canvas.getChildren().add(dropdownmenu);
         mainVBox.getChildren().addAll(menu, tool, canvas);
+
         VBox.setVgrow(canvas, Priority.ALWAYS);
 
         canvasController.bindCanvasSize(canvas);
@@ -90,6 +104,10 @@ public class MainController implements Initializable {
 
     public void setMenuBarController(MenuBarController menuBarController){
         this.menuBarController = menuBarController;
+    }
+
+    public void setDropDownMenuController(DropDownController dropDownMenuController) {
+        this.dropDownMenuController = dropDownMenuController;
     }
 
     public void passScene(Scene scene) {

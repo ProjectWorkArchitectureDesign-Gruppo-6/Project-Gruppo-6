@@ -56,6 +56,8 @@ public class MenuBarController {
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("File JSON", "*.json"));
 
             StateController.getInstance().getMap().clear();
+            //
+            StateController.getInstance().notifyShapeDeselected();
             fileCorrente = fileChooser.showOpenDialog(topMenuBar.getScene().getWindow());
             if (fileCorrente != null) {
                 ObjectMapper mapper = new ObjectMapper();

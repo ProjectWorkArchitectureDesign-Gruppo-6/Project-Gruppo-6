@@ -7,6 +7,7 @@ import projectworkgroup6.Command.CommandManager;
 import projectworkgroup6.Command.DeleteCommand;
 import projectworkgroup6.Command.MoveCommand;
 import projectworkgroup6.Controller.StateController;
+import projectworkgroup6.Controller.DropDownController;
 import projectworkgroup6.Decorator.SelectedDecorator;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.ShapeView;
@@ -33,6 +34,7 @@ public class SingleSelectState implements CanvasState {
     }
 
     private SelectedDecorator selectedShape = null;
+    private DropDownController dropDownController;
 
 
     @Override
@@ -84,17 +86,26 @@ public class SingleSelectState implements CanvasState {
 
     private void deselectShape(Shape s) {
         s.setSelected(false);
+        //notifica deselezionamento della figura
+        StateController.getInstance().notifyShapeDeselected();
         StateController.getInstance().removeShape(s, selectedShape);
         StateController.getInstance().addShape(s, selectedShape.undecorate());
         selectedShape = null;
     }
 
+
     private void selectShape(Shape s, Map<Shape, ShapeView> map) {
         s.setSelected(true);
+        //notifica selezionamento della figura
+        StateController.getInstance().notifyShapeSelected(s);
         ShapeView baseShapeView = map.get(s);
         StateController.getInstance().removeShape(s, baseShapeView);
         selectedShape = new SelectedDecorator(baseShapeView);
         StateController.getInstance().addShape(s,selectedShape);
+    }
+
+    public SelectedDecorator getSelectedShape() {
+        return selectedShape;
     }
 
     @Override
@@ -140,6 +151,8 @@ public class SingleSelectState implements CanvasState {
     @Override
     public void handleDelete(KeyEvent event, Map<Shape,ShapeView> map) {
         if(event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE){
+            //
+            StateController.getInstance().notifyShapeDeselected();
             for(Shape s : map.keySet()){
                 if (map.get(s) == selectedShape) {
                     DeleteCommand cmd = new DeleteCommand(s, map.get(s));
@@ -150,6 +163,9 @@ public class SingleSelectState implements CanvasState {
             }
         }
     }
+
+
+
 
     @Override
     public void handleColorChanged(Color currentStroke) {

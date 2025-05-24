@@ -1,0 +1,60 @@
+Index: src/projectworkgroup6/View/ToolBar.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n\r\n<?import javafx.scene.control.*?>\r\n<?import javafx.scene.image.*?>\r\n<?import javafx.scene.layout.*?>\r\n<?import javafx.scene.text.*?>\r\n\r\n<AnchorPane prefHeight=\"71.0\" prefWidth=\"760.0\" xmlns=\"http://javafx.com/javafx/17.0.2-ea\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"projectworkgroup6.Controller.ToolBarController\">\r\n\r\n    <children>\r\n        <Button fx:id=\"rctBtn\" layoutX=\"190.0\" layoutY=\"8.0\" onAction=\"#onRctBtn\" prefHeight=\"56.0\" prefWidth=\"82.0\" wrapText=\"true\" />\r\n        <Button fx:id=\"ellipsoidBtn\" layoutX=\"281.0\" layoutY=\"8.0\" onAction=\"#onElpBtn\" prefHeight=\"56.0\" prefWidth=\"82.0\">\r\n            <graphic>\r\n                <ImageView disable=\"true\" fitHeight=\"48.0\" fitWidth=\"62.0\" preserveRatio=\"true\">\r\n                    <image>\r\n                        <Image url=\"@../../Images/b2.png\" />\r\n                    </image>\r\n                </ImageView>\r\n            </graphic>\r\n        </Button>\r\n        <Button fx:id=\"lineBtn\" layoutX=\"370.0\" layoutY=\"8.0\" onAction=\"#onLnBtn\" prefHeight=\"56.0\" prefWidth=\"82.0\" />\r\n\r\n        <Button fx:id=\"addShapeBtn\" layoutX=\"459.0\" layoutY=\"8.0\" prefHeight=\"56.0\" prefWidth=\"82.0\" text=\"+\">\r\n            <font>\r\n                <Font name=\"System Italic\" size=\"25.0\" />\r\n            </font>\r\n        </Button>\r\n        <ImageView disable=\"true\" fitHeight=\"47.0\" fitWidth=\"60.0\" layoutX=\"201.0\" layoutY=\"18.0\" preserveRatio=\"true\">\r\n\r\n            <image>\r\n                <Image url=\"@../../Images/b1.png\" />\r\n            </image>\r\n        </ImageView>\r\n        <ImageView disable=\"true\" fitHeight=\"47.0\" fitWidth=\"62.0\" layoutX=\"380.0\" layoutY=\"16.0\" preserveRatio=\"true\">\r\n\r\n            <image>\r\n                <Image url=\"@../../Images/b3.png\" />\r\n            </image>\r\n        </ImageView>\r\n        <Button fx:id=\"slcButton\" layoutX=\"14.0\" layoutY=\"11.0\" mnemonicParsing=\"false\" onAction=\"#onSelectBtn\" prefHeight=\"49.0\" prefWidth=\"82.0\" text=\"Select\" />\r\n        <fx:include fx:id=\"colorPalette\" source=\"Color.fxml\" AnchorPane.bottomAnchor=\"0.0\" AnchorPane.leftAnchor=\"550.0\" AnchorPane.rightAnchor=\"10.0\" AnchorPane.topAnchor=\"0.0\" />\r\n    </children>\r\n</AnchorPane>\r\n
+===================================================================
+diff --git a/src/projectworkgroup6/View/ToolBar.fxml b/src/projectworkgroup6/View/ToolBar.fxml
+--- a/src/projectworkgroup6/View/ToolBar.fxml	(revision b97a4053627087ae537f31e39d54ae25b8521285)
++++ b/src/projectworkgroup6/View/ToolBar.fxml	(date 1747724936380)
+@@ -1,14 +1,15 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ 
+-<?import javafx.scene.control.*?>
+-<?import javafx.scene.image.*?>
+-<?import javafx.scene.layout.*?>
+-<?import javafx.scene.text.*?>
++<?import javafx.scene.control.Button?>
++<?import javafx.scene.image.Image?>
++<?import javafx.scene.image.ImageView?>
++<?import javafx.scene.layout.AnchorPane?>
++<?import javafx.scene.text.Font?>
+ 
+-<AnchorPane prefHeight="71.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.ToolBarController">
++<AnchorPane prefHeight="71.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.ToolBarController">
+ 
+     <children>
+-        <Button fx:id="rctBtn" layoutX="190.0" layoutY="8.0" onAction="#onRctBtn" prefHeight="56.0" prefWidth="82.0" wrapText="true" />
++        <Button fx:id="rctBtn" layoutX="190.0" layoutY="8.0" onAction="#onRctBtn" prefHeight="56.0" prefWidth="82.0" />
+         <Button fx:id="ellipsoidBtn" layoutX="281.0" layoutY="8.0" onAction="#onElpBtn" prefHeight="56.0" prefWidth="82.0">
+             <graphic>
+                 <ImageView disable="true" fitHeight="48.0" fitWidth="62.0" preserveRatio="true">
+Index: out/production/Project-Gruppo-6/projectworkgroup6/View/ToolBar.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n\r\n<?import javafx.scene.control.*?>\r\n<?import javafx.scene.image.*?>\r\n<?import javafx.scene.layout.*?>\r\n<?import javafx.scene.text.*?>\r\n\r\n<AnchorPane prefHeight=\"71.0\" prefWidth=\"760.0\" xmlns=\"http://javafx.com/javafx/17.0.2-ea\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"projectworkgroup6.Controller.ToolBarController\">\r\n\r\n    <children>\r\n        <Button fx:id=\"rctBtn\" layoutX=\"190.0\" layoutY=\"8.0\" onAction=\"#onRctBtn\" prefHeight=\"56.0\" prefWidth=\"82.0\" wrapText=\"true\" />\r\n        <Button fx:id=\"ellipsoidBtn\" layoutX=\"281.0\" layoutY=\"8.0\" onAction=\"#onElpBtn\" prefHeight=\"56.0\" prefWidth=\"82.0\">\r\n            <graphic>\r\n                <ImageView disable=\"true\" fitHeight=\"48.0\" fitWidth=\"62.0\" preserveRatio=\"true\">\r\n                    <image>\r\n                        <Image url=\"@../../Images/b2.png\" />\r\n                    </image>\r\n                </ImageView>\r\n            </graphic>\r\n        </Button>\r\n        <Button fx:id=\"lineBtn\" layoutX=\"370.0\" layoutY=\"8.0\" onAction=\"#onLnBtn\" prefHeight=\"56.0\" prefWidth=\"82.0\" />\r\n\r\n        <Button fx:id=\"addShapeBtn\" layoutX=\"459.0\" layoutY=\"8.0\" prefHeight=\"56.0\" prefWidth=\"82.0\" text=\"+\">\r\n            <font>\r\n                <Font name=\"System Italic\" size=\"25.0\" />\r\n            </font>\r\n        </Button>\r\n        <ImageView disable=\"true\" fitHeight=\"47.0\" fitWidth=\"60.0\" layoutX=\"201.0\" layoutY=\"18.0\" preserveRatio=\"true\">\r\n\r\n            <image>\r\n                <Image url=\"@../../Images/b1.png\" />\r\n            </image>\r\n        </ImageView>\r\n        <ImageView disable=\"true\" fitHeight=\"47.0\" fitWidth=\"62.0\" layoutX=\"380.0\" layoutY=\"16.0\" preserveRatio=\"true\">\r\n\r\n            <image>\r\n                <Image url=\"@../../Images/b3.png\" />\r\n            </image>\r\n        </ImageView>\r\n        <Button fx:id=\"slcButton\" layoutX=\"14.0\" layoutY=\"11.0\" mnemonicParsing=\"false\" onAction=\"#onSelectBtn\" prefHeight=\"49.0\" prefWidth=\"82.0\" text=\"Select\" />\r\n        <fx:include fx:id=\"colorPalette\" source=\"Color.fxml\" AnchorPane.bottomAnchor=\"0.0\" AnchorPane.leftAnchor=\"550.0\" AnchorPane.rightAnchor=\"10.0\" AnchorPane.topAnchor=\"0.0\" />\r\n    </children>\r\n</AnchorPane>\r\n
+===================================================================
+diff --git a/out/production/Project-Gruppo-6/projectworkgroup6/View/ToolBar.fxml b/out/production/Project-Gruppo-6/projectworkgroup6/View/ToolBar.fxml
+--- a/out/production/Project-Gruppo-6/projectworkgroup6/View/ToolBar.fxml	(revision b97a4053627087ae537f31e39d54ae25b8521285)
++++ b/out/production/Project-Gruppo-6/projectworkgroup6/View/ToolBar.fxml	(date 1747724936380)
+@@ -1,14 +1,15 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ 
+-<?import javafx.scene.control.*?>
+-<?import javafx.scene.image.*?>
+-<?import javafx.scene.layout.*?>
+-<?import javafx.scene.text.*?>
++<?import javafx.scene.control.Button?>
++<?import javafx.scene.image.Image?>
++<?import javafx.scene.image.ImageView?>
++<?import javafx.scene.layout.AnchorPane?>
++<?import javafx.scene.text.Font?>
+ 
+-<AnchorPane prefHeight="71.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.ToolBarController">
++<AnchorPane prefHeight="71.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.ToolBarController">
+ 
+     <children>
+-        <Button fx:id="rctBtn" layoutX="190.0" layoutY="8.0" onAction="#onRctBtn" prefHeight="56.0" prefWidth="82.0" wrapText="true" />
++        <Button fx:id="rctBtn" layoutX="190.0" layoutY="8.0" onAction="#onRctBtn" prefHeight="56.0" prefWidth="82.0" />
+         <Button fx:id="ellipsoidBtn" layoutX="281.0" layoutY="8.0" onAction="#onElpBtn" prefHeight="56.0" prefWidth="82.0">
+             <graphic>
+                 <ImageView disable="true" fitHeight="48.0" fitWidth="62.0" preserveRatio="true">

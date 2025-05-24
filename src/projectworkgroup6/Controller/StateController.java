@@ -22,6 +22,18 @@ public class StateController{
     //Per ogni stato attivo, StateController gestisce le comunicazioni tra i vari Controller,
     // che effettuano operazioni diverse in base allo stato in cui ci troviamo
 
+    //
+    private CanvasController canvasController;
+
+    public void setCanvasController(CanvasController canvasController) {
+        this.canvasController = canvasController;
+    }
+
+    public CanvasController getCanvasController() {
+        return canvasController;
+    }
+
+
     // --- Singleton classico ---
     private static StateController instance;
 
@@ -65,6 +77,27 @@ public class StateController{
             observers.add(o);
         }
     }
+
+
+    //OBSERVER SELEZIONE
+    private final List<SelectionObserver> selectionObservers = new ArrayList<>();
+
+    public void addSelectionObserver(SelectionObserver observer) {
+        selectionObservers.add(observer);
+    }
+
+    public void notifyShapeSelected(Shape shape) {
+        for (SelectionObserver observer : selectionObservers) {
+            observer.onShapeSelected(shape);
+        }
+    }
+
+    public void notifyShapeDeselected() {
+        for (SelectionObserver observer : selectionObservers) {
+            observer.onShapeDeselected();
+        }
+    }
+
 
     //// STATO DEL CANVAS ////
 

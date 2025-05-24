@@ -52,6 +52,7 @@ public class CanvasController implements StateObserver{
         this.currentState = newMode;
         currentState.recoverShapes(map);
 
+
     }
 
     /////////////////////////////////////
