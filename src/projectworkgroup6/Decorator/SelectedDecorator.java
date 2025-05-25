@@ -11,6 +11,10 @@ import projectworkgroup6.Strategy.SelectionStrategy;
 import projectworkgroup6.View.LineView;
 import projectworkgroup6.View.ShapeView;
 
+import java.util.AbstractMap;
+import java.util.List;
+
+
 public class SelectedDecorator extends ShapeView{
 
     private ShapeView base;
@@ -19,7 +23,7 @@ public class SelectedDecorator extends ShapeView{
     public SelectedDecorator(ShapeView base) {
         super(base.getShape());
         this.base = base;
-        this.strategy = base.undecorate() instanceof LineView ? new LineSelectionStrategy() : new RectangleSelectionStrategy(); // oppure meglio delegare questo alla Factory
+        this.strategy = base.undecorate().undecorate() instanceof LineView ? new LineSelectionStrategy() : new RectangleSelectionStrategy();
     }
 
     @Override
@@ -63,29 +67,6 @@ public class SelectedDecorator extends ShapeView{
         return strategy.getMoveButtonY(base.getShape());
     }
 
+    public List<AbstractMap.SimpleEntry<Double, Double>> getHandles() {return strategy.getHandles(base.getShape()); }
 
-/*
-    @Override
-    public void move(double dx, double dy) {
-
-        base.move(dx, dy); // spostamento della figura
-
-    }
-
-    @Override
-    public void resize(double scaleFactor) {
-        base.resize(scaleFactor);
-    }
-
-    @Override
-    public void setColor(Color color) {
-        base.setColor(color);
-    }
-
-    @Override
-    public boolean contains(double x, double y) {
-        return base.contains(x,y);
-    }
-
- */
 }

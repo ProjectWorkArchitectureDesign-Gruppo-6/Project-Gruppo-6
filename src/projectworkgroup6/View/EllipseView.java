@@ -15,5 +15,6 @@ public class EllipseView extends ShapeView {
         Ellipse ell = (Ellipse) shape;
 
         gc.strokeOval(ell.getXc(), ell.getYc(), ell.getDim1(), ell.getDim2());
+        gc.fillOval(ell.getXc(), ell.getYc(), ell.getDim1(), ell.getDim2());
     }
 }

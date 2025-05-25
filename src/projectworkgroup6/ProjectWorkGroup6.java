@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import projectworkgroup6.Controller.MainController;
 
 /**
- *
+ * 
  * @author andreadm
  */
 public class ProjectWorkGroup6 extends Application {

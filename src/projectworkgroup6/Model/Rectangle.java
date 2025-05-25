@@ -53,11 +53,14 @@ public class Rectangle extends Shape {
         this.height = height;
     }
 
+
+
     @Override
     public void move(double dx, double dy) {
         x += dx;
         y += dy;
     }
+
 
     @Override
     public void resize(double factor) {

@@ -3,9 +3,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="71.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.ToolBarController" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+<AnchorPane prefHeight="71.0" prefWidth="760.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.ToolBarController">
 
     <children>
         <Button fx:id="rctBtn" layoutX="190.0" layoutY="8.0" onAction="#onRctBtn" prefHeight="56.0" prefWidth="82.0" />
@@ -38,6 +39,10 @@
             </image>
         </ImageView>
         <Button fx:id="slcButton" layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#onSelectBtn" prefHeight="49.0" prefWidth="82.0" text="Select" />
-      <ColorPicker fx:id="colorPicker" layoutX="577.0" layoutY="23.0" onAction="#onStrokeColor" visible="false" />
+      <ColorPicker fx:id="colorPickerBorder" layoutX="556.0" layoutY="22.0" onAction="#onStrokeColor" prefHeight="26.0" prefWidth="91.0" visible="false">
+         <value>
+            <Color />
+         </value></ColorPicker>
+      <ColorPicker fx:id="colorPickerFill" layoutX="647.0" layoutY="22.0" onAction="#onFillColor" prefHeight="26.0" prefWidth="91.0" visible="false" />
     </children>
 </AnchorPane>

@@ -6,13 +6,14 @@ import javafx.scene.paint.Color;
 import projectworkgroup6.Command.CommandManager;
 import projectworkgroup6.Command.DeleteCommand;
 import projectworkgroup6.Command.MoveCommand;
+import projectworkgroup6.Command.ResizeCommand;
 import projectworkgroup6.Controller.StateController;
+import projectworkgroup6.Controller.DropDownController;
 import projectworkgroup6.Decorator.SelectedDecorator;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.ShapeView;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 // Nello stato Seleziona, ci occupiamo della modifica delle figure presenti nel Canvas.
 
@@ -33,6 +34,7 @@ public class SingleSelectState implements CanvasState {
     }
 
     private SelectedDecorator selectedShape = null;
+    private DropDownController dropDownController;
 
 
     @Override
@@ -84,42 +86,90 @@ public class SingleSelectState implements CanvasState {
 
     private void deselectShape(Shape s) {
         s.setSelected(false);
+        //notifica deselezionamento della figura
+        StateController.getInstance().notifyShapeDeselected();
         StateController.getInstance().removeShape(s, selectedShape);
         StateController.getInstance().addShape(s, selectedShape.undecorate());
         selectedShape = null;
     }
 
+
     private void selectShape(Shape s, Map<Shape, ShapeView> map) {
         s.setSelected(true);
+        //notifica selezionamento della figura
+        StateController.getInstance().notifyShapeSelected(s);
         ShapeView baseShapeView = map.get(s);
         StateController.getInstance().removeShape(s, baseShapeView);
         selectedShape = new SelectedDecorator(baseShapeView);
         StateController.getInstance().addShape(s,selectedShape);
     }
 
+    public SelectedDecorator getSelectedShape() {
+        return selectedShape;
+    }
+
     @Override
-    public void handleMoveClick(double x, double y) {
+    public void handlePression(double x, double y) {
 
+        // Il metodo capisce se l'utente vuole traslare, ridimensionare o stretchare la shape
         if (selectedShape != null) {
-            double buttonX = selectedShape.getMoveButtonX();
-            double buttonY = selectedShape.getMoveButtonY();
 
-            double diameter = 20;
+            // Controllo se vuole spostare la shape
+
+            boolean isMoveClicked = checkClickOnMoveButton(selectedShape,x,y);
 
 
-            boolean first = x >= buttonX  && x <= buttonX + diameter;
-            boolean second = y >= buttonY && y <= buttonY + diameter;
-
-            boolean isClicked = first && second;
-
-            if (isClicked) {
+            if (isMoveClicked) {
                 TranslationState ts = new TranslationState(selectedShape);
-                ts.startDragging(x,y, buttonX, buttonY);
+                ts.startDragging(x,y);
                 ts.setMoveCommand(new MoveCommand(selectedShape.getShape()));
                 StateController.getInstance().setState(ts);
             }
+            else{
 
+                // Controllo se vuole ridimensionare
+                AbstractMap.SimpleEntry<Double,Double> mobilePoint;
+                mobilePoint = checkClickOnHandles(selectedShape, x, y);
+
+                if(mobilePoint != null){
+                    ResizeState rs = new ResizeState(selectedShape);
+                    rs.startDragging(mobilePoint.getKey(), mobilePoint.getValue());
+                    rs.setResizeCommand(new ResizeCommand(selectedShape.getShape()));
+                    StateController.getInstance().setState(rs);
+
+                }
+            }
         }
+    }
+
+    private AbstractMap.SimpleEntry<Double, Double> checkClickOnHandles(SelectedDecorator selectedShape, double x, double y) {
+        List<AbstractMap.SimpleEntry<Double, Double>> handles = selectedShape.getHandles();
+        double size = 10; // tolleranza
+
+        for (AbstractMap.SimpleEntry<Double, Double> handle : handles) { // per ogni maniglia
+            double hx = handle.getKey(); // prendo coordinata x
+            double hy = handle.getValue(); // prendo coordinata y
+
+            if (x >= hx && x <= hx + size && y >= hy && y <= hy + size) { // se il click avviene sulla maniglia
+                return new AbstractMap.SimpleEntry<>(hx, hy); // restituisco la maniglia cliccata
+            }
+        }
+
+        return null; // altrimenti nessuna maniglia è stata cliccata
+    }
+
+
+    private boolean checkClickOnMoveButton(SelectedDecorator selectedShape, double x, double y) {
+        double buttonX = selectedShape.getMoveButtonX();
+        double buttonY = selectedShape.getMoveButtonY();
+
+        double diameter = 20;
+
+
+        boolean first = x >= buttonX  && x <= buttonX + diameter;
+        boolean second = y >= buttonY && y <= buttonY + diameter;
+
+        return first && second;
     }
 
     @Override
@@ -140,6 +190,8 @@ public class SingleSelectState implements CanvasState {
     @Override
     public void handleDelete(KeyEvent event, Map<Shape,ShapeView> map) {
         if(event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE){
+            //
+            StateController.getInstance().notifyShapeDeselected();
             for(Shape s : map.keySet()){
                 if (map.get(s) == selectedShape) {
                     DeleteCommand cmd = new DeleteCommand(s, map.get(s));
@@ -151,8 +203,11 @@ public class SingleSelectState implements CanvasState {
         }
     }
 
+
+
+
     @Override
-    public void handleColorChanged(Color currentStroke) {
+    public void handleColorChanged(Color currentStroke, Color currentFill) {
         // Da implementare
     }
 }

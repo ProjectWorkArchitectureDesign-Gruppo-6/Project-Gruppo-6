@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1ef22e72-44db-4e3b-8044-05157585ad2b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/junit_jupiter_api_5_9_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/junit_jupiter_engine_5_9_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/junit_platform_engine_1_9_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/mockito_core_4_11_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/objenesis_3_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ProjectWorkGroup6.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project-Gruppo-6.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/built-jar.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build/built-jar.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/projectworkgroup6/FirstSprint.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/projectworkgroup6/FirstSprintController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/projectworkgroup6/ProjectWorkGroup6.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/projectworkgroup6/ProjectWorkGroup6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/ProjectWorkGroup6.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/ProjectWorkGroup6.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/ProjectWorkGroup6.jar" beforeDir="false" afterPath="$PROJECT_DIR$/dist/ProjectWorkGroup6.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/ProjectWorkGroup6.jnlp" beforeDir="false" afterPath="$PROJECT_DIR$/dist/ProjectWorkGroup6.jnlp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/private/private.properties" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/private/private.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/private/private.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/private/private.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/project.properties" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/project.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Command/Command.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Command/CommandManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Command/DeleteCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Command/MoveCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Controller/CanvasController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Controller/MainController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Controller/MenuBarController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Controller/StateController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Controller/StateObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Controller/ToolBarController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Decorator/BorderDecorator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Decorator/SelectedDecorator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Factory/EllipseCreator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Factory/LineCreator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Factory/RectangleCreator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Factory/ShapeCreator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Model/Ellipse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Model/Line.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Model/Rectangle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Model/Shape.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/ProjectWorkGroup6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/State/CanvasState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/State/InsertState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/State/MultipleSelectState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/State/SingleSelectState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/State/TranslationState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Strategy/LineSelectionStrategy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Strategy/RectangleSelectionStrategy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/Strategy/SelectionStrategy.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/View/CanvasView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/View/EllipseView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/View/LineView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/View/RectangleView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project-Gruppo-6/projectworkgroup6/View/ShapeView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projectworkgroup6/ProjectWorkGroup6.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projectworkgroup6/ProjectWorkGroup6.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2xKb1iiGVNsi7eRPxnl4RQwY23I" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.ProjectWorkGroup6.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CanvasControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CanvasViewLogicalTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CanvasViewTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.InsertStateTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LineSelectionStrategyTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MainControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MenuBarControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MoveCommandTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MoveCommandTest.testAccumulateIncrementsDxDy.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.RectangleSelectionStrategyTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SingleSelectStateTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StateControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ToolBarControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TranslationStateTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TranslationStateTest.testHandleDeleteDoesNothing.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/andre/OneDrive/Documenti/NetBeansProjects/Project-Gruppo-6&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\andre\OneDrive\Documenti\NetBeansProjects\Project-Gruppo-6\test\projectworkgroup6" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.ProjectWorkGroup6">
+    <configuration name="ProjectWorkGroup6" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="projectworkgroup6.ProjectWorkGroup6" />
+      <module name="ProjectWorkGroup6" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="projectworkgroup6.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CanvasViewTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ProjectWorkGroup6" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Test" />
+      <option name="MAIN_CLASS_NAME" value="Test.CanvasViewTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CanvasViewTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ProjectWorkGroup6" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Test" />
+      <option name="MAIN_CLASS_NAME" value="Test.CanvasViewTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RectangleSelectionStrategyTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ProjectWorkGroup6" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Test" />
+      <option name="MAIN_CLASS_NAME" value="Test.RectangleSelectionStrategyTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ToolBarControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ProjectWorkGroup6" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Test" />
+      <option name="MAIN_CLASS_NAME" value="Test.ToolBarControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ProjectWorkGroup6" />
+        <item itemvalue="JUnit.CanvasViewTest" />
+        <item itemvalue="JUnit.CanvasViewTest" />
+        <item itemvalue="JUnit.ToolBarControllerTest" />
+        <item itemvalue="JUnit.RectangleSelectionStrategyTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.25410.129" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-IU-251.25410.129" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1ef22e72-44db-4e3b-8044-05157585ad2b" name="Changes" comment="" />
+      <created>1747689499319</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1747689499319</updated>
+      <workItem from="1747730937326" duration="13035000" />
+      <workItem from="1747745283486" duration="2470000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NoClassDefFoundError" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

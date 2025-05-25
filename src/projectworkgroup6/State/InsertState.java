@@ -7,6 +7,7 @@ import projectworkgroup6.Command.DeleteCommand;
 import projectworkgroup6.Command.InsertCommand;
 import projectworkgroup6.Controller.StateController;
 import projectworkgroup6.Decorator.BorderDecorator;
+import projectworkgroup6.Decorator.FillDecorator;
 import projectworkgroup6.Decorator.SelectedDecorator;
 import projectworkgroup6.Factory.ShapeCreator;
 import projectworkgroup6.Model.ColorModel;
@@ -22,8 +23,8 @@ public class InsertState implements CanvasState {
 
 
     private final ShapeCreator creator; //utilizzo del Factory
-    private Color currentStroke = new Color(0,0,0,1); // Setto colore di default in caso non venga selezionato
-    private Color currentFill = new Color(1,1,1,1);
+    private Color currentStroke = StateController.getInstance().getStrokeColor(); // Setto colore di default in caso non venga selezionato
+    private Color currentFill = StateController.getInstance().getFillColor();
 
     private ColorModel border, fill;
 
@@ -42,16 +43,16 @@ public class InsertState implements CanvasState {
         Shape shape = creator.createShape(x, y, border, fill);
         ShapeView shapeView = creator.createShapeView(shape);
         BorderDecorator shapeBorder = new BorderDecorator(shapeView, currentStroke);
-        //FillDecorator shapeFill = new FillDecorator(shapeBorder, currentFill);
+        FillDecorator shapeFill = new FillDecorator(shapeBorder, currentFill);
 
         // Inserisco Shape e View nello stato (undoable)
-        InsertCommand cmd = new InsertCommand(shape, shapeBorder);
+        InsertCommand cmd = new InsertCommand(shape, shapeFill);
         CommandManager.getInstance().executeCommand(cmd);
 
     }
 
     @Override
-    public void handleMoveClick(double x, double y) {
+    public void handlePression(double x, double y) {
         //System.out.println("Non definito");
     }
 
@@ -96,8 +97,8 @@ public class InsertState implements CanvasState {
     }
 
     @Override
-    public void handleColorChanged(Color currentStroke) {
+    public void handleColorChanged(Color currentStroke, Color currentFill) {
         this.currentStroke = currentStroke;
-
+        this.currentFill = currentFill;
     }
 }

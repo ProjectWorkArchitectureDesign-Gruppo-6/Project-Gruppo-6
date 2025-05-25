@@ -8,12 +8,185 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="jackson-annotations-2.19.0" level="project" />
-    <orderEntry type="library" name="jackson-core-2.19.0" level="project" />
+    <orderEntry type="module-library" exported="" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../junit-jupiter-api-5.9.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../byte-buddy-1.14.6.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../mockito-core-4.11.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../objenesis-3.2.jar!/" />
+          <root url="file://C:/Users" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="file://$USER_HOME$/STM32Cube/Repository/STM32Cube_FW_F2_V1.9.4/Drivers/CMSIS/docs/Zone/genmodel" />
+          <root url="file://$USER_HOME$/STM32Cube/Repository/STM32Cube_FW_F3_V1.11.4/Drivers/CMSIS/docs/Zone/genmodel" />
+          <root url="file://$USER_HOME$/STM32Cube/Repository/TMPUPD_10828261021765057393/STM32Cube_FW_F4_V1.26.0/Drivers/CMSIS/docs/Zone/genmodel" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="file://C:/Users" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/demo/applets/ArcTest" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/demo/applets/BarChart" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/demo/applets/Blink" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/demo/applets/CardTest" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/demo/applets/Clock" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/demo/applets/DitherTest" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/demo/applets/DrawTest" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/demo/applets/Fractal" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/demo/applets/GraphicsTest" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/demo/applets/MoleculeViewer" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/demo/applets/NervousText" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/demo/applets/SimpleGraph" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/demo/applets/SortDemo" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/demo/applets/SpreadSheet" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/demo/applets/WireFrame" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/demo/nio/zipfs" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/sample/annotations/DependencyChecker/PluginChecker/src" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/sample/annotations/DependencyChecker/Plugins/src" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/sample/annotations/Validator/src" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/sample/forkjoin/mergesort" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/sample/jmx/heapmemorymonitor" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/sample/jmx/jmx-scandir/src" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/sample/jmx/jmx-scandir/test" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/sample/lambda/BulkDataOperations/src" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/sample/lambda/DefaultMethods" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/sample/nio/chatserver" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/sample/nio/file" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/sample/nio/multicast" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/sample/nio/server" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/sample/scripting/scriptpad/src" />
+          <root url="file://$USER_HOME$/.jdks/corretto-1.8.0_452/sample/try-with-resources/src" />
+          <root url="file://$USER_HOME$/.vscode/extensions/vscjava.vscode-java-dependency-0.23.7/templates/invisible-project/src" />
+          <root url="file://$USER_HOME$/.vscode/extensions/vscjava.vscode-maven-0.44.0/resources/maven-wrapper/.mvn/wrapper" />
+          <root url="file://$USER_HOME$/AppData/Local/JetBrains/IntelliJIdea2023.3/tomcat/02182a74-4e28-4571-894a-19817d7a69ef/work/Catalina/localhost/ES_07_Rubrica_war_exploded" />
+          <root url="file://$USER_HOME$/AppData/Local/JetBrains/IntelliJIdea2023.3/tomcat/55b8e3b6-86f0-454a-bb6e-82cd4332fe97/work/Catalina/localhost/Moriello_war_exploded" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-13a64f8" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-1488587d" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-16e9ea91" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-178276c5" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-1a5bd372" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-20be6535" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-216f3fe6" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-28e8de1a" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-2a951cad" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-2d8b824" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-361c7889" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-3d1ba987" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-4968fa8a" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-4b5cedfd" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-5771d79d" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-58952907" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-59a9ef33" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-59ef0da5" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-63b4d1a" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-65218952" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-72f0e461" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-7376b38f" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-7988df6a" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-7a75bb5" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-7c52301e" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/-7d69b36f" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/10f80f3d" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/11b99988" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/11edcff" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/142c0f8e" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/151ea7a7" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/164590c3" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/1a30d515" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/1bc2c0e9" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/1bdafe0e" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/1d97a490" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/21f89dd" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/238e6f7d" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/259b449d" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/261e5f56" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/2c725d16" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/3315c829" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/36710e2e" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/37ca83bb" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/38ddc636" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/3a12a544" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/3a929ed5" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/403561e3" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/427f6e91" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/44ae7723" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/4537887a" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/4979b3d5" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/5280ade4" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/52f0596c" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/5510b422" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/6221e320" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/623d1514" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/68c87c27" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/6a2f3943" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/6b46e08f" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/6cc08fab" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/6d19c44" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/6e5b0920" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/70451500" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/71192702" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/74861d88" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/7d610488" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/7dfd59b4" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/829ed5d" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/91158db" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/9fa7478" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/a68550a" />
+          <root url="file://$USER_HOME$/AppData/Roaming/Code/User/History/d8e4eb9" />
+          <root url="file://$MODULE_DIR$/src" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Animale" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Birre" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Call" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Carta da gioco" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/CounterDec oggetto composto" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Creazione file binario da linea di comando" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Eroi e mostri" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Esercitazione_17_03/Esercitazione_17_03/src" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Età bambino" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Friendship" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/HashMap" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/HelloWorld" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/ImprovedCounter" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Libri" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Lista" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Lista studenti" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Matricole" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Mazzo di carte jcf" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Multa" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Operazioni su stringhe" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Parola e occorrenze" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Persona" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/PrimaSprint/src" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Primaria" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Punti sul piano" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/SMS" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Spese" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Studente" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Tic" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Veicolo" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/Veicolo classe astratta" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/lista jcf" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/recap" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/recap/Carte da gioco" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Programmi Java/recap/CounterDec" />
+          <root url="file://$MODULE_DIR$/../../Programmi/Python/Unife/Reti di calcolatori" />
+          <root url="file://$MODULE_DIR$/../../Unife/IngSW/Prova/src/main/java" />
+          <root url="file://$MODULE_DIR$/../../Unife/IngSW/Prova/src/test/java" />
+          <root url="file://$MODULE_DIR$/../../Unife/IngSW/WatchDogs_Back/Back-end SpringBoot/EventNetwork/src/main/java" />
+          <root url="file://$MODULE_DIR$/../../Unife/IngSW/WatchDogs_Back/Back-end SpringBoot/EventNetwork/src/test/java" />
+          <root url="file://$MODULE_DIR$/../../Unife/IngSistemiWeb/Moriello/src/main/java" />
+          <root url="file://$MODULE_DIR$/../../Unife/Tesi/partition/CustomPartitioner/src/main/java" />
+        </SOURCES>
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="jackson-databind-2.19.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="byte-buddy-1.14.6" level="project" />
-    <orderEntry type="library" scope="TEST" name="junit-jupiter-api-5.9.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="mockito-core-4.11.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="objenesis-3.2" level="project" />
+    <orderEntry type="library" name="jackson-core-2.19.0" level="project" />
+    <orderEntry type="library" name="jackson-annotations-2.19.0" level="project" />
+    <orderEntry type="library" name="junit-jupiter-api-5.9.2" level="project" />
+    <orderEntry type="library" name="objenesis-3.2" level="project" />
+    <orderEntry type="library" name="mockito-core-4.11.0" level="project" />
+    <orderEntry type="library" name="byte-buddy-1.14.6" level="project" />
+    <orderEntry type="library" name="junit-jupiter-engine-5.9.2" level="project" />
+    <orderEntry type="library" name="junit-platform-engine-1.9.2" level="project" />
+    <orderEntry type="library" name="junit-platform-commons-1.9.2" level="project" />
   </component>
 </module>

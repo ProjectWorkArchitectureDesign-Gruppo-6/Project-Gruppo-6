@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="byte-buddy-1.14.6">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../byte-buddy-1.14.6.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/byte-buddy-1.14.6.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

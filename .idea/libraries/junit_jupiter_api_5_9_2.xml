@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="junit-jupiter-api-5.9.2">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../junit-jupiter-api-5.9.2.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/junit-jupiter-api-5.9.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -4,6 +4,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Model.Shape;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
+
 public class RectangleSelectionStrategy extends SelectionStrategy {
     @Override
     public void drawSelectionBorder(GraphicsContext gc, Shape shape) {
@@ -51,6 +55,39 @@ public class RectangleSelectionStrategy extends SelectionStrategy {
 
     public double getMoveButtonY(Shape shape) {
         return shape.getYc() + shape.getDim2() + 5; // appena sotto la figura
+    }
+
+    @Override
+    public List<AbstractMap.SimpleEntry<Double, Double>> getHandles(Shape shape) {
+
+        // Lista di mappe semplici con due double x e y
+        List<AbstractMap.SimpleEntry<Double, Double>> handles = new ArrayList<>();
+
+        double x = shape.getXc();
+        double y = shape.getYc();
+        double w = shape.getDim1();
+        double h = shape.getDim2();
+        double size = 6;
+        double half = size / 2;
+
+
+        // Aggiungo le coordinate alla lista, inserendo una nuova mappa semplice nella lista
+
+        // Coordinate maniglia in alto a sinistra
+        handles.add(new AbstractMap.SimpleEntry<>(x-half,y-half));
+
+        // Coordinate maniglia in alto a destra
+        handles.add(new AbstractMap.SimpleEntry<>(x+w-half,y-half));
+
+        // Coordinate maniglia in basso a sinistra
+        handles.add(new AbstractMap.SimpleEntry<>(x-half,y+h-half));
+
+        // Coordinate maniglia in basso a destra
+        handles.add(new AbstractMap.SimpleEntry<>(x+w-half,y+h-half));
+
+        return handles;
+
+
     }
 
 

@@ -15,5 +15,6 @@ public class RectangleView extends ShapeView {
         Rectangle rect = (Rectangle) shape;
 
         gc.strokeRect(rect.getXc(), rect.getYc(), rect.getDim1(), rect.getDim2());
+        gc.fillRect(rect.getXc(), rect.getYc(), rect.getDim1(), rect.getDim2());
     }
 }

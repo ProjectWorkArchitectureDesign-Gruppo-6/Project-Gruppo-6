@@ -60,7 +60,7 @@ public class MultipleSelectState implements CanvasState {
      */
 
     @Override
-    public void handleMoveClick(double x, double y) {
+    public void handlePression(double x, double y) {
 
         //System.out.println("Da definire");
     }
@@ -86,7 +86,7 @@ public class MultipleSelectState implements CanvasState {
     }
 
     @Override
-    public void handleColorChanged(Color currentStroke) {
+    public void handleColorChanged(Color currentStroke, Color currentFill) {
         // Da implementare
     }
 }

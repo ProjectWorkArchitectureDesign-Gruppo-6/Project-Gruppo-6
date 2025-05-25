@@ -22,6 +22,18 @@ public class StateController{
     //Per ogni stato attivo, StateController gestisce le comunicazioni tra i vari Controller,
     // che effettuano operazioni diverse in base allo stato in cui ci troviamo
 
+    //
+    private CanvasController canvasController;
+
+    public void setCanvasController(CanvasController canvasController) {
+        this.canvasController = canvasController;
+    }
+
+    public CanvasController getCanvasController() {
+        return canvasController;
+    }
+
+
     // --- Singleton classico ---
     private static StateController instance;
 
@@ -42,6 +54,7 @@ public class StateController{
 
     //// STATO DEL COLORE ////
     private Color currentStroke = new Color(0,0,0,1); //nero di default
+    private Color currentFill = new Color(1,1,1,1);
 
 
     //Subject degli Observer
@@ -65,6 +78,27 @@ public class StateController{
             observers.add(o);
         }
     }
+
+
+    //OBSERVER SELEZIONE
+    private final List<SelectionObserver> selectionObservers = new ArrayList<>();
+
+    public void addSelectionObserver(SelectionObserver observer) {
+        selectionObservers.add(observer);
+    }
+
+    public void notifyShapeSelected(Shape shape) {
+        for (SelectionObserver observer : selectionObservers) {
+            observer.onShapeSelected(shape);
+        }
+    }
+
+    public void notifyShapeDeselected() {
+        for (SelectionObserver observer : selectionObservers) {
+            observer.onShapeDeselected();
+        }
+    }
+
 
     //// STATO DEL CANVAS ////
 
@@ -96,15 +130,30 @@ public class StateController{
         notifyCanvasToRepaint();
     }
 
-
+    // Per aggiornare il colore in base alla selezione sul colorPicker
     public void setStrokeColor(Color borderColor) {
         this.currentStroke = borderColor;
         notifyObserversToHandleColor();
     }
 
+    // Per settarlo di default in base a quello dello stato attuale (evitare che al cambiamento della shape, ritorna il colore di default)
+    public Color getStrokeColor(){
+        return currentStroke;
+    }
+
+    public void setFillColor(Color fillColor) {
+        this.currentFill = fillColor;
+        notifyObserversToHandleColor();
+
+    }
+
+    public Color getFillColor(){
+        return currentFill;
+    }
+
     private void notifyObserversToHandleColor() {
         for (StateObserver o : observers)
-            o.onColorChanged(currentStroke);
+            o.onColorChanged(currentStroke, currentFill);
     }
 
 

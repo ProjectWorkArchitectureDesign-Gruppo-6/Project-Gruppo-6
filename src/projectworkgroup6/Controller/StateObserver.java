@@ -11,6 +11,6 @@ import java.util.Map;
 public interface StateObserver {
     void onStateChanged(CanvasState newMode);
     void onCanvasChanged(Map<Shape,ShapeView> map);
-    void onColorChanged(Color currentStroke);
+    void onColorChanged(Color currentStroke, Color currentFill);
 
 }
