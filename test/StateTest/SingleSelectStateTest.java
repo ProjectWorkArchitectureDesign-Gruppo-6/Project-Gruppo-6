@@ -54,7 +54,7 @@ public class SingleSelectStateTest {
 
     @Test
     void testHandleMoveClickDoesNotThrowWhenNothingSelected() {
-        assertDoesNotThrow(() -> state.handleMoveClick(0, 0));
+        assertDoesNotThrow(() -> state.handlePression(0, 0));
     }
 
     @Test

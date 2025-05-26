@@ -90,7 +90,8 @@ public class StateControllerTest {
 
         Color newColor = Color.RED;
         stateController.setStrokeColor(newColor);
+        stateController.setFillColor(newColor);
 
-        verify(observer).onColorChanged(newColor);
+        verify(observer).onColorChanged(newColor, newColor);
     }
 }

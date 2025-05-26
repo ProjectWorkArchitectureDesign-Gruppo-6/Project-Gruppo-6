@@ -3,13 +3,13 @@ package projectworkgroup6.State;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-import projectworkgroup6.Command.CommandManager;
-import projectworkgroup6.Command.DeleteCommand;
-import projectworkgroup6.Command.MoveCommand;
-import projectworkgroup6.Command.ResizeCommand;
+import projectworkgroup6.Command.*;
 import projectworkgroup6.Controller.StateController;
 import projectworkgroup6.Controller.DropDownController;
+import projectworkgroup6.Decorator.BorderDecorator;
+import projectworkgroup6.Decorator.FillDecorator;
 import projectworkgroup6.Decorator.SelectedDecorator;
+import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.ShapeView;
 
@@ -34,7 +34,6 @@ public class SingleSelectState implements CanvasState {
     }
 
     private SelectedDecorator selectedShape = null;
-    private DropDownController dropDownController;
 
 
     @Override
@@ -104,7 +103,7 @@ public class SingleSelectState implements CanvasState {
         StateController.getInstance().addShape(s,selectedShape);
     }
 
-    public SelectedDecorator getSelectedShape() {
+    public ShapeView getSelectedShape() {
         return selectedShape;
     }
 
@@ -204,10 +203,28 @@ public class SingleSelectState implements CanvasState {
     }
 
 
-
-
     @Override
     public void handleColorChanged(Color currentStroke, Color currentFill) {
-        // Da implementare
+
+        StateController.getInstance().removeShape(selectedShape.getShape(),selectedShape); // rimuovo la shape dallo stato
+
+        // Converto i colori
+        ColorModel border = ColorModel.fromColor(currentStroke);
+        ColorModel fill = ColorModel.fromColor(currentFill);
+
+
+
+        if(border.toRgbaString().equals(selectedShape.getShape().getBorder().toRgbaString())){
+            CommandManager.getInstance().executeCommand(new ChangeFillCommand(selectedShape.getShape(),fill));
+
+        } else{
+            CommandManager.getInstance().executeCommand(new ChangeBorderCommand(selectedShape.getShape(),border));
+        }
+
+        selectedShape.getShape().setSelected(false);
+        BorderDecorator borderDecorator = new BorderDecorator(selectedShape.undecorate().undecorate().undecorate(),border.toColor());
+        FillDecorator fillDecorator = new FillDecorator(borderDecorator,fill.toColor());
+        StateController.getInstance().addShape(selectedShape.getShape(), fillDecorator);
+        System.out.println(StateController.getInstance().getMap());
     }
 }

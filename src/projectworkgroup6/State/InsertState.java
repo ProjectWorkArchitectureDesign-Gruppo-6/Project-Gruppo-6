@@ -42,11 +42,11 @@ public class InsertState implements CanvasState {
         // Creo Shape e View corrispondente in base al colore scelto
         Shape shape = creator.createShape(x, y, border, fill);
         ShapeView shapeView = creator.createShapeView(shape);
-        BorderDecorator shapeBorder = new BorderDecorator(shapeView, currentStroke);
-        FillDecorator shapeFill = new FillDecorator(shapeBorder, currentFill);
+        shapeView = new BorderDecorator(shapeView, currentStroke);
+        shapeView = new FillDecorator(shapeView, currentFill);
 
         // Inserisco Shape e View nello stato (undoable)
-        InsertCommand cmd = new InsertCommand(shape, shapeFill);
+        InsertCommand cmd = new InsertCommand(shape, shapeView);
         CommandManager.getInstance().executeCommand(cmd);
 
     }
