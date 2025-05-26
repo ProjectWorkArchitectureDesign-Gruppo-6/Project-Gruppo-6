@@ -60,6 +60,7 @@ public class MainController implements Initializable {
         dropDownMenuController.setMainController(this);
         dropDownMenuController.setCanvasController(canvasController);
 
+        menuBarController.setCanvasController(canvasController);
 
         /*focus al canvas*/
         StateController.getInstance().setCanvasController(canvasController);
