@@ -147,6 +147,11 @@ public class ResizeState implements CanvasState{
         //nulla
     }
 
+    @Override
+    public void handleKeyTyped(KeyEvent event, Map<Shape, ShapeView> map) {
+
+    }
+
     public void setResizeCommand(ResizeCommand resizeCommand) {
         this.currentResizeCommand = resizeCommand;
     }

@@ -13,7 +13,9 @@ import projectworkgroup6.Model.ColorModel;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Rectangle.class, name = "Rectangle"),
         @JsonSubTypes.Type(value = Ellipse.class, name = "Ellipse"),
-        @JsonSubTypes.Type(value = Line.class, name = "Line")
+        @JsonSubTypes.Type(value = Line.class, name = "Line"),
+        @JsonSubTypes.Type(value = Polygon.class, name = "Polygon"),
+        @JsonSubTypes.Type(value = TextBox.class, name = "TextBox")
 })
 public abstract class Shape {
 
@@ -88,4 +90,13 @@ public abstract class Shape {
         return this;
     }
 
+    public void setEditing(boolean b) {
+    }
+
+    public String getText() {
+        return null;
+    }
+
+    public void setText(String newText) {
+    }
 }

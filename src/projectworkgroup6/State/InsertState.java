@@ -101,4 +101,9 @@ public class InsertState implements CanvasState {
         this.currentStroke = currentStroke;
         this.currentFill = currentFill;
     }
+
+    @Override
+    public void handleKeyTyped(KeyEvent event, Map<Shape, ShapeView> map) {
+
+    }
 }

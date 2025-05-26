@@ -27,5 +27,11 @@ public class CommandManager {
             cmd.undo();
         }
     }
+
+    //per test
+    public void reset() {
+        history.clear();
+    }
+
 }
 

@@ -21,4 +21,7 @@ public interface CanvasState {
     void handleDelete(KeyEvent event, Map<Shape, ShapeView> map);
 
     void handleColorChanged(Color currentStroke, Color currentFill);
+
+    void handleKeyTyped(KeyEvent event, Map<Shape, ShapeView> map);
+
 }

@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -24,10 +25,6 @@ public class MainController implements Initializable {
     private DropDownController dropDownMenuController;
 
     private StateController stateController;
-
-
-   // @FXML
-    //private AnchorPane principalPane;
 
     @FXML
     private VBox mainVBox;
@@ -50,11 +47,13 @@ public class MainController implements Initializable {
 
         // Carica Canvas
         loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/Canvas.fxml"));
-        AnchorPane canvas = loader.load();
+        ScrollPane scrollCanvas = loader.load();
         canvasController = loader.getController();
         canvasController.setMainController(this);
 
+
         // Carica Menu a Tendina
+
         loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/DropDownMenu.fxml"));
         AnchorPane dropdownmenu = loader.load();
         dropDownMenuController = loader.getController();
@@ -62,17 +61,22 @@ public class MainController implements Initializable {
         dropDownMenuController.setCanvasController(canvasController);
 
 
+        /*focus al canvas*/
+        StateController.getInstance().setCanvasController(canvasController);
+
         // Aggiungi tutto alla vista principale
 
         //Aggiungo il menu a tendina prima al canvas, se l'aggiungo direttamente a VBox il menu
         //comparirebbe sotto il canvas
-        canvas.getChildren().add(dropdownmenu);
-        mainVBox.getChildren().addAll(menu, tool, canvas);
+        AnchorPane canvasPane=(AnchorPane)scrollCanvas.getContent();
+        canvasPane.getChildren().add(dropdownmenu);
 
-        VBox.setVgrow(canvas, Priority.ALWAYS);
+        //Carico scrollPane
+        mainVBox.getChildren().addAll(menu, tool, scrollCanvas);
 
-        canvasController.bindCanvasSize(canvas);
+        VBox.setVgrow(scrollCanvas, Priority.ALWAYS);
 
+        canvasController.bindCanvasSize(scrollCanvas);
 
     }
 
@@ -88,6 +92,7 @@ public class MainController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
 

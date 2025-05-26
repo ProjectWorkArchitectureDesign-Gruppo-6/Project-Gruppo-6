@@ -6,6 +6,8 @@ import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.LineView;
 import projectworkgroup6.View.ShapeView;
 
+import java.util.List;
+
 public class LineCreator implements ShapeCreator {
 
     private static final double DEFAULT_LENGTH = 100;
@@ -31,5 +33,21 @@ public class LineCreator implements ShapeCreator {
     @Override
     public ShapeView createShapeView(Shape shape) {
         return new LineView((Line) shape);
+    }
+
+    /*vengono usati solo da poligon creator*/
+    @Override
+    public List<double[]> getTempVertices() {
+        return null;
+    }
+
+    @Override
+    public void resetVertices() {
+
+    }
+
+    @Override
+    public void addVertex(double x, double y) {
+
     }
 }

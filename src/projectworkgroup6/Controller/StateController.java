@@ -2,10 +2,7 @@ package projectworkgroup6.Controller;
 
 import javafx.scene.paint.Color;
 import projectworkgroup6.Decorator.SelectedDecorator;
-import projectworkgroup6.Factory.EllipseCreator;
-import projectworkgroup6.Factory.LineCreator;
-import projectworkgroup6.Factory.RectangleCreator;
-import projectworkgroup6.Factory.ShapeCreator;
+import projectworkgroup6.Factory.*;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.State.CanvasState;
 import projectworkgroup6.State.SingleSelectState;
@@ -22,12 +19,6 @@ public class StateController{
     //Per ogni stato attivo, StateController gestisce le comunicazioni tra i vari Controller,
     // che effettuano operazioni diverse in base allo stato in cui ci troviamo
 
-    //
-    private CanvasController canvasController;
-
-    public void setCanvasController(CanvasController canvasController) {
-        this.canvasController = canvasController;
-    }
 
     public CanvasController getCanvasController() {
         return canvasController;
@@ -102,6 +93,18 @@ public class StateController{
 
     //// STATO DEL CANVAS ////
 
+    private CanvasController canvasController;
+
+    public void setCanvasController(CanvasController canvasController) {
+        this.canvasController = canvasController;
+    }
+
+    public void requestCanvasFocus() {
+        if (canvasController != null && canvasController.getCanvas() != null) {
+            canvasController.getCanvas().requestFocus();
+        }
+    } //sono entrambi i metodi per dare il focus al canvas quando necessario
+
 
     private void notifyCanvasToRepaint() {
         for (StateObserver o : observers)
@@ -116,13 +119,10 @@ public class StateController{
         return map;
     }
 
-
     public void addShape(Shape shape, ShapeView shapeView) {
         map.put(shape,shapeView);
         notifyCanvasToRepaint();
     }
-
-
 
 
     public void removeShape(Shape shape, ShapeView shapeView){
@@ -156,6 +156,54 @@ public class StateController{
             o.onColorChanged(currentStroke, currentFill);
     }
 
+    //viene impiegata per ridisegnare il canvas durante la scrittura
+    public void redrawCanvas() {
+        notifyCanvasToRepaint();
+    }
+
+
+    //metodi per notificare il canvas dei valori selezionati dall'utente per il font
+    private String currentFontName = "Arial";
+    private int currentFontSize = 12;
+    private Color currentFontColor = Color.BLACK;
+
+    public void setFontFamily(String fontName) {
+        this.currentFontName = fontName;
+        notifyObserversToHandleFontFamily();
+    }
+
+    public void notifyObserversToHandleFontFamily(){
+        for (StateObserver o : observers)
+            o.onChangeFontFamily(currentFontName);
+    }
+
+    public void setFontSize(int fontSize) {
+        this.currentFontSize = fontSize;
+    }
+
+    public void setFontColor(Color color) {
+        this.currentFontColor = color;
+        notifyObserversToHandleFontColor();
+    }
+
+    public void notifyObserversToHandleFontColor(){
+        for (StateObserver o : observers)
+            o.onChangeFontColor(currentFontColor);
+    }
+
+    public String getFontFamily() {
+        return currentFontName;
+    }
+
+    public int getFontSize() {
+        return currentFontSize;
+    }
+
+    public Color getFontColor() {
+        return currentFontColor;
+    }
+
+
 
     // Mappa per se
     private static final Map<String, ShapeCreator> creators = new HashMap<>();
@@ -164,6 +212,8 @@ public class StateController{
         creators.put("Rectangle", RectangleCreator.getInstance());
         creators.put("Ellipse", EllipseCreator.getInstance());
         creators.put("Line", LineCreator.getInstance());
+        creators.put("Polygon", PolygonCreator.getInstance());
+        creators.put("TextBox", TextBoxCreator.getInstance());
     }
 
     public Map<String, ShapeCreator> getCreators(){

@@ -1,9 +1,11 @@
 package projectworkgroup6.View;
 
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import projectworkgroup6.Controller.CanvasController;
 import projectworkgroup6.Model.Shape;
@@ -15,6 +17,9 @@ import java.util.Map;
 public class CanvasView {
 
     private Canvas canvas;
+
+
+    private ScrollPane scrollPane;
 
     private AnchorPane canvasPane;
 
@@ -41,17 +46,18 @@ public class CanvasView {
         canvas.setOnMouseReleased(e -> controller.handleMouseReleased(e.getX(), e.getY()));
 
         canvas.getScene().setOnKeyPressed(controller::handleDelete);
-
+        canvas.getScene().setOnKeyTyped(controller::handleKeyTyped);
     }
 
+    private Collection<ShapeView> currentViews;
+
     public void render(Collection<ShapeView> views) {
+        this.currentViews = views; // salva per eventuali ridisegni
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         for (ShapeView v : views) {
             v.draw(gc);
         }
     }
-
-
 
 }
