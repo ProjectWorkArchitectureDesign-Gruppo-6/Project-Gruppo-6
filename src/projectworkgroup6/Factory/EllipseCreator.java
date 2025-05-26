@@ -6,6 +6,8 @@ import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.EllipseView;
 import projectworkgroup6.View.ShapeView;
 
+import java.util.List;
+
 public class EllipseCreator implements ShapeCreator {
     private static EllipseCreator instance;
 
@@ -27,5 +29,21 @@ public class EllipseCreator implements ShapeCreator {
     @Override
     public ShapeView createShapeView(Shape shape) {
         return new EllipseView((Ellipse) shape);
+    }
+
+    /*vengono usati solo da PolygonCreator*/
+    @Override
+    public List<double[]> getTempVertices() {
+        return null;
+    }
+
+    @Override
+    public void resetVertices() {
+
+    }
+
+    @Override
+    public void addVertex(double x, double y) {
+
     }
 }

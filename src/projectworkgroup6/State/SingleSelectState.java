@@ -227,4 +227,9 @@ public class SingleSelectState implements CanvasState {
         StateController.getInstance().addShape(selectedShape.getShape(), fillDecorator);
         System.out.println(StateController.getInstance().getMap());
     }
+
+    @Override
+    public void handleKeyTyped(KeyEvent event, Map<Shape, ShapeView> map) {
+
+    }
 }

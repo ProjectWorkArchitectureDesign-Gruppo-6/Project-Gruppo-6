@@ -89,4 +89,9 @@ public class MultipleSelectState implements CanvasState {
     public void handleColorChanged(Color currentStroke, Color currentFill) {
         // Da implementare
     }
+
+    @Override
+    public void handleKeyTyped(KeyEvent event, Map<Shape, ShapeView> map) {
+
+    }
 }

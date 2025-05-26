@@ -36,7 +36,7 @@ public class CanvasViewTest {
         when(canvas.getGraphicsContext2D()).thenReturn(gc);
         when(canvas.getScene()).thenReturn(scene);
 
-        canvasView = new CanvasView(canvas, canvasPane, controller, scene);
+        canvasView = new CanvasView(canvas, canvasGroup, controller, scene);
     }
 
     @Test

@@ -93,6 +93,11 @@ public class TranslationState implements CanvasState{
         // Nulla
     }
 
+    @Override
+    public void handleKeyTyped(KeyEvent event, Map<Shape, ShapeView> map) {
+
+    }
+
     public void setMoveCommand(MoveCommand moveCommand) {
         this.currentMoveCommand = moveCommand;
     }

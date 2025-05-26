@@ -6,7 +6,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="71.0" prefWidth="760.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.ToolBarController">
+<AnchorPane prefHeight="109.0" prefWidth="760.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.ToolBarController">
 
     <children>
         <Button fx:id="rctBtn" layoutX="190.0" layoutY="8.0" onAction="#onRctBtn" prefHeight="56.0" prefWidth="82.0" />
@@ -21,7 +21,7 @@
         </Button>
         <Button fx:id="lineBtn" layoutX="370.0" layoutY="8.0" onAction="#onLnBtn" prefHeight="56.0" prefWidth="82.0" />
 
-        <Button fx:id="addShapeBtn" layoutX="459.0" layoutY="8.0" prefHeight="56.0" prefWidth="82.0" text="+">
+        <Button fx:id="addShapeBtn" layoutX="459.0" layoutY="8.0" onAction="#onPlsBtn" prefHeight="56.0" prefWidth="82.0" text="+">
             <font>
                 <Font name="System Italic" size="25.0" />
             </font>
@@ -38,11 +38,25 @@
                 <Image url="@../../Images/b3.png" />
             </image>
         </ImageView>
-        <Button fx:id="slcButton" layoutX="14.0" layoutY="11.0" mnemonicParsing="false" onAction="#onSelectBtn" prefHeight="49.0" prefWidth="82.0" text="Select" />
+
+
       <ColorPicker fx:id="colorPickerBorder" layoutX="556.0" layoutY="22.0" onAction="#onStrokeColor" prefHeight="26.0" prefWidth="91.0" visible="false">
          <value>
             <Color />
-         </value></ColorPicker>
+         </value>
+      </ColorPicker>
       <ColorPicker fx:id="colorPickerFill" layoutX="647.0" layoutY="22.0" onAction="#onFillColor" prefHeight="26.0" prefWidth="91.0" visible="false" />
+
+        <Button fx:id="slcButton" layoutX="14.0" layoutY="18.0" mnemonicParsing="false" onAction="#onSelectBtn" prefHeight="36.0" prefWidth="37.0" text="S" />
+
+        <Button fx:id="txtBtn" layoutX="66.0" layoutY="18.0" onAction="#onTxtBtn" prefHeight="36.0" prefWidth="27.0" text="A">
+            <font>
+                <Font name="Arial Bold" size="24.0" />
+            </font>
+        </Button>
+        <ComboBox fx:id="fontCombo" layoutX="650" layoutY="10" onAction="#onFontName" prefWidth="120" visible="false" />
+        <Spinner fx:id="fontSizeSpinner" layoutX="650" layoutY="40" prefWidth="80" visible="false" />
+        <ColorPicker fx:id="fontColorPicker" layoutX="740" layoutY="40" onAction="#onFontColor" visible="false" />
+
     </children>
 </AnchorPane>

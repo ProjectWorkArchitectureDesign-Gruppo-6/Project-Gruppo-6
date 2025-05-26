@@ -14,4 +14,7 @@ public interface StateObserver {
     void onCanvasChanged(Map<Shape,ShapeView> map);
     void onColorChanged(Color currentStroke, Color currentFill);
 
+    void onChangeFontColor(Color currentFontColor);
+
+    void onChangeFontFamily(String currentFontName);
 }

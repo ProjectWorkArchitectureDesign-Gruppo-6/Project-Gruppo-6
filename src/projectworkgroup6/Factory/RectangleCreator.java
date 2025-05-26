@@ -6,6 +6,8 @@ import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.RectangleView;
 import projectworkgroup6.View.ShapeView;
 
+import java.util.List;
+
 public class RectangleCreator implements ShapeCreator {
 
     private static RectangleCreator instance;
@@ -28,5 +30,21 @@ public class RectangleCreator implements ShapeCreator {
     @Override
     public ShapeView createShapeView(Shape shape) {
         return new RectangleView((Rectangle) shape);
+    }
+
+    /*vengono usati solo da polygonCreator*/
+    @Override
+    public List<double[]> getTempVertices() {
+        return null;
+    }
+
+    @Override
+    public void resetVertices() {
+
+    }
+
+    @Override
+    public void addVertex(double x, double y) {
+
     }
 }
