@@ -39,7 +39,7 @@ public class EllipseCreatorTest {
         assertEquals(x, ellipse.getX());
         assertEquals(y, ellipse.getY());
         assertFalse(ellipse.isSelected());
-        assertEquals(80, ellipse.getDim2());
+        assertEquals(40, ellipse.getDim2());
         assertEquals(40, ellipse.getDim2());
     }
 

@@ -65,8 +65,8 @@ public class Line extends Shape {
 
     @Override
     public void resize(double factor) {
-        x *= factor;
-        y *= factor;
+
+
     }
 
     @Override

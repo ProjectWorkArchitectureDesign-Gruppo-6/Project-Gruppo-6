@@ -47,7 +47,6 @@ public class TranslationStateTest {
         translationState.startDragging(0, 0);
         translationState.handleMouseDragged(10, 5);
 
-        verify(mockMoveCommand).microstep(10.0, 5.0);
         verify(mockMoveCommand).accumulate(10.0, 5.0);
         verify(mockDecorator, atLeastOnce()).getShape();
     }
@@ -71,7 +70,7 @@ public class TranslationStateTest {
 
     @Test
     void testHandleMoveClickDoesNothing() {
-        assertDoesNotThrow(() -> translationState.handleMoveClick(10, 10));
+        assertDoesNotThrow(() -> translationState.handlePression(10, 10));
     }
 
     @Test
@@ -93,6 +92,6 @@ public class TranslationStateTest {
 
     @Test
     void testHandleColorChangedDoesNothing() {
-        assertDoesNotThrow(() -> translationState.handleColorChanged(null));
+        assertDoesNotThrow(() -> translationState.handleColorChanged(null,null));
     }
 }

@@ -48,7 +48,7 @@ public class InsertStateTest {
     @Test
     void testHandleColorChangedUpdatesStrokeColor() {
         Color newColor = Color.BLUE;
-        assertDoesNotThrow(() -> insertState.handleColorChanged(newColor));
+        assertDoesNotThrow(() -> insertState.handleColorChanged(newColor, newColor));
     }
 
     @Test

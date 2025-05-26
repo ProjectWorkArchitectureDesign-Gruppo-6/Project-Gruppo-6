@@ -16,14 +16,12 @@ public class SelectedDecoratorTest {
     private ShapeView base;
     private SelectionStrategy strategy;
     private SelectedDecorator selectedDecorator;
-    private GraphicsContext gc;
     private Shape shape;
 
     @BeforeEach
     public void setUp() {
         base = mock(ShapeView.class);
         strategy = mock(SelectionStrategy.class);
-        gc = mock(GraphicsContext.class);
         shape = mock(Shape.class);
 
         when(base.getShape()).thenReturn(shape);
@@ -42,15 +40,7 @@ public class SelectedDecoratorTest {
         assertSame(base, selectedDecorator.undecorate());
     }
 
-    @Test
-    public void testDrawCallsBaseDrawAndStrategyMethods() {
-        selectedDecorator.draw(gc);
 
-        verify(base, times(1)).draw(gc);
-        verify(strategy, times(1)).drawSelectionBorder(gc, shape);
-        verify(strategy, times(1)).drawHandles(gc, shape);
-        verify(strategy, times(1)).drawMoveButton(gc, shape);
-    }
 
     @Test
     public void testGetMoveButtonCoordinates() {

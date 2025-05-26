@@ -10,7 +10,7 @@ import java.util.Map;
 public interface CanvasState {
     void handleClick(double x, double y, Map<Shape, ShapeView> map);
 
-    void handleMoveClick(double x, double y);
+    void handlePression(double x, double y);
 
     void handleMouseDragged(double x, double y);
 
@@ -20,5 +20,5 @@ public interface CanvasState {
 
     void handleDelete(KeyEvent event, Map<Shape, ShapeView> map);
 
-    void handleColorChanged(Color currentStroke);
+    void handleColorChanged(Color currentStroke, Color currentFill);
 }

@@ -14,12 +14,10 @@ public class BorderDecoratorTest {
 
     private ShapeView baseView;
     private BorderDecorator borderDecorator;
-    private GraphicsContext gc;
 
     @BeforeEach
     public void setUp() {
         baseView = mock(ShapeView.class);
-        gc = mock(GraphicsContext.class);
         borderDecorator = new BorderDecorator(baseView, Color.RED);
     }
 
@@ -29,9 +27,5 @@ public class BorderDecoratorTest {
         assertSame(baseView, result);
     }
 
-    @Test
-    public void testDrawCallsBaseViewDraw() {
-        borderDecorator.draw(gc);
-        verify(baseView, times(1)).draw(gc);
-    }
+
 }

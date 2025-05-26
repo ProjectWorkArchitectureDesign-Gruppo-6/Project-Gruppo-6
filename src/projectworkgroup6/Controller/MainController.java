@@ -61,6 +61,7 @@ public class MainController implements Initializable {
         AnchorPane dropdownmenu = loader.load();
         dropDownMenuController = loader.getController();
         dropDownMenuController.setMainController(this);
+        dropDownMenuController.setCanvasController(canvasController);
 
 
         // Aggiungi tutto alla vista principale

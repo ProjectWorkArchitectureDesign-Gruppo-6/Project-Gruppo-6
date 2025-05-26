@@ -14,15 +14,11 @@ import java.util.Map;
 
 public class CanvasView {
 
-    @FXML
     private Canvas canvas;
 
-    @FXML
     private AnchorPane canvasPane;
 
     private GraphicsContext gc;
-
-    private GraphicsContext tgc;
 
     public final CanvasController controller;
 
@@ -40,7 +36,7 @@ public class CanvasView {
 
     private void setupEventHandlers() {
         canvas.setOnMouseClicked(e -> controller.handleCanvasClick(e.getX(), e.getY()));
-        canvas.setOnMousePressed(e -> controller.handleMoveClick(e.getX(), e.getY()));
+        canvas.setOnMousePressed(e -> controller.handlePression(e.getX(), e.getY()));
         canvas.setOnMouseDragged(e -> controller.handleMouseDragged(e.getX(), e.getY()));
         canvas.setOnMouseReleased(e -> controller.handleMouseReleased(e.getX(), e.getY()));
 
@@ -50,6 +46,7 @@ public class CanvasView {
 
     public void render(Collection<ShapeView> views) {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
         for (ShapeView v : views) {
             v.draw(gc);
         }

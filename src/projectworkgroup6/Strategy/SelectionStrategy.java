@@ -3,6 +3,9 @@ package projectworkgroup6.Strategy;
 import javafx.scene.canvas.GraphicsContext;
 import projectworkgroup6.Model.Shape;
 
+import java.util.AbstractMap;
+import java.util.List;
+
 public abstract class SelectionStrategy {
 
     double buttonWidth = 20;
@@ -24,6 +27,5 @@ public abstract class SelectionStrategy {
     }
 
 
-
-
+    public abstract List<AbstractMap.SimpleEntry<Double, Double>> getHandles(Shape shape);
 }

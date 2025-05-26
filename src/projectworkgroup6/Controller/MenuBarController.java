@@ -15,6 +15,7 @@ import javafx.stage.FileChooser;
 import projectworkgroup6.Command.Command;
 import projectworkgroup6.Command.ZoomCommand;
 import projectworkgroup6.Decorator.BorderDecorator;
+import projectworkgroup6.Decorator.FillDecorator;
 import projectworkgroup6.Factory.*;
 import projectworkgroup6.Model.*;
 import projectworkgroup6.Model.Shape;
@@ -81,7 +82,8 @@ public class MenuBarController {
 
                     ShapeView view = creator.createShapeView(shape);
                     BorderDecorator border = new BorderDecorator(view,shape.getBorder().toColor());
-                    StateController.getInstance().addShape(shape, border);
+                    FillDecorator fill = new FillDecorator(border, shape.getFill().toColor());
+                    StateController.getInstance().addShape(shape, fill);
 
                 }
 

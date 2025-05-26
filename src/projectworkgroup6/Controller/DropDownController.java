@@ -1,7 +1,9 @@
 package projectworkgroup6.Controller;
 
+import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Controller.StateController;
+import projectworkgroup6.Decorator.BorderDecorator;
 import projectworkgroup6.Model.*;
 
 import javafx.event.ActionEvent;
@@ -12,8 +14,18 @@ import projectworkgroup6.State.SingleSelectState;
 import java.util.HashMap;
 
 public class DropDownController implements SelectionObserver {
-    public AnchorPane dropDownMenuPane;
-    public MainController mainController;
+    @FXML
+    private AnchorPane dropDownMenuPane;
+
+    private MainController mainController;
+    private CanvasController canvasController; // riferimento al canvasController che contiene il menù a tendina
+
+
+    @FXML
+    private ColorPicker borderPicker;
+
+    @FXML
+    private ColorPicker fillPicker;
 
     public Shape selectedShape = null;
 
@@ -30,12 +42,18 @@ public class DropDownController implements SelectionObserver {
 
     @Override
     public void onShapeSelected(Shape s) {
-       showDDMenu(s);
+        selectedShape = s;
+        borderPicker.setValue(selectedShape.getBorder().toColor());
+        fillPicker.setValue(selectedShape.getFill().toColor());
+        System.out.println(selectedShape);
+        showDDMenu(s);
+
     }
 
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
+    public void setCanvasController(CanvasController canvasController) { this.canvasController = canvasController;}
 
 
 
@@ -85,14 +103,23 @@ public class DropDownController implements SelectionObserver {
     }
     @FXML
     public void modifyStroke(ActionEvent event) {
-        System.out.println("modifica Stroke");
+
+        Color border = borderPicker.getValue(); // Prendo il colore selezionato
+        canvasController.onColorChanged(border,selectedShape.getFill().toColor()); // Delego al canvasController che agisce in base allo stato cui ci troviamo
+
     }
     @FXML
     public void modifyFill(ActionEvent event) {
-        System.out.println("modifica Fill");
+
+        Color fill = fillPicker.getValue(); // Prendo colore selezionato
+        System.out.println(selectedShape.getFill());
+        canvasController.onColorChanged(selectedShape.getBorder().toColor(), fill); // Delego al canvas controller che agisce in base allo stato corrente
+
     }
     @FXML
     public void rotate(ActionEvent event) {
         System.out.println("ruota");
     }
+
+
 }

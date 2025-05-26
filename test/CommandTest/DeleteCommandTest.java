@@ -12,44 +12,29 @@ import static org.mockito.Mockito.*;
 
 public class DeleteCommandTest {
 
-    private Shape shape;
-    private ShapeView shapeView;
-    private StateController mockStateController;
-    private DeleteCommand deleteCommand;
+    private Shape mockShape;
+    private ShapeView mockView;
+    private StateController mockController;
 
     @BeforeEach
     void setUp() {
-        shape = mock(Shape.class);
-        shapeView = mock(ShapeView.class);
-        mockStateController = mock(StateController.class);
+        mockShape = mock(Shape.class);
+        mockView = mock(ShapeView.class);
+        mockController = mock(StateController.class);
 
-        // Mock statico per intercettare la chiamata a getInstance()
-        try (MockedStatic<StateController> mockedStatic = mockStatic(StateController.class)) {
-            mockedStatic.when(StateController::getInstance).thenReturn(mockStateController);
-            // Ora deleteCommand userà il mock
-            deleteCommand = new DeleteCommand(shape, shapeView);
-        }
     }
 
     @Test
-    void testExecuteRemovesShape() {
-        try (MockedStatic<StateController> mockedStatic = mockStatic(StateController.class)) {
-            mockedStatic.when(StateController::getInstance).thenReturn(mockStateController);
-
-            deleteCommand.execute();
-
-            verify(mockStateController).removeShape(shape, shapeView);
-        }
+    void testExecuteCallsRemoveShape() {
+        DeleteCommand command = new DeleteCommand(mockShape, mockView);
+        command.execute();
+        verify(mockController).removeShape(mockShape, mockView);
     }
 
     @Test
-    void testUndoRestoresShape() {
-        try (MockedStatic<StateController> mockedStatic = mockStatic(StateController.class)) {
-            mockedStatic.when(StateController::getInstance).thenReturn(mockStateController);
-
-            deleteCommand.undo();
-
-            verify(mockStateController).addShape(shape, shapeView);
-        }
+    void testUndoCallsRemoveShape() {
+        DeleteCommand command = new DeleteCommand(mockShape, mockView);
+        command.undo();
+        verify(mockController).addShape(mockShape, mockView);
     }
 }

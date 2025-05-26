@@ -16,8 +16,6 @@ public class TranslationState implements CanvasState{
     private double lastX;
     private double lastY;
 
-    private double StartX, StartY;
-
     private MoveCommand currentMoveCommand;
 
     public TranslationState(SelectedDecorator shapeView) {
@@ -30,17 +28,13 @@ public class TranslationState implements CanvasState{
     }
 
     @Override
-    public void handleMoveClick(double x, double y) {
+    public void handlePression(double x, double y) {
         //Non definito
     }
 
-    public void startDragging(double x, double y, double xc, double yc) {
+    public void startDragging(double x, double y) {
         lastX = x;
         lastY = y;
-        StartX = x;
-        StartY = y;
-        System.out.println(StartX);
-        System.out.println(StartY);
     }
 
     // Implementa lo spostamento solo a livello grafico
@@ -95,7 +89,7 @@ public class TranslationState implements CanvasState{
     }
 
     @Override
-    public void handleColorChanged(Color currentStroke) {
+    public void handleColorChanged(Color currentStroke, Color currentFill) {
         // Nulla
     }
 

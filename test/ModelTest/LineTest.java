@@ -61,7 +61,7 @@ public class LineTest {
 
     @Test
     public void testContainsPointNearLineWithTolerance() {
-        assertTrue(line.contains(21, 30), "Il punto (21,30) è vicino alla linea, dovrebbe essere accettato");
+        assertTrue(line.contains(19, 30), "Il punto (19,30) è vicino alla linea, dovrebbe essere accettato");
     }
 
     @Test

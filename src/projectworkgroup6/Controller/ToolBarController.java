@@ -25,7 +25,9 @@ public class ToolBarController {
     @FXML
     private Button slcBtn;
     @FXML
-    private ColorPicker colorPicker;
+    private ColorPicker colorPickerBorder;
+    @FXML
+    private ColorPicker colorPickerFill;
 
 
 
@@ -50,7 +52,8 @@ public class ToolBarController {
 
     public void onSelectBtn(ActionEvent event) {
         StateController.getInstance().setState(SingleSelectState.getInstance());
-        colorPicker.setVisible(false);
+        colorPickerBorder.setVisible(false);
+        colorPickerFill.setVisible(false);
     }
 
 
@@ -59,33 +62,43 @@ public class ToolBarController {
     //notifico gli observer setCursorMode richiama notifyObservers permette di notificare gli Observer del cambio di modalità del cursore
     public void onRctBtn(ActionEvent event) {
         StateController.getInstance().setState(new InsertState(RectangleCreator.getInstance()));
-        //
         StateController.getInstance().notifyShapeDeselected();
-        colorPicker.setVisible(true);
+        colorPickerBorder.setVisible(true);
+        colorPickerFill.setVisible(true);
+
     }
 
 
     public void onElpBtn(ActionEvent actionEvent) {
         StateController.getInstance().setState(new InsertState(EllipseCreator.getInstance()));
-       //
+
         StateController.getInstance().notifyShapeDeselected();
-        colorPicker.setVisible(true);
+
+        colorPickerBorder.setVisible(true);
+        colorPickerFill.setVisible(true);
+
 
     }
 
     public void onLnBtn(ActionEvent actionEvent) {
         StateController.getInstance().setState(new InsertState(LineCreator.getInstance()));
-        //
+
         StateController.getInstance().notifyShapeDeselected();
-        colorPicker.setVisible(true);
+        colorPickerBorder.setVisible(true);
+        colorPickerFill.setVisible(false);
 
     }
 
     @FXML
     public void onStrokeColor(ActionEvent actionEvent) {
-        Color borderColor = colorPicker.getValue(); // Colore scelto dall'utente nella GUI
+        Color borderColor = colorPickerBorder.getValue(); // Colore scelto dall'utente nella GUI
         StateController.getInstance().setStrokeColor(borderColor);
 
     }
 
+
+    public void onFillColor(ActionEvent actionEvent) {
+        Color fillColor = colorPickerFill.getValue();
+        StateController.getInstance().setFillColor(fillColor);
+    }
 }

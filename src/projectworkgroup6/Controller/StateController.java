@@ -54,6 +54,7 @@ public class StateController{
 
     //// STATO DEL COLORE ////
     private Color currentStroke = new Color(0,0,0,1); //nero di default
+    private Color currentFill = new Color(1,1,1,1);
 
 
     //Subject degli Observer
@@ -129,15 +130,30 @@ public class StateController{
         notifyCanvasToRepaint();
     }
 
-
+    // Per aggiornare il colore in base alla selezione sul colorPicker
     public void setStrokeColor(Color borderColor) {
         this.currentStroke = borderColor;
         notifyObserversToHandleColor();
     }
 
+    // Per settarlo di default in base a quello dello stato attuale (evitare che al cambiamento della shape, ritorna il colore di default)
+    public Color getStrokeColor(){
+        return currentStroke;
+    }
+
+    public void setFillColor(Color fillColor) {
+        this.currentFill = fillColor;
+        notifyObserversToHandleColor();
+
+    }
+
+    public Color getFillColor(){
+        return currentFill;
+    }
+
     private void notifyObserversToHandleColor() {
         for (StateObserver o : observers)
-            o.onColorChanged(currentStroke);
+            o.onColorChanged(currentStroke, currentFill);
     }
 
 

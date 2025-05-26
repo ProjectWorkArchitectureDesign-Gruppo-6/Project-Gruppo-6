@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="dropDownMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="152.0" prefWidth="178.0" visible="false" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.DropDownController">
+<AnchorPane fx:id="dropDownMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="152.0" prefWidth="178.0" visible="false" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.DropDownController">
    <children>
-      <VBox fx:id="dropDownMenu" prefHeight="196.0" prefWidth="162.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="dropDownMenu" prefHeight="152.0" prefWidth="178.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button mnemonicParsing="false" onAction="#copy" prefHeight="25.0" prefWidth="191.0" text="Copia" />
             <Button mnemonicParsing="false" onAction="#paste" prefHeight="25.0" prefWidth="181.0" text="Incolla" />
             <Button mnemonicParsing="false" onAction="#cut" prefHeight="25.0" prefWidth="182.0" text="Taglia" />
-            <Button mnemonicParsing="false" onAction="#modifyStroke" prefHeight="25.0" prefWidth="182.0" text="Modifica Colore Contorno" />
-            <Button mnemonicParsing="false" onAction="#modifyFill" prefHeight="25.0" prefWidth="184.0" text="Modifica Colore Riempimento" />
+            <ColorPicker fx:id="borderPicker" editable="true" onAction="#modifyStroke" prefHeight="25.0" prefWidth="181.0" promptText="Contorno" />
+            <ColorPicker fx:id="fillPicker" editable="true" onAction="#modifyFill" prefHeight="26.0" prefWidth="182.0" promptText="Riempimento" />
             <Button mnemonicParsing="false" onAction="#rotate" prefHeight="25.0" prefWidth="180.0" text="Ruota" />
          </children>
       </VBox>

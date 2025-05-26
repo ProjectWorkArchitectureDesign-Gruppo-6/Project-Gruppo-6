@@ -4,6 +4,10 @@ import javafx.scene.canvas.GraphicsContext;
 import projectworkgroup6.Model.Shape;
 import javafx.scene.paint.Color;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class LineSelectionStrategy extends SelectionStrategy {
     @Override
@@ -48,6 +52,31 @@ public class LineSelectionStrategy extends SelectionStrategy {
     @Override
     public double getMoveButtonY(Shape shape) {
         return shape.getDim2() - 40;
+    }
+
+    @Override
+    public List<AbstractMap.SimpleEntry<Double, Double>> getHandles(Shape shape) {
+
+
+        // Lista di mappe semplici con due double x e y
+        List<AbstractMap.SimpleEntry<Double, Double>> handles = new ArrayList<>();
+
+        double x = shape.getXc();
+        double y = shape.getYc();
+        double w = shape.getDim1();
+        double h = shape.getDim2();
+        double size = 6;
+        double half = size / 2;
+
+
+        // Coordinate maniglia primo vertice
+        handles.add(new AbstractMap.SimpleEntry<>(x-half,y-half));
+
+        // Coordinate maniglia secondo vertice
+        handles.add(new AbstractMap.SimpleEntry<>(w-half,h-half));
+
+
+        return handles;
     }
 
 

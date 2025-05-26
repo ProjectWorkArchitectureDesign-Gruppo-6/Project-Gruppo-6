@@ -24,12 +24,9 @@ public class MoveCommandTest {
         // Accumulo lo spostamento totale
         moveCommand.accumulate(5.0, 10.0);
 
-        // Imposto microstep (che viene usato da execute)
-        moveCommand.microstep(2.0, 3.0);
-
         // Eseguo il comando: dovrebbe chiamare shape.move con microstep
         moveCommand.execute();
-        verify(mockShape).move(2.0, 3.0);
+        verify(mockShape).move(5.0, 10.0);
 
         // Undo deve spostare la shape indietro del totale accumulato (negativo)
         moveCommand.undo();

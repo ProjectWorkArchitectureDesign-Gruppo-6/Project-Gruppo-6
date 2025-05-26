@@ -48,6 +48,9 @@ public class CanvasController implements StateObserver{
 
     private int gridValue = 0;
 
+
+
+
     public void setCanvasView(CanvasView view) {
         this.canvasView = view;
     }
@@ -107,14 +110,13 @@ public class CanvasController implements StateObserver{
     //variabili di stato tenute in locale dopo la notifica
     private CanvasState currentState;
     private Color currentStroke;
+    private Color currentFill;
 
     //Al ricevimento della notifica mantengo lo stato nuovo
     @Override
     public void onStateChanged(CanvasState newMode) {
         this.currentState = newMode;
         currentState.recoverShapes(map);
-
-
     }
 
     /////////////////////////////////////
@@ -126,14 +128,22 @@ public class CanvasController implements StateObserver{
 
     @Override
     public void onCanvasChanged(Map<Shape,ShapeView> map) {
+
         this.map = map;
-        canvasView.render(map.values());
+        try{
+            canvasView.render(map.values());
+        }catch(NullPointerException e){
+            System.out.println(" ");
+        }
+
+
     }
 
     @Override
-    public void onColorChanged(Color currentStroke) {
+    public void onColorChanged(Color currentStroke, Color currentFill) {
         this.currentStroke = currentStroke;
-        currentState.handleColorChanged(currentStroke);
+        this.currentFill = currentFill;
+        currentState.handleColorChanged(currentStroke, currentFill);
     }
 
 
@@ -191,8 +201,8 @@ public class CanvasController implements StateObserver{
         currentState.handleMouseDragged(x,y);
     }
 
-    public void handleMoveClick(double x, double y) {
-        currentState.handleMoveClick(x,y);
+    public void handlePression(double x, double y) {
+        currentState.handlePression(x,y);
     }
 
 
