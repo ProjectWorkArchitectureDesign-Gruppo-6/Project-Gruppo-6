@@ -3,8 +3,27 @@
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.ScrollPane?>
 <AnchorPane fx:id="canvasPane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.CanvasController">
     <children>
-        <Canvas fx:id="canvas" height="418.0" width="743.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <ScrollPane fx:id="scrollPane" prefHeight="392.0" prefWidth="569.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <content>
+                <AnchorPane fx:id="canvasContainer">
+                    <children>
+                        <Group fx:id="canvasGroup">
+                            <children>
+                                <AnchorPane fx:id="canvasLayer">
+                                    <children>
+                                        <Canvas fx:id="gridCanvas"/>
+                                        <Canvas fx:id="canvas"/>
+                                    </children>
+                                </AnchorPane>
+                            </children>
+                        </Group>
+                    </children>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
     </children>
 </AnchorPane>

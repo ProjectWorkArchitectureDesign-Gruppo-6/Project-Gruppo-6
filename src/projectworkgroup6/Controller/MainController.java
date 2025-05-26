@@ -54,6 +54,8 @@ public class MainController implements Initializable {
         canvasController = loader.getController();
         canvasController.setMainController(this);
 
+        menuBarController.setCanvasController(canvasController);
+
         // Carica Menu a Tendina
         loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/DropDownMenu.fxml"));
         AnchorPane dropdownmenu = loader.load();

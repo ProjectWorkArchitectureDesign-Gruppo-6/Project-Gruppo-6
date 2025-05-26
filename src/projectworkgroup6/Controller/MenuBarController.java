@@ -8,9 +8,12 @@ import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.stage.FileChooser;
+import projectworkgroup6.Command.Command;
+import projectworkgroup6.Command.ZoomCommand;
 import projectworkgroup6.Decorator.BorderDecorator;
 import projectworkgroup6.Factory.*;
 import projectworkgroup6.Model.*;
@@ -41,11 +44,15 @@ public class MenuBarController {
     private File fileCorrente = null;
 
     private MainController mainController;
+    private CanvasController canvasController;
 
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
 
+    public void setCanvasController(CanvasController controller) {
+        this.canvasController = controller;
+    }
     // Eventuali metodi di gestione per i menu
 
     @FXML
@@ -131,4 +138,62 @@ public class MenuBarController {
         }
     }
 
+    @FXML
+    private void zoomIn50(ActionEvent event)
+    {
+        canvasController.zoomTo(1.5);
+    }
+
+    @FXML
+    private void zoomIn100(ActionEvent event) {
+        canvasController.zoomTo(2.0);
+    }
+
+    @FXML
+    private void zoomIn150(ActionEvent event) {
+        canvasController.zoomTo(2.5);
+    }
+
+    @FXML
+    private void zoomIn200(ActionEvent event) {
+        canvasController.zoomTo(3.0);
+    }
+
+    @FXML
+    private void zoomOut50(ActionEvent event) {
+        canvasController.zoomTo(1.0);
+    }
+
+    @FXML
+    private void zoomOut100(ActionEvent event) {
+        canvasController.zoomTo(0.75);
+    }
+
+    @FXML private void zoomOut150(ActionEvent event) {
+        canvasController.zoomTo(0.5);
+    }
+
+    @FXML private void zoomOut200(ActionEvent event) {
+        canvasController.zoomTo(0.25);
+    }
+
+    @FXML private void grid5x5(ActionEvent event) {
+        canvasController.insertGrid(5);
+    }
+
+    @FXML private void grid10x10(ActionEvent event) {
+        canvasController.insertGrid(10);
+    }
+
+    @FXML private void grid15x15(ActionEvent event) {
+        canvasController.insertGrid(15);
+    }
+
+    @FXML private void grid20x20(ActionEvent event) {
+        canvasController.insertGrid(20);
+    }
+
+    @FXML private void grid25x25(ActionEvent event) {
+        canvasController.insertGrid(25);
+    }
 }

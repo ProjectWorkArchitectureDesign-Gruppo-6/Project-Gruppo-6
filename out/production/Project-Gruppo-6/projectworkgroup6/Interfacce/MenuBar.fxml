@@ -18,7 +18,34 @@
                     <MenuItem mnemonicParsing="false" onAction="#save" text="Salva con nome" />
                 </items>
             </Menu>
-            <Menu fx:id="viewBtn" mnemonicParsing="false" text="Visualizza" />
+            <Menu fx:id="viewBtn" mnemonicParsing="false" text="Visualizza">
+                <items>
+                    <Menu mnemonicParsing="false" text="Zoom In">
+                        <items>
+                            <MenuItem mnemonicParsing="false" onAction="#zoomIn50" text="50%" />
+                            <MenuItem mnemonicParsing="false" onAction="#zoomIn100" text="100%" />
+                            <MenuItem mnemonicParsing="false" onAction="#zoomIn150" text="150%" />
+                            <MenuItem mnemonicParsing="false" onAction="#zoomIn200" text="200%" />
+                        </items>
+                    </Menu>
+                    <Menu mnemonicParsing="false" text="Zoom Out">
+                        <items>
+                            <MenuItem mnemonicParsing="false" onAction="#zoomOut50" text="-50%" />
+                            <MenuItem mnemonicParsing="false" onAction="#zoomOut100" text="-100%" />
+                            <MenuItem mnemonicParsing="false" onAction="#zoomOut150" text="-150%" />
+                            <MenuItem mnemonicParsing="false" onAction="#zoomOut150" text="-200%" />
+                        </items>
+                    </Menu>
+                    <Menu mnemonicParsing="false" text="Griglia">
+                        <items>
+                     <MenuItem mnemonicParsing="false" onAction="#grid5x5" text="5 x 5" />
+                     <MenuItem mnemonicParsing="false" onAction="#grid10x10" text="10 x 10" />
+                     <MenuItem mnemonicParsing="false" onAction="#grid15x15" text="15 x 15" />
+                            <MenuItem mnemonicParsing="false" onAction="#grid20x20" text="20 x 20" />
+                     <MenuItem mnemonicParsing="false" onAction="#grid25x25" text="25 x 25" />
+                        </items>
+                    </Menu>
+                </items></Menu>
         </menus>
     </MenuBar>
     <Button mnemonicParsing="false" onAction="#saveOnFileExist" text="Button" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="0.0">
