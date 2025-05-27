@@ -113,20 +113,20 @@ public class DropDownController implements SelectionObserver {
     public void hideDDMenu() {
         dropDownMenuPane.setVisible(false);
         dropDownMenuPane.setManaged(false);
-        System.out.println("Menu a tendina NASCOSTO");
+
     }
 
     public void showDDMenu(Shape s) {
         selectedShape = s;
         double x = s.getX();
+        double width = s.getDim1();
         double y = s.getY();
         // Posiziona il menu con un piccolo offset
-        dropDownMenuPane.setLayoutX(x+60.0);
+        dropDownMenuPane.setLayoutX(x + width/2 + 10);
         dropDownMenuPane.setLayoutY(y);
         dropDownMenuPane.setVisible(true);
         dropDownMenuPane.setManaged(true);
 
-        System.out.println("Menu a tendina visibile");
     }
 
 

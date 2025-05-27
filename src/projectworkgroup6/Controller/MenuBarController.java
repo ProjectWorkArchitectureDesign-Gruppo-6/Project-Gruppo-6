@@ -142,48 +142,48 @@ public class MenuBarController {
     }
     @FXML
     private void undo(ActionEvent event) {
-CommandManager.getInstance().undoLastCommand();
+        CommandManager.getInstance().undoLastCommand();
         StateController.getInstance().redrawCanvas();
     }
 
     @FXML
     private void zoomIn50(ActionEvent event)
     {
-        canvasController.zoomTo(1.5);
+        StateController.getInstance().setZoom(1.5);
     }
 
     @FXML
     private void zoomIn100(ActionEvent event) {
-        canvasController.zoomTo(2.0);
+        StateController.getInstance().setZoom(2.0);
     }
 
     @FXML
     private void zoomIn150(ActionEvent event) {
-        canvasController.zoomTo(2.5);
-    }
+        StateController.getInstance().setZoom(2.5);    }
 
     @FXML
     private void zoomIn200(ActionEvent event) {
-        canvasController.zoomTo(3.0);
-    }
+        StateController.getInstance().setZoom(3.0);    }
 
     @FXML
     private void zoomOut50(ActionEvent event) {
-        canvasController.zoomTo(1.0);
+        //canvasController.zoomTo(1.0);
     }
 
     @FXML
     private void zoomOut100(ActionEvent event) {
-        canvasController.zoomTo(0.75);
+        //canvasController.zoomTo(0.75);
     }
 
     @FXML private void zoomOut150(ActionEvent event) {
-        canvasController.zoomTo(0.5);
+        //canvasController.zoomTo(0.5);
     }
 
     @FXML private void zoomOut200(ActionEvent event) {
-        canvasController.zoomTo(0.25);
+        //canvasController.zoomTo(0.25);
     }
+
+
 
     @FXML private void grid5x5(ActionEvent event) {
         canvasController.insertGrid(5);
@@ -203,5 +203,11 @@ CommandManager.getInstance().undoLastCommand();
 
     @FXML private void grid25x25(ActionEvent event) {
         canvasController.insertGrid(25);
+    }
+
+    public void removeGrid(ActionEvent actionEvent) { canvasController.insertGrid(0);}
+
+    public void removeZoom(ActionEvent actionEvent) {
+        StateController.getInstance().setZoom(1.0);
     }
 }

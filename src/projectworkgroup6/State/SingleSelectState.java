@@ -42,9 +42,9 @@ public class SingleSelectState implements CanvasState {
     public void handleClick(MouseEvent e,double x, double y, Map<Shape, ShapeView> map) {
         System.out.println("Hai cliccato in modalità SELECT su: " + x + ", " + y);
 
-if (e.getButton()==MouseButton.SECONDARY) {
-    StateController.getInstance().notifyMouseRightClick(x,y);
-}
+        if (e.getButton()==MouseButton.SECONDARY) {
+            StateController.getInstance().notifyMouseRightClick(x,y);
+        }
         for (Shape s : map.keySet()) {
             if (s.contains(x, y)) {
                 if (s.isSelected()) {
@@ -60,7 +60,10 @@ if (e.getButton()==MouseButton.SECONDARY) {
             }
         }
 
-        // Click a vuoto → nessuna azione oltre la stampa
+        deselectAll(map);
+        //nascondi il menu a tendina
+        StateController.getInstance().notifyShapeDeselected();
+
     }
 
     private void deselectAll(Map<Shape, ShapeView> map) {
@@ -106,8 +109,6 @@ if (e.getButton()==MouseButton.SECONDARY) {
         ShapeView baseShapeView = map.get(s);
         selectedShape = new SelectedDecorator(baseShapeView);
         StateController.getInstance().addShape(s,selectedShape);
-        //map.put(s, selectedShape);
-
 
     }
 

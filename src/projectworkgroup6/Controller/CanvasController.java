@@ -2,6 +2,8 @@ package projectworkgroup6.Controller;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
+
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -52,68 +54,73 @@ public class CanvasController implements StateObserver{
     private GraphicsContext drawGC;
 
     private int gridValue = 0;
-    private double zoomValue = 0;
+    private double currentScale = 1.0;
 
 
-    public void setCanvasView(CanvasView view) {
-        this.canvasView = view;
-    }
 
     /*aggiunto per la gestione del focus al canvas*/
     public Canvas getCanvas() {
         return canvas;
     }
 
+    private void zoomTo(Point2D click, double targetScale) {
+        targetScale = targetScale * currentScale;
 
-    //Metodo per effettuare zoom in o zoom out in base al valore specificato dall'attributo targetScale
-    public void zoomTo(double targetScale) {
-        double currentScale = canvasGroup.getScaleX();
-        double newScale;
+        // Calcolo centro del viewport
+        double viewportWidth = scrollPane.getViewportBounds().getWidth();
+        double viewportHeight = scrollPane.getViewportBounds().getHeight();
 
-        if (zoomValue == targetScale) {
-            // Stesso livello selezionato: reset a scala 1.0
-            newScale = 1.0;
-            zoomValue = 0;
-        } else {
-            newScale = targetScale;
-            zoomValue = targetScale;
-        }
+        currentScale = targetScale;
 
-        // Protezione contro zoom-out eccessivo
-        if (newScale < 0.1) {
-            System.out.println("Zoom troppo basso, ignorato.");
-            return;
-        }
+        // Applica la nuova scala
+        canvasGroup.setScaleX(targetScale);
+        canvasGroup.setScaleY(targetScale);
 
-        double factor = newScale / currentScale;
 
-        Command zoom = new ZoomCommand(canvasGroup, factor);
-        zoom.execute();
+        // Forza il layout (importante!)
+        canvasGroup.applyCss();
+        canvasGroup.layout();
 
-        // Calcolo area visibile dopo lo zoom
-        Bounds viewportBounds = scrollPane.getViewportBounds();
-        double visibleWidth = viewportBounds.getWidth() / newScale;
-        double visibleHeight = viewportBounds.getHeight() / newScale;
 
-        double minWidth = Math.max(canvasPane.getPrefWidth(), visibleWidth);
-        double minHeight = Math.max(canvasPane.getPrefHeight(), visibleHeight);
+        // Ottieni le dimensioni reali del contenuto scalato
+        Bounds contentBounds = canvasGroup.getBoundsInParent();
+        double contentWidth = contentBounds.getWidth();
+        double contentHeight = contentBounds.getHeight();
 
-        // Aggiorna le dimensioni del canvasPane per includere tutta l'area visibile
-        canvasPane.setPrefWidth(minWidth);
-        canvasPane.setPrefHeight(minHeight);
 
-        // Rilancia ridisegno della griglia
-        if (gridValue != 0) {
-            insertGrid(gridValue);
-        }
+        // Le coordinate del click nel group, a quali corrispondono nell'AnchorPane padre
+        Point2D clickedInParent = canvasGroup.localToParent(click);
+        System.out.println("click prima dello scale: "+click);
+        System.out.println("cordinate del click nell'AnchorPane dopo lo scale: " + clickedInParent);
 
-        // Se hai uno stack per undo:
-        // CommandManager.getInstance().addCommand(zoom);
+
+        // Distanza che il click dovrebbe avere dal bordo sinistro/superiore
+        double targetX = clickedInParent.getX() - viewportWidth / 2.0;
+        double targetY = clickedInParent.getY() - viewportHeight / 2.0;
+        System.out.println(viewportWidth);
+        System.out.println(viewportHeight);
+
+
+        // Calcolo del valore di scroll Hvalue e Vvalue (proporzione tra 0 e 1)
+        double vValue = targetX / (contentWidth - viewportWidth);
+        double hValue = targetY / (contentHeight - viewportHeight);
+        System.out.println(contentWidth-viewportWidth);
+        System.out.println(contentHeight-viewportHeight);
+
+
+        // Inverti segno perché il contenuto si è spostato, quindi lo scroll deve compensare
+        scrollPane.setHvalue(hValue);
+        scrollPane.setVvalue(vValue);
+
+        // Ridisegna il contenuto se necessario
+        onCanvasChanged(map);
+        if (gridValue != 0) insertGrid(gridValue);
     }
+
 
     //Metodo per inserire una griglia, la cui dimensione delle celle è specificata dall'attributo value
     public void insertGrid(int value){
-        if (gridValue == value && gridCanvas.isVisible()) {
+        if (value == 0) {
             gridCanvas.setVisible(false);
             gridValue = 0;
             return;
@@ -197,10 +204,19 @@ public class CanvasController implements StateObserver{
             }
         }
         if (expanded) {
+
             canvasPane.setPrefWidth(newWidth);
             canvasPane.setPrefHeight(newHeight);
             canvas.widthProperty().bind(canvasPane.widthProperty());
             canvas.heightProperty().bind(canvasPane.heightProperty());
+            gridCanvas.widthProperty().bind(canvasPane.widthProperty());
+            gridCanvas.heightProperty().bind(canvasPane.heightProperty());
+
+
+
+            if(gridValue != 0){
+                insertGrid(gridValue);
+            }
         }
     }
 
@@ -260,8 +276,8 @@ public class CanvasController implements StateObserver{
 
 
         // Binding delle dimensioni del contenitore
-        canvasPane.minWidthProperty().bind(canvas.widthProperty().multiply(canvasGroup.scaleXProperty()));
-        canvasPane.minHeightProperty().bind(canvas.heightProperty().multiply(canvasGroup.scaleYProperty()));
+        //canvasPane.minWidthProperty().bind(canvas.widthProperty().multiply(canvasGroup.scaleXProperty()));
+        //canvasPane.minHeightProperty().bind(canvas.heightProperty().multiply(canvasGroup.scaleYProperty()));
     }
 
 
@@ -311,11 +327,22 @@ public class CanvasController implements StateObserver{
 
         canvas.widthProperty().bind(pane.widthProperty());
         canvas.heightProperty().bind(pane.heightProperty());
+        gridCanvas.widthProperty().bind(pane.widthProperty());
+        gridCanvas.heightProperty().bind(pane.heightProperty());
+
 
         // Puoi anche aggiungere un listener per ridisegnare il contenuto dopo il resize
         canvas.widthProperty().addListener((obs, oldVal, newVal) -> onCanvasChanged(this.map));
         canvas.heightProperty().addListener((obs, oldVal, newVal) -> onCanvasChanged(this.map));
+        gridCanvas.widthProperty().addListener((obs, oldVal, newVal) -> onCanvasChanged(this.map));
+        gridCanvas.heightProperty().addListener((obs, oldVal, newVal) -> onCanvasChanged(this.map));
+
     }
 
 
+    public void setZoomClick(Point2D clickInCanvas, double zoom) {
+        Point2D clickInScene = canvas.localToScene(clickInCanvas);
+        Point2D clickInGroup = canvasGroup.sceneToLocal(clickInScene);
+        zoomTo(clickInGroup, zoom);
+    }
 }

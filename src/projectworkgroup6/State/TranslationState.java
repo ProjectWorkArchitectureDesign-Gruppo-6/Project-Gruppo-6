@@ -25,7 +25,9 @@ public class TranslationState implements CanvasState{
 
     @Override
     public void handleClick(MouseEvent e,double x, double y, Map<Shape, ShapeView> map) {
-        //System.out.println("Non definito");
+
+        StateController.getInstance().setState(SingleSelectState.getInstance());
+
     }
 
     @Override
@@ -77,10 +79,8 @@ public class TranslationState implements CanvasState{
         // Ora che logicamente la shape si trova nello stato iniziale, faccio una volta l'execute per riportarla logicamente alla posizione in cui è stata spostata.
         CommandManager.getInstance().executeCommand(currentMoveCommand);
 
-     //mosta il menu a tendina
+        //mostra il menu a tendina
         StateController.getInstance().notifyShapeSelected(shapeView.getShape());
-
-        StateController.getInstance().setState(SingleSelectState.getInstance());
     }
 
 

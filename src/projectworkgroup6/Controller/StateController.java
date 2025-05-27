@@ -6,6 +6,7 @@ import projectworkgroup6.Factory.*;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.State.CanvasState;
 import projectworkgroup6.State.SingleSelectState;
+import projectworkgroup6.State.ZoomState;
 import projectworkgroup6.View.ShapeView;
 
 import java.util.*;
@@ -43,6 +44,8 @@ public class StateController{
     //// STATO DEL COLORE ////
     private Color currentStroke = new Color(0,0,0,1); //nero di default
     private Color currentFill = new Color(1,1,1,1);
+
+    private double zoom = 0;
 
 
     //Subject degli Observer
@@ -227,5 +230,9 @@ public class StateController{
     }
 
 
-
+    public void setZoom(double zoom) {
+        this.zoom = zoom;
+        currentState = new ZoomState(zoom);
+        notifyObservers();
+    }
 }

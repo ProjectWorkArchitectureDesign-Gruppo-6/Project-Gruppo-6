@@ -40,7 +40,7 @@ public class ResizeState implements CanvasState{
 
     @Override
     public void handleClick(MouseEvent e, double x, double y, Map<Shape, ShapeView> map) {
-        //
+        StateController.getInstance().setState(SingleSelectState.getInstance());
     }
 
     @Override
@@ -52,6 +52,11 @@ public class ResizeState implements CanvasState{
     // Implementa il ridimensionamento solo a livello grafico
     @Override
     public void handleMouseDragged(double x, double y) {
+
+        //nascondi il menu a tendina
+        StateController.getInstance().notifyShapeDeselected();
+
+
         Shape shape = shapeView.getShape();
 
         double oldw = shape.getDim1();
@@ -124,13 +129,15 @@ public class ResizeState implements CanvasState{
     @Override
     public void handleMouseReleased(double x, double y) {
         // a livello logico riporto la shape alla sua posizione iniziale, undo si basa sullo spostamento incrementale calcolato
-        currentResizeCommand.undo();
+        currentResizeCommand.undofactor();
 
         // Ora che logicamente la shape si trova nello stato iniziale, faccio una volta l'execute per riportarla logicamente alla posizione in cui è stata spostata.
         CommandManager.getInstance().executeCommand(currentResizeCommand);
 
 
-        StateController.getInstance().setState(SingleSelectState.getInstance());
+        //mostra il menu a tendina
+        StateController.getInstance().notifyShapeSelected(shapeView.getShape());
+
 
     }
 

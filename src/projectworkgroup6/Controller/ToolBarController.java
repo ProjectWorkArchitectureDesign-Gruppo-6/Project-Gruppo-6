@@ -170,7 +170,7 @@ public class ToolBarController {
 
     public void onFontName(ActionEvent actionEvent) { //agendo sul comboBox prendi la stringa fontName selezionata dall'utente
         String fontName = (String) fontCombo.getValue();
-        StateController.getInstance().setFontFamily(fontName); //viene passata allo StateController tramite setFontFamili
+        StateController.getInstance().setFontFamily(fontName); //viene passata allo StateController tramite setFontFamily
     }
 }
 

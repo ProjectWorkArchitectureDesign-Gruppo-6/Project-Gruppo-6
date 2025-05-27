@@ -1,6 +1,7 @@
 package projectworkgroup6.Command;
 
 import javafx.scene.Node;
+import javafx.scene.layout.AnchorPane;
 
 public class ZoomCommand implements Command {
     private final Node target;
@@ -15,7 +16,10 @@ public class ZoomCommand implements Command {
     public void execute() {
         target.setScaleX(target.getScaleX() * factor);
         target.setScaleY(target.getScaleY() * factor);
+
     }
+
+
 
     @Override
     public void undo() {
