@@ -22,7 +22,7 @@ public class DeleteCommand implements Command {
 
     @Override
     public void undo() {
-        stateController.addShape(shape, shapeView);
+        stateController.addShape(shape, shapeView.undecorate());
     }
 }
 

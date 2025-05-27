@@ -90,6 +90,12 @@ public class StateController{
         }
     }
 
+    public void notifyMouseRightClick(double x,double y) {
+        for (SelectionObserver observer : selectionObservers) {
+            observer.onMouseRightClick(x,y);
+        }
+    }
+
 
     //// STATO DEL CANVAS ////
 

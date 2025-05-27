@@ -40,7 +40,7 @@ public class CanvasView {
     }
 
     private void setupEventHandlers() {
-        canvas.setOnMouseClicked(e -> controller.handleCanvasClick(e.getX(), e.getY()));
+        canvas.setOnMouseClicked(e -> controller.handleCanvasClick(e, e.getX(), e.getY()));
         canvas.setOnMousePressed(e -> controller.handlePression(e.getX(), e.getY()));
         canvas.setOnMouseDragged(e -> controller.handleMouseDragged(e.getX(), e.getY()));
         canvas.setOnMouseReleased(e -> controller.handleMouseReleased(e.getX(), e.getY()));

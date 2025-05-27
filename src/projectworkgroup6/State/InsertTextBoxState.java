@@ -1,6 +1,7 @@
 package projectworkgroup6.State;
 
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Command.CommandManager;
 import projectworkgroup6.Command.InsertCommand;
@@ -40,7 +41,7 @@ public class InsertTextBoxState implements CanvasState {
 
 
     @Override
-    public void handleClick(double x, double y, Map<Shape, ShapeView> map) {
+    public void handleClick(MouseEvent e,double x, double y, Map<Shape, ShapeView> map) {
 
         //setto una variabile da usare nel ciclo per la verifica del click su una shape oppure no
         boolean clickedOnShape = false;

@@ -91,4 +91,9 @@ public class Line extends Shape {
 
         return first && second && onLine;
     }
+
+    @Override
+    public String type() {
+        return "Line";
+    }
 }

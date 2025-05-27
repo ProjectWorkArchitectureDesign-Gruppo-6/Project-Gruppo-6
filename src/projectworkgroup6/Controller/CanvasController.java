@@ -7,6 +7,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Command.Command;
@@ -265,7 +266,7 @@ public class CanvasController implements StateObserver{
     }
 
 
-    public void handleCanvasClick(double x, double y) { currentState.handleClick(x, y, map); }
+    public void handleCanvasClick(MouseEvent e, double x, double y) { currentState.handleClick(e,x, y, map); }
 
     public void setMainController(MainController mainController) {
         this.mainController = mainController;

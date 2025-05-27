@@ -1,6 +1,7 @@
 package projectworkgroup6.State;
 
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Command.CommandManager;
 import projectworkgroup6.Command.InsertCommand;
@@ -38,7 +39,7 @@ public class InsertPolygonState implements CanvasState {
     private static final long DOUBLE_CLICK_THRESHOLD_MS = 300;
 
     @Override
-    public void handleClick(double x, double y, Map<Shape, ShapeView> map) {
+    public void handleClick(MouseEvent e,double x, double y, Map<Shape, ShapeView> map) {
         border = ColorModel.fromColor(currentStroke);
         fill = ColorModel.fromColor(currentFill);
         System.out.println("Click ricevuto su canvas a: (" + x + ", " + y + ")");

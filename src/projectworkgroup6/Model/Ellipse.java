@@ -74,4 +74,9 @@ public class Ellipse extends Shape {
         double top = this.getY() - diam2 / 2;
         return x >= left && x <= left + diam1 && y >= top && y <= top + diam2;
     }
+
+    @Override
+    public String type() {
+        return "Ellipse";
+    }
 }

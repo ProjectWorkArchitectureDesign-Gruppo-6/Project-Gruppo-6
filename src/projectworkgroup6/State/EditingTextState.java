@@ -1,6 +1,7 @@
 package projectworkgroup6.State;
 
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Controller.StateController;
 import projectworkgroup6.Factory.TextBoxCreator;
@@ -25,7 +26,7 @@ public class EditingTextState implements CanvasState {
     }
 
     @Override
-    public void handleClick(double x, double y, Map<Shape, ShapeView> map) {
+    public void handleClick(MouseEvent e,double x, double y, Map<Shape, ShapeView> map) {
         //se faccio click fuori dalla casella di testo
         if(!textBox.contains(x, y)){
             StateController.getInstance().setState(SingleSelectState.getInstance()); //passo al singleSelectState

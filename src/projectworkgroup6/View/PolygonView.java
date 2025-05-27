@@ -21,7 +21,10 @@ public class PolygonView extends ShapeView {
             yPoints[i] = pol.getVertices().get(i)[1];
         }
 
-
+        //Imposta i colori dinamicamente
+        gc.setStroke(pol.getBorder().toColor());
+        gc.setFill(pol.getFill().toColor());
+        
         if (isPreview || n < 3) { //se è ancora una preview ovvero non ho fatto doppio click oppure ho meno di tre vertici (segmento)
             gc.strokePolyline(xPoints, yPoints, n); //Disegno mano a mano i segmenti fra i vertici
         } else {

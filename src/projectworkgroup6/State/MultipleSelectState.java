@@ -1,6 +1,7 @@
 package projectworkgroup6.State;
 
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.ShapeView;
@@ -25,7 +26,7 @@ public class MultipleSelectState implements CanvasState {
         return instance;
     }
 
-    public void handleClick(double x, double y, Map<Shape, ShapeView> map) {
+    public void handleClick(MouseEvent e,double x, double y, Map<Shape, ShapeView> map) {
         // Da gestire
     }
 

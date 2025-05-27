@@ -8,7 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="30.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.MenuBarController">
+<AnchorPane prefHeight="30.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.MenuBarController">
     <MenuBar fx:id="topMenuBar" prefHeight="34.0" prefWidth="760.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
         <menus>
@@ -57,4 +57,13 @@
             </ImageView>
         </graphic>
     </Button>
+   <Button layoutX="230.0" layoutY="1.0" mnemonicParsing="false" onAction="#undo">
+      <graphic>
+         <ImageView fitHeight="19.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../Images/undo_1.png" />
+            </image>
+         </ImageView>
+      </graphic>
+   </Button>
 </AnchorPane>

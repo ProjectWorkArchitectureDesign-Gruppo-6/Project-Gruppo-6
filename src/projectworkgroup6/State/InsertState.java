@@ -1,6 +1,7 @@
 package projectworkgroup6.State;
 
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Command.CommandManager;
 import projectworkgroup6.Command.DeleteCommand;
@@ -33,7 +34,7 @@ public class InsertState implements CanvasState {
     }
 
     @Override
-    public void handleClick(double x, double y, Map<Shape, ShapeView> map) {  //Creazione della Shape e della ShapeView
+    public void handleClick(MouseEvent event,double x, double y, Map<Shape, ShapeView> map) {  //Creazione della Shape e della ShapeView
 
         // Converto il colore selezionato per salvarlo nel model
         border = ColorModel.fromColor(currentStroke);

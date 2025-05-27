@@ -85,6 +85,8 @@ public abstract class Shape {
 
     public abstract boolean contains(double x, double y);
 
+    public abstract String type();
+
     @JsonIgnore
     public Shape getShapebase() {
         return this;

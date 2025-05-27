@@ -1,6 +1,7 @@
 package projectworkgroup6.State;
 
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Command.CommandManager;
 import projectworkgroup6.Command.MoveCommand;
@@ -23,7 +24,7 @@ public class TranslationState implements CanvasState{
     }
 
     @Override
-    public void handleClick(double x, double y, Map<Shape, ShapeView> map) {
+    public void handleClick(MouseEvent e,double x, double y, Map<Shape, ShapeView> map) {
         //System.out.println("Non definito");
     }
 
@@ -42,6 +43,9 @@ public class TranslationState implements CanvasState{
     public void handleMouseDragged(double x, double y) { // va in esecuzione più volte durante lo spostamento
 
         Shape shape = shapeView.getShape();
+
+        //nascondi il menu a tendina
+        StateController.getInstance().notifyShapeDeselected();
 
         StateController.getInstance().removeShape(shape,shapeView); // rimuovo la shape dalla posizione iniziale
 
@@ -69,9 +73,12 @@ public class TranslationState implements CanvasState{
         // a livello logico riporto la shape alla sua posizione iniziale, undo si basa sullo spostamento incrementale calcolato
         currentMoveCommand.undo();
 
+
         // Ora che logicamente la shape si trova nello stato iniziale, faccio una volta l'execute per riportarla logicamente alla posizione in cui è stata spostata.
         CommandManager.getInstance().executeCommand(currentMoveCommand);
 
+     //mosta il menu a tendina
+        StateController.getInstance().notifyShapeSelected(shapeView.getShape());
 
         StateController.getInstance().setState(SingleSelectState.getInstance());
     }

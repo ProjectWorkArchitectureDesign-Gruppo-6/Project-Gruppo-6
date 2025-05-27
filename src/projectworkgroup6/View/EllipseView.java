@@ -14,6 +14,10 @@ public class EllipseView extends ShapeView {
     public void draw(GraphicsContext gc) {
         Ellipse ell = (Ellipse) shape;
 
+        // ShapeView.draw() non chiama gc.setStroke(shape.getBorder().toColor()).
+        gc.setStroke(ell.getBorder().toColor());
+        gc.setFill(ell.getFill().toColor());
+
         gc.strokeOval(ell.getXc(), ell.getYc(), ell.getDim1(), ell.getDim2());
         gc.fillOval(ell.getXc(), ell.getYc(), ell.getDim1(), ell.getDim2());
     }

@@ -13,7 +13,6 @@ public class ResizeCommand implements Command{
 
     public ResizeCommand(Shape shape) {
         this.shape = shape;
-        this.stateController = StateController.getInstance();
     }
 
     public void accumulate(double factor) {
@@ -28,5 +27,5 @@ public class ResizeCommand implements Command{
     @Override
     public void undo() {
         shape.resize(1/factor);
-    }
+     }
 }

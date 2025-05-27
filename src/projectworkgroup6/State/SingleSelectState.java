@@ -2,6 +2,7 @@ package projectworkgroup6.State;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Command.*;
 import projectworkgroup6.Controller.StateController;
@@ -12,6 +13,7 @@ import projectworkgroup6.Decorator.SelectedDecorator;
 import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.ShapeView;
+import javafx.scene.input.MouseButton;
 
 import java.util.*;
 
@@ -37,9 +39,12 @@ public class SingleSelectState implements CanvasState {
 
 
     @Override
-    public void handleClick(double x, double y, Map<Shape, ShapeView> map) {
+    public void handleClick(MouseEvent e,double x, double y, Map<Shape, ShapeView> map) {
         System.out.println("Hai cliccato in modalità SELECT su: " + x + ", " + y);
 
+if (e.getButton()==MouseButton.SECONDARY) {
+    StateController.getInstance().notifyMouseRightClick(x,y);
+}
         for (Shape s : map.keySet()) {
             if (s.contains(x, y)) {
                 if (s.isSelected()) {

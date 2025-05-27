@@ -74,4 +74,9 @@ public class Rectangle extends Shape {
         double top = this.getY() - height/2;
         return x >= left && x <= left + width && y >= top && y <= top + height;
     }
+
+    @Override
+    public String type() {
+        return "Rectangle";
+    }
 }

@@ -19,12 +19,14 @@ public class CommandManager {
     public void executeCommand(Command cmd) {
         cmd.execute();
         history.push(cmd);
+        System.out.println("push ");
     }
 
     public void undoLastCommand() {
         if (!history.isEmpty()) {
             Command cmd = history.pop();
             cmd.undo();
+            System.out.println("pop ");
         }
     }
 

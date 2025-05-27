@@ -123,4 +123,9 @@ public class Polygon extends Shape{
 
         return (intersections % 2) == 1; // inside se numero intersezioni dispari
     }
+
+    @Override
+    public String type() {
+        return "Polygon";
+    }
 }

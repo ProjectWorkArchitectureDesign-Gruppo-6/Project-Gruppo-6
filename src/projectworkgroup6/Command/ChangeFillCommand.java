@@ -23,10 +23,12 @@ public class ChangeFillCommand implements Command{
     @Override
     public void execute() {
         shape.setFill(fill);
+        StateController.getInstance().redrawCanvas(); //
     }
 
     @Override
     public void undo() {
         shape.setFill(oldFill);
+        StateController.getInstance().redrawCanvas(); //
     }
 }

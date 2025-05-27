@@ -19,6 +19,7 @@ import projectworkgroup6.Decorator.FillDecorator;
 import projectworkgroup6.Factory.*;
 import projectworkgroup6.Model.*;
 import projectworkgroup6.Model.Shape;
+import projectworkgroup6.Command.CommandManager;
 
 import projectworkgroup6.State.SingleSelectState;
 import projectworkgroup6.View.*;
@@ -138,6 +139,10 @@ public class MenuBarController {
             System.err.println("Errore durante il salvataggio:");
             e.printStackTrace();
         }
+    }
+    @FXML
+    private void undo(ActionEvent event) {
+CommandManager.getInstance().undoLastCommand();
     }
 
     @FXML

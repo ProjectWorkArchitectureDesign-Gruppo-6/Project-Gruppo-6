@@ -1,6 +1,7 @@
 package projectworkgroup6.View;
 
 import javafx.scene.canvas.GraphicsContext;
+import projectworkgroup6.Controller.StateController;
 import projectworkgroup6.Model.Shape;
 
 public abstract class ShapeView {

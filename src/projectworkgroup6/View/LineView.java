@@ -14,6 +14,9 @@ public class LineView extends ShapeView {
     public void draw(GraphicsContext gc) {
         Line line = (Line) shape;
 
+        //
+        gc.setStroke(line.getBorder().toColor());
+
         gc.strokeLine(line.getXc(), line.getYc(), line.getDim1(), line.getDim2());
     }
 }

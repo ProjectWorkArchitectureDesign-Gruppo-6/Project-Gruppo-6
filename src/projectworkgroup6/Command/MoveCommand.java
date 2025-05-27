@@ -23,12 +23,18 @@ public class MoveCommand implements Command {
     @Override
     public void execute() {
         shape.move(dx, dy);
+        StateController.getInstance().redrawCanvas(); //
+
+        System.out.println("stai facendo execute di move");
     }
 
     @Override
     public void undo() {
         shape.move(-dx, -dy);
-    }
+        StateController.getInstance().redrawCanvas(); //
+
+        System.out.println("stai facendo undo di move");
+        }
 
 }
 

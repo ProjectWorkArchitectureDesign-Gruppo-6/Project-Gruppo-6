@@ -1,6 +1,7 @@
 package projectworkgroup6.Command;
 
 import projectworkgroup6.Controller.StateController;
+import projectworkgroup6.Decorator.SelectedDecorator;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.ShapeView;
 
@@ -23,7 +24,10 @@ public class InsertCommand implements Command {
 
     @Override
     public void undo() {
-        controller.removeShape(shape, view);
+        //quando cancello la shape selezionata, faccio sparire il menu a tendina
+        StateController.getInstance().notifyShapeDeselected();
+        //mi serve la view relativa alla shape
+        controller.removeShape(shape, StateController.getInstance().getMap().get(shape));
     }
 }
 

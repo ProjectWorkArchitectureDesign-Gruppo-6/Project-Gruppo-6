@@ -6,5 +6,5 @@ public interface SelectionObserver {
 
     void onShapeSelected(Shape s);
     void onShapeDeselected();
-
+    void onMouseRightClick(double x, double y);
 }
