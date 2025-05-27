@@ -99,13 +99,16 @@ if (e.getButton()==MouseButton.SECONDARY) {
 
 
     private void selectShape(Shape s, Map<Shape, ShapeView> map) {
+
         s.setSelected(true);
         //notifica selezionamento della figura
         StateController.getInstance().notifyShapeSelected(s);
         ShapeView baseShapeView = map.get(s);
-        StateController.getInstance().removeShape(s, baseShapeView);
         selectedShape = new SelectedDecorator(baseShapeView);
         StateController.getInstance().addShape(s,selectedShape);
+        //map.put(s, selectedShape);
+
+
     }
 
     public ShapeView getSelectedShape() {

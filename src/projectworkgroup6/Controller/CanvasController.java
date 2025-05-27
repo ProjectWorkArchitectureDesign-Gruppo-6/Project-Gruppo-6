@@ -1,6 +1,7 @@
 package projectworkgroup6.Controller;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -72,11 +73,16 @@ public class CanvasController implements StateObserver{
         if (zoomValue == targetScale) {
             // Stesso livello selezionato: reset a scala 1.0
             newScale = 1.0;
-            zoomValue = 0; // nessun livello attivo
+            zoomValue = 0;
         } else {
-            // Nuovo livello selezionato: applica target
             newScale = targetScale;
             zoomValue = targetScale;
+        }
+
+        // Protezione contro zoom-out eccessivo
+        if (newScale < 0.1) {
+            System.out.println("Zoom troppo basso, ignorato.");
+            return;
         }
 
         double factor = newScale / currentScale;
@@ -84,8 +90,21 @@ public class CanvasController implements StateObserver{
         Command zoom = new ZoomCommand(canvasGroup, factor);
         zoom.execute();
 
+        // Calcolo area visibile dopo lo zoom
+        Bounds viewportBounds = scrollPane.getViewportBounds();
+        double visibleWidth = viewportBounds.getWidth() / newScale;
+        double visibleHeight = viewportBounds.getHeight() / newScale;
+
+        double minWidth = Math.max(canvasPane.getPrefWidth(), visibleWidth);
+        double minHeight = Math.max(canvasPane.getPrefHeight(), visibleHeight);
+
+        // Aggiorna le dimensioni del canvasPane per includere tutta l'area visibile
+        canvasPane.setPrefWidth(minWidth);
+        canvasPane.setPrefHeight(minHeight);
+
+        // Rilancia ridisegno della griglia
         if (gridValue != 0) {
-            insertGrid(gridValue);  // ridisegna griglia in base al nuovo scale
+            insertGrid(gridValue);
         }
 
         // Se hai uno stack per undo:
@@ -97,24 +116,28 @@ public class CanvasController implements StateObserver{
         if (gridValue == value && gridCanvas.isVisible()) {
             gridCanvas.setVisible(false);
             gridValue = 0;
-            return; // esci senza ridisegnare
+            return;
         }
 
-        // Altrimenti: aggiorna il valore, mostra la griglia e ridisegnala
         gridValue = value;
         gridCanvas.setVisible(true);
 
-        GraphicsContext gc = gridCanvas.getGraphicsContext2D();
-        gc.clearRect(0, 0, gridCanvas.getWidth(), gridCanvas.getHeight());
-
-        double scale = canvasGroup.getScaleX();  // zoom attuale
-        double translateX = canvasGroup.getTranslateX();  // traslazione X
-        double translateY = canvasGroup.getTranslateY();  // traslazione Y
-
-        double spacing = value * scale;  // distanza tra le linee in base allo zoom
-
         double width = gridCanvas.getWidth();
         double height = gridCanvas.getHeight();
+
+        // Protezione contro larghezze nulle o non inizializzate
+        if (width <= 0 || height <= 0) {
+            System.err.println("GridCanvas ha dimensioni invalide: " + width + " x " + height);
+            return;
+        }
+
+        GraphicsContext gc = gridCanvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, width, height);
+
+        double scale = canvasGroup.getScaleX();
+        double translateX = canvasGroup.getTranslateX();
+        double translateY = canvasGroup.getTranslateY();
+        double spacing = value * scale;
 
         gc.setStroke(Color.LIGHTGRAY);
         gc.setLineWidth(1.0);

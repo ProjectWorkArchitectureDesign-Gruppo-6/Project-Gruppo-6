@@ -2,28 +2,34 @@ package projectworkgroup6.Controller;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.paint.Color;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import projectworkgroup6.Controller.StateController;
-import projectworkgroup6.Controller.CanvasController;
-import projectworkgroup6.Controller.MainController;
-import projectworkgroup6.Model.ColorModel;
+import projectworkgroup6.Decorator.BorderDecorator;
 import projectworkgroup6.Model.*;
+
 import projectworkgroup6.Factory.ShapeCreator;
 import projectworkgroup6.Decorator.*;
 import projectworkgroup6.View.ShapeView;
 import projectworkgroup6.Command.*;
+import java.util.List;
+import java.util.ArrayList;
+import projectworkgroup6.Model.Polygon;
+
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import projectworkgroup6.State.SingleSelectState;
+import projectworkgroup6.View.ShapeView;
 
-import java.util.HashMap;
+import java.util.*;
 
 public class DropDownController implements SelectionObserver {
-    public AnchorPane dropDownMenuPane;
-    public MainController mainController;
+    @FXML
+    private AnchorPane dropDownMenuPane;
+
+    private MainController mainController;
     private CanvasController canvasController; // riferimento al canvasController che contiene il menù a tendina
 
     @FXML
@@ -44,6 +50,7 @@ public class DropDownController implements SelectionObserver {
     private ColorPicker borderPicker;
     @FXML
     private ColorPicker fillPicker;
+
 
     public Shape selectedShape = null;
     public ShapeView savedView = null;
@@ -69,22 +76,12 @@ public class DropDownController implements SelectionObserver {
        hideDDMenu();
     }
 
-        @Override
-        public void onShapeSelected(Shape s) {
-            selectedShape = s;
-            borderPicker.setValue(selectedShape.getBorder().toColor());
-            fillPicker.setValue(selectedShape.getFill().toColor());
-            System.out.println(selectedShape);
-            showDDMenu(s);
-        }
-
     @Override
     public void onMouseRightClick(double x, double y) {
         if (savedView != null) {
             showPasteMenu(x, y);
         }
     }
-
     public void showPasteMenu(double x,double y) {
         dropDownMenuPane.setLayoutX(x);
         dropDownMenuPane.setLayoutY(y);
@@ -96,17 +93,24 @@ public class DropDownController implements SelectionObserver {
         dropDownMenuPane.setManaged(true);
     }
 
+    @Override
+    public void onShapeSelected(Shape s) {
+        selectedShape = s;
+        borderPicker.setValue(selectedShape.getBorder().toColor());
+        fillPicker.setValue(selectedShape.getFill().toColor());
+        System.out.println(selectedShape);
+        showDDMenu(s);
+
+    }
+
     public void setMainController(MainController mainController) {
-    this.mainController = mainController;
-}
-public void setCanvasController(CanvasController canvasController) {
-    this.canvasController = canvasController;
-}
+        this.mainController = mainController;
+    }
+    public void setCanvasController(CanvasController canvasController) { this.canvasController = canvasController;}
 
 
 
-
-public void hideDDMenu() {
+    public void hideDDMenu() {
         dropDownMenuPane.setVisible(false);
         dropDownMenuPane.setManaged(false);
         System.out.println("Menu a tendina NASCOSTO");
@@ -124,7 +128,6 @@ public void hideDDMenu() {
 
         System.out.println("Menu a tendina visibile");
     }
-
 
 
     @FXML
@@ -145,34 +148,63 @@ public void hideDDMenu() {
         CommandManager.getInstance().executeCommand(cmd);
     }
 
-@FXML //stampa UNA volta una figura
-public void paste(ActionEvent event) {
-    Shape myShape = getSavedView().getShape();
-    setSavedView(null);
-    ShapeCreator creator = StateController.getInstance().getCreators().get(myShape.type());
 
-    Shape newShape = creator.createShape(pasteX, pasteY, myShape.getBorder(), myShape.getFill() );
-    ShapeView newView = creator.createShapeView(newShape);
+    @FXML
+    public void paste(ActionEvent event) {
+        Shape originalShape = getSavedView().getShape();
+        setSavedView(null);
+        ShapeCreator creator = StateController.getInstance().getCreators().get(originalShape.type());
 
-    newView = new BorderDecorator(newView,newShape.getBorder().toColor());
-    newView = new FillDecorator(newView,newShape.getFill().toColor());
+        Shape newShape;
 
-    InsertCommand cmd = new InsertCommand(newShape,newView);
-    CommandManager.getInstance().executeCommand(cmd);
+        if (originalShape instanceof Polygon) {
+            List<double[]> originalVertices = ((Polygon) originalShape).getVertices();
 
-    dropDownMenu.getChildren().forEach(node -> node.setDisable(node==pasteBtn));
-    hideDDMenu();
-    //
-    setSavedView(null);
-}
+            // Calcolo il baricentro reale dei vertici
+            double sumX = 0, sumY = 0;
+            for (double[] v : originalVertices) {
+                sumX += v[0];
+                sumY += v[1];
+            }
+            double centerX = sumX / originalVertices.size();
+            double centerY = sumY / originalVertices.size();
 
-@FXML
+            // Calcolo lo spostamento rispetto alla posizione del click
+            double dx = pasteX - centerX;
+            double dy = pasteY - centerY;
+
+            // Nuova lista di vertici spostati
+            List<double[]> newVertices = new ArrayList<>();
+            for (double[] v : originalVertices) {
+                newVertices.add(new double[]{v[0] + dx, v[1] + dy});
+            }
+
+            newShape = new Polygon(new ArrayList<>(newVertices), false, originalShape.getBorder(), originalShape.getFill());
+        } else {
+            newShape = creator.createShape(pasteX, pasteY, originalShape.getBorder(), originalShape.getFill());
+        }
+
+        ShapeView newView = creator.createShapeView(newShape);
+        newView = new BorderDecorator(newView, newShape.getBorder().toColor());
+        newView = new FillDecorator(newView, newShape.getFill().toColor());
+
+        InsertCommand cmd = new InsertCommand(newShape, newView);
+        CommandManager.getInstance().executeCommand(cmd);
+
+        dropDownMenu.getChildren().forEach(node -> node.setDisable(node == pasteBtn));
+        hideDDMenu();
+    }
+
+
+
+    @FXML
 public void modifyStroke(ActionEvent event) {
 
     Color border = borderPicker.getValue(); // Prendo il colore selezionato
     canvasController.onColorChanged(border,selectedShape.getFill().toColor()); // Delego al canvasController che agisce in base allo stato cui ci troviamo
 
 }
+
 @FXML
 public void modifyFill(ActionEvent event) {
 
@@ -181,18 +213,53 @@ public void modifyFill(ActionEvent event) {
     canvasController.onColorChanged(selectedShape.getBorder().toColor(), fill); // Delego al canvas controller che agisce in base allo stato corrente
 
 }
+
     @FXML
     public void rotate(ActionEvent event) {
         System.out.println("ruota");
     }
-    @FXML
-    public void toFront(ActionEvent event) {
 
+    @FXML
+    void portaInPrimoPiano(ActionEvent event) {
+
+            Shape s = selectedShape;
+            if (s == null) return;
+            Map<Shape, ShapeView> oldMap = StateController.getInstance().getMap();
+            LinkedHashMap<Shape, ShapeView> newMap = new LinkedHashMap<>();
+
+            for (Map.Entry<Shape, ShapeView> entry : oldMap.entrySet()) {
+                if (!entry.getKey().equals(s)) {
+                    newMap.put(entry.getKey(), entry.getValue());
+                }
+            }
+
+            newMap.put(s, oldMap.get(s));
+            StateController.getInstance().setMap(newMap);
+            StateController.getInstance().redrawCanvas();
     }
 
     @FXML
-    public void toBack(ActionEvent event) {
+    void portaInSecondoPiano(ActionEvent event) {
+        Shape s = selectedShape;
 
+        Map<Shape, ShapeView> oldMap = StateController.getInstance().getMap();
+        LinkedHashMap<Shape, ShapeView> newMap = new LinkedHashMap<>();
+
+        // Metti per prima la figura selezionata = "in secondo piano"
+        newMap.put(s, oldMap.get(s));
+
+        // Aggiungi tutte le altre mantenendo il loro ordine
+        for (Map.Entry<Shape, ShapeView> entry : oldMap.entrySet()) {
+            if (!entry.getKey().equals(s)) {
+                newMap.put(entry.getKey(), entry.getValue());
+            }
+        }
+
+        // Aggiorna lo stato
+        StateController.getInstance().setMap(newMap);
+
+        // Ridisegna il canvas
+        StateController.getInstance().redrawCanvas();
     }
 
 }

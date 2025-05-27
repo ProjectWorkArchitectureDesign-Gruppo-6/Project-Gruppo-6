@@ -23,12 +23,12 @@ public class ChangeBorderCommand implements Command{
     @Override
     public void execute() {
         shape.setBorder(border);
-        StateController.getInstance().redrawCanvas();
+
     }
 
     @Override
     public void undo() {
         shape.setBorder(oldBorder);
-        StateController.getInstance().redrawCanvas();
+
     }
 }

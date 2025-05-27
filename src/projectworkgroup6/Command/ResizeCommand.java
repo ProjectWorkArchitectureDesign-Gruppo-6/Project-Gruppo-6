@@ -16,7 +16,7 @@ public class ResizeCommand implements Command{
     }
 
     public void accumulate(double factor) {
-        this.factor = factor;
+        this.factor *= factor;
     }
 
     @Override

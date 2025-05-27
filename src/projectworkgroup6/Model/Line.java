@@ -63,11 +63,20 @@ public class Line extends Shape {
         y2 += dy;
     }
 
-    @Override
-    public void resize(double factor) {
+        @Override
+        public void resize(double factor) {
+            // Calcola il centro della linea
+            double centerX = (x + x2) / 2;
+            double centerY = (y + y2) / 2;
 
+            // Ridimensiona il primo punto rispetto al centro
+            x = centerX + (x - centerX) * factor;
+            y = centerY + (y - centerY) * factor;
 
-    }
+            // Ridimensiona il secondo punto rispetto al centro
+            x2 = centerX + (x2 - centerX) * factor;
+            y2 = centerY + (y2 - centerY) * factor;
+        }
 
     @Override
     public boolean contains(double x, double y) {

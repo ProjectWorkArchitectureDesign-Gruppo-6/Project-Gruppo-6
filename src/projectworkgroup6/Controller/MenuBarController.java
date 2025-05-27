@@ -143,6 +143,7 @@ public class MenuBarController {
     @FXML
     private void undo(ActionEvent event) {
 CommandManager.getInstance().undoLastCommand();
+        StateController.getInstance().redrawCanvas();
     }
 
     @FXML

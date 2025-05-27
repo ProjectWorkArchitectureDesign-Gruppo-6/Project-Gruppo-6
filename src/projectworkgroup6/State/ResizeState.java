@@ -18,6 +18,7 @@ public class ResizeState implements CanvasState{
     private double lastX;
     private double lastY;
 
+
     private double centerX, centerY; // coordinate del centro della shape prima del ridimensionamento
 
     private double startX, startY; // coordinate della maniglia cliccata
@@ -38,8 +39,8 @@ public class ResizeState implements CanvasState{
     }
 
     @Override
-    public void handleClick(MouseEvent e,double x, double y, Map<Shape, ShapeView> map) {
-        //System.out.println("Non definito");
+    public void handleClick(MouseEvent e, double x, double y, Map<Shape, ShapeView> map) {
+        //
     }
 
     @Override
