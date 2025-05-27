@@ -10,8 +10,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import projectworkgroup6.State.SingleSelectState;
+import projectworkgroup6.View.ShapeView;
 
-import java.util.HashMap;
+import java.util.*;
 
 public class DropDownController implements SelectionObserver {
     @FXML
@@ -121,5 +122,47 @@ public class DropDownController implements SelectionObserver {
         System.out.println("ruota");
     }
 
+    @FXML
+    void portaInPrimoPiano(ActionEvent event) {
+
+            Shape s = selectedShape;
+            if (s == null) return;
+            Map<Shape, ShapeView> oldMap = StateController.getInstance().getMap();
+            LinkedHashMap<Shape, ShapeView> newMap = new LinkedHashMap<>();
+
+            for (Map.Entry<Shape, ShapeView> entry : oldMap.entrySet()) {
+                if (!entry.getKey().equals(s)) {
+                    newMap.put(entry.getKey(), entry.getValue());
+                }
+            }
+
+            newMap.put(s, oldMap.get(s));
+            StateController.getInstance().setMap(newMap);
+            StateController.getInstance().redrawCanvas();
+    }
+
+    @FXML
+    void portaInSecondoPiano(ActionEvent event) {
+        Shape s = selectedShape;
+
+        Map<Shape, ShapeView> oldMap = StateController.getInstance().getMap();
+        LinkedHashMap<Shape, ShapeView> newMap = new LinkedHashMap<>();
+
+        // Metti per prima la figura selezionata = "in secondo piano"
+        newMap.put(s, oldMap.get(s));
+
+        // Aggiungi tutte le altre mantenendo il loro ordine
+        for (Map.Entry<Shape, ShapeView> entry : oldMap.entrySet()) {
+            if (!entry.getKey().equals(s)) {
+                newMap.put(entry.getKey(), entry.getValue());
+            }
+        }
+
+        // Aggiorna lo stato
+        StateController.getInstance().setMap(newMap);
+
+        // Ridisegna il canvas
+        StateController.getInstance().redrawCanvas();
+    }
 
 }

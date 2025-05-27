@@ -8,10 +8,7 @@ import projectworkgroup6.State.CanvasState;
 import projectworkgroup6.State.SingleSelectState;
 import projectworkgroup6.View.ShapeView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class StateController{
 
@@ -112,11 +109,14 @@ public class StateController{
     }
 
 
-
-    private final Map<Shape, ShapeView> map = new HashMap<>();
+    private Map<Shape, ShapeView> map = new HashMap<>();
 
     public Map<Shape, ShapeView> getMap() {
         return map;
+    }
+
+    public void setMap(Map<Shape, ShapeView> shapes) {
+        this.map = shapes;
     }
 
     public void addShape(Shape shape, ShapeView shapeView) {
