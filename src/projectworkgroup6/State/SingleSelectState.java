@@ -44,26 +44,26 @@ public class SingleSelectState implements CanvasState {
 
         if (e.getButton()==MouseButton.SECONDARY) {
             StateController.getInstance().notifyMouseRightClick(x,y);
-        }
-        for (Shape s : map.keySet()) {
-            if (s.contains(x, y)) {
-                if (s.isSelected()) {
-                    deselectShape(s);
+        } else
+        {
+            for (Shape s : map.keySet()) {
+                if (s.contains(x, y)) {
+                    if (s.isSelected()) {
+                        deselectShape(s);
+                        return;
+                    }
+
+                    // Deseleziona eventuale altra shape selezionata
+                    deselectAll(map);
+
+                    selectShape(s, map);
                     return;
                 }
-
-                // Deseleziona eventuale altra shape selezionata
-                deselectAll(map);
-
-                selectShape(s, map);
-                return;
             }
+            deselectAll(map);
+            //nascondi il menu a tendina
+            StateController.getInstance().notifyShapeDeselected();
         }
-
-        deselectAll(map);
-        //nascondi il menu a tendina
-        StateController.getInstance().notifyShapeDeselected();
-
     }
 
     private void deselectAll(Map<Shape, ShapeView> map) {

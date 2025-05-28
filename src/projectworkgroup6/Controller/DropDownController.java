@@ -127,6 +127,7 @@ public class DropDownController implements SelectionObserver {
         dropDownMenuPane.setVisible(true);
         dropDownMenuPane.setManaged(true);
 
+
     }
 
 
@@ -135,6 +136,7 @@ public class DropDownController implements SelectionObserver {
         System.out.println("copia");
         ShapeView copiedShapeView = StateController.getInstance().getMap().get(selectedShape);
         setSavedView(copiedShapeView.undecorate());
+        System.out.println(copiedShapeView.undecorate().getShape().getDim1());
         hideDDMenu();
     }
 
@@ -152,6 +154,7 @@ public class DropDownController implements SelectionObserver {
     @FXML
     public void paste(ActionEvent event) {
         Shape originalShape = getSavedView().getShape();
+        System.out.println(originalShape.getDim1());
         setSavedView(null);
         ShapeCreator creator = StateController.getInstance().getCreators().get(originalShape.type());
 

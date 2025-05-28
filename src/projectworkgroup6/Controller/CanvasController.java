@@ -109,8 +109,8 @@ public class CanvasController implements StateObserver{
 
 
         // Inverti segno perché il contenuto si è spostato, quindi lo scroll deve compensare
-        scrollPane.setHvalue(hValue);
-        scrollPane.setVvalue(vValue);
+        scrollPane.setHvalue(vValue);
+        scrollPane.setVvalue(hValue);
 
         // Ridisegna il contenuto se necessario
         onCanvasChanged(map);
