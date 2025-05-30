@@ -13,6 +13,8 @@ public interface CanvasState {
 
     void handlePression(double x, double y);
 
+    void handlePressionRotate(double x, double y);
+
     void handleMouseDragged(double x, double y);
 
     void handleMouseReleased(double x, double y);

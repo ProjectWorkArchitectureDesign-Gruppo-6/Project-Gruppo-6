@@ -36,6 +36,11 @@ public class ZoomState implements CanvasState{
     }
 
     @Override
+    public void handlePressionRotate(double x, double y) {
+
+    }
+
+    @Override
     public void handleMouseDragged(double x, double y) {
         // NUlla
     }

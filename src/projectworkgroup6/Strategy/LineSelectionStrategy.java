@@ -10,6 +10,9 @@ import java.util.List;
 
 
 public class LineSelectionStrategy extends SelectionStrategy {
+
+    //Disegna il bordo di selezione intorno alla shape e viene evidenziato in blu.
+    //Per le linee, il bordo coincide con la linea stessa.
     @Override
     public void drawSelectionBorder(GraphicsContext gc, Shape shape) {
         gc.setStroke(Color.BLUE);
@@ -17,6 +20,8 @@ public class LineSelectionStrategy extends SelectionStrategy {
         gc.strokeLine(shape.getXc(), shape.getYc(), shape.getDim1(), shape.getDim2());
     }
 
+    //Disegna le maniglie di ridimensionamento alle estremità della linea.
+    //Le maniglie sono piccoli quadratini bianchi con bordo nero.
     @Override
     public void drawHandles(GraphicsContext gc, Shape shape) {
         double size = 6;
@@ -26,11 +31,41 @@ public class LineSelectionStrategy extends SelectionStrategy {
         drawHandle(gc, shape.getDim1(), shape.getDim2(), size);
     }
 
+    //Disegna il pulsante di rotazione sotto alla figura selezionata.
+    //Questo bottone è rappresentato da un cerchio bianco con un'icona ⟳.
+    @Override
+    public void RotateButton(GraphicsContext gc, Shape shape) {
+        double buttonX = getMoveButtonX(shape) + 20;
+        double buttonY =  getMoveButtonY(shape) + 22;
+
+        gc.setFill(Color.WHITE);
+        gc.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
+
+        gc.setStroke(Color.BLUE.brighter());
+        gc.strokeOval(buttonX, buttonY, buttonWidth, buttonHeight);
+
+        gc.setFill(Color.BLACK);
+        gc.fillText("⟳", buttonX + 3 , buttonY + 15);
+    }
+
+    //Restituisce la coordinata X del centro del pulsante di rotazione,
+    //calcolata a partire dalla posizione del pulsante di movimento.
+    @Override
+    public double getRotateButtonX(Shape shape) {
+        return getMoveButtonX(shape) + 20;
+    }
+
+    //Restituisce la coordinata Y del centro del pulsante di rotazione,
+    //calcolata a partire dalla posizione del pulsante di movimento.
+    @Override
+    public double getRotateButtonY(Shape shape) {
+        return getMoveButtonY(shape) + 22;
+    }
+
+    //Disegna il pulsante muovi sotto alla figura selezionata.
+    //È rappresentato da un cerchio bianco con l'icona ↔
     @Override
     public void drawMoveButton(GraphicsContext gc, Shape shape) {
-
-
-
         double buttonX = getMoveButtonX(shape);
         double buttonY =  getMoveButtonY(shape);
 
@@ -44,16 +79,20 @@ public class LineSelectionStrategy extends SelectionStrategy {
         gc.fillText("↔", buttonX + 3 , buttonY + 15);
     }
 
+    //Calcola la coordinata X del pulsante di spostamento (↔)
     @Override
     public double getMoveButtonX(Shape shape) {
         return (shape.getXc() + shape.getDim1() - 40) / 2;
     }
 
+    //Calcola la coordinata Y del pulsante di spostamento (↔)
     @Override
     public double getMoveButtonY(Shape shape) {
         return shape.getDim2() - 40;
     }
 
+    //Restituisce una lista di maniglie in termini di coordinate alle due estremità della linea.
+    //Ogni maniglia è centrata su uno dei due punti estremi.
     @Override
     public List<AbstractMap.SimpleEntry<Double, Double>> getHandles(Shape shape) {
 

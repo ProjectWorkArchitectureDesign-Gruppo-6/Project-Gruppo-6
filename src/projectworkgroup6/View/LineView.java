@@ -12,11 +12,26 @@ public class LineView extends ShapeView {
 
     @Override
     public void draw(GraphicsContext gc) {
-        Line line = (Line) shape;
+        /*Line line = (Line) shape;
 
-        //
         gc.setStroke(line.getBorder().toColor());
 
+        gc.strokeLine(line.getXc(), line.getYc(), line.getDim1(), line.getDim2());*/
+
+        Line line = (Line) shape;
+
+        double centerX = (line.getXc() + line.getDim1()) / 2.0;
+        double centerY = (line.getYc() + line.getDim2()) / 2.0;
+        double angle = line.getRotation();
+
+        gc.save();
+        gc.translate(centerX, centerY);
+        gc.rotate(angle);
+        gc.translate(-centerX, -centerY);
+
+        gc.setStroke(line.getBorder().toColor());
         gc.strokeLine(line.getXc(), line.getYc(), line.getDim1(), line.getDim2());
+
+        gc.restore();
     }
 }

@@ -1,9 +1,3 @@
-//Testiamo che getInstance() restituisca sempre la stessa istanza (singleton).
-//
-//Controlliamo i valori iniziali di Ellipse creato.
-//
-//Controlliamo che createShapeView crei un EllipseView corretto.
-
 package FactoryTest;
 
 import org.junit.jupiter.api.Test;

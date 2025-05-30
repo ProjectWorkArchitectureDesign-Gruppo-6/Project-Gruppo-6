@@ -2,6 +2,8 @@ package projectworkgroup6.Model;
 
 import javafx.scene.paint.Color;
 
+import java.util.Locale;
+
 public class ColorModel {
     private int red;
     private int green;
@@ -19,13 +21,12 @@ public class ColorModel {
         this.alpha = alpha;
     }
 
-    public static ColorModel fromColor(Color color) {
-        return new ColorModel(
-                (int) Math.round(color.getRed() * 255),
-                (int) Math.round(color.getGreen() * 255),
-                (int) Math.round(color.getBlue() * 255),
-                color.getOpacity()
-        );
+    public static ColorModel fromColor(Color fxColor) {
+        int red = (int) Math.round(fxColor.getRed() * 255);
+        int green = (int) Math.round(fxColor.getGreen() * 255);
+        int blue = (int) Math.round(fxColor.getBlue() * 255);
+        double alpha = fxColor.getOpacity();
+        return new ColorModel(red, green, blue, alpha);
     }
 
     public Color toColor() {
@@ -33,7 +34,7 @@ public class ColorModel {
     }
 
     public String toRgbaString() {
-        return String.format("rgba(%d,%d,%d,%.2f)", red, green, blue, alpha);
+        return String.format(Locale.US, "rgba(%d,%d,%d,%.2f)", red, green, blue, alpha);
     }
 
     public static ColorModel fromRgbaString(String rgba) {

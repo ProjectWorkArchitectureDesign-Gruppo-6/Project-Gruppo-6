@@ -76,8 +76,7 @@ public class TextBoxView extends ShapeView {
 
     //serve a calcolare la larghezza di una stringa in base al font
     private double computeStringWidth(String text, Font font) {
-        javafx.scene.text.Text helper = new javafx.scene.text.Text(text);
-        helper.setFont(font);
-        return helper.getLayoutBounds().getWidth();
+        double averageCharWidth = font.getSize() * 0.6;
+        return text.length() * averageCharWidth + 2; // piccolo margine di tolleranza
     }
 }

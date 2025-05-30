@@ -67,6 +67,11 @@ public class MultipleSelectState implements CanvasState {
     }
 
     @Override
+    public void handlePressionRotate(double x, double y) {
+
+    }
+
+    @Override
     public void handleMouseDragged(double x, double y) {
         //System.out.println("Non definito");
     }

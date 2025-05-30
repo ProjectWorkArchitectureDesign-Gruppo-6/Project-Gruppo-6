@@ -1,3 +1,5 @@
+package StateTest;
+
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,83 +18,68 @@ import projectworkgroup6.State.SingleSelectState;
 
 import java.util.Map;
 
-class ResizeStateTest {
+public class ResizeStateTest {
 
     private SelectedDecorator mockShapeView;
     private Shape mockShape;
     private ResizeCommand mockResizeCommand;
     private ResizeState resizeState;
+    private StateController controllerMock;
+    private CommandManager commandManagerMock;
 
     @BeforeEach
     void setUp() {
+        // Mock Shape and its properties
         mockShape = mock(Shape.class);
         when(mockShape.getX()).thenReturn(50.0);
         when(mockShape.getY()).thenReturn(50.0);
         when(mockShape.getDim1()).thenReturn(20.0);
         when(mockShape.getDim2()).thenReturn(30.0);
 
+        // Mock ShapeView decorator
         mockShapeView = mock(SelectedDecorator.class);
         when(mockShapeView.getShape()).thenReturn(mockShape);
 
+        // Mock command and assign to state
         mockResizeCommand = mock(ResizeCommand.class);
-
         resizeState = new ResizeState(mockShapeView);
         resizeState.setResizeCommand(mockResizeCommand);
 
-        // Mock StateController singleton
-        StateController stateController = mock(StateController.class);
-        // For static getInstance call, you might need a tool like PowerMockito or refactor your code to inject this dependency
-        // Here we assume you can inject or mock StateController.getInstance() in some way
+        // Mock and set singleton StateController
+        controllerMock = mock(StateController.class);
+        StateController.setInstance(controllerMock);
 
-        // When addShape/removeShape called, do nothing (or verify later)
-        doNothing().when(stateController).removeShape(any(), any());
-        doNothing().when(stateController).addShape(any(), any());
-        doNothing().when(stateController).setState(any());
-
-        // Similar for CommandManager singleton
-        CommandManager commandManager = mock(CommandManager.class);
-        doNothing().when(commandManager).executeCommand(any());
+        // Mock and set singleton CommandManager
+        commandManagerMock = mock(CommandManager.class);
+        CommandManager.setInstance(commandManagerMock);
     }
 
     @Test
     void testHandleMouseDragged_ScaleUp() {
-        // Setup initial dragging position (start dragging at bottom right corner)
-        resizeState.startDragging(60, 60); // lastX, lastY and startX, startY
+        // Simula partenza da (60, 60)
+        resizeState.startDragging(60, 60);
 
-        // Move mouse dragged farther from center (scaling up)
+        // Trascina a (70, 70) → aumento distanza dal centro
         double newX = 70;
         double newY = 70;
 
-        // Call method under test
         resizeState.handleMouseDragged(newX, newY);
 
-        // Verify removeShape and addShape called
-        verify(StateController.getInstance()).removeShape(mockShape, mockShapeView);
-        verify(StateController.getInstance()).addShape(mockShape, mockShapeView);
-
-        // Verify resize called on shape with some scale factor > 1 (because distance increased)
+        // Verifica che siano chiamati i metodi corretti
+        verify(controllerMock).removeShape(mockShape, mockShapeView);
+        verify(controllerMock).addShape(mockShape, mockShapeView);
         verify(mockShape).resize(anyDouble());
-
-        // Verify accumulate called on resize command
         verify(mockResizeCommand).accumulate(anyDouble());
-
-        // lastX and lastY updated inside object - no direct getter so cannot assert here
-
-        // Check that startX and startY shifted as per scaling logic
-        // (This is internal state, so you can add getters or test indirectly)
     }
 
     @Test
-    void testHandleMouseReleased_ExecutesCommandAndSetsState() {
+    void testHandleMouseReleased_ExecutesCommandAndNotifiesSelection() {
+        // Act
         resizeState.handleMouseReleased(0, 0);
 
-        // Verify undo called
-        verify(mockResizeCommand).undo();
-
-        // Verify executeCommand called on CommandManager
-        verify(CommandManager.getInstance()).executeCommand(mockResizeCommand);
-
-        // Verify state set to SingleSelectState
-        verify(StateController.getInstance()).setState(SingleSelectState.getInstance());
+        // Assert
+        verify(mockResizeCommand).undofactor();  // corretta verifica
+        verify(commandManagerMock).executeCommand(mockResizeCommand);  // corretta verifica
+        verify(controllerMock).notifyShapeSelected(mockShape);  // corrisponde al comportamento reale
     }
 }
