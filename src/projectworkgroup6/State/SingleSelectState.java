@@ -18,7 +18,6 @@ import javafx.scene.input.MouseButton;
 
 import java.util.*;
 
-// Nello stato Seleziona, ci occupiamo della modifica delle figure presenti nel Canvas.
 
 public class SingleSelectState implements CanvasState {
 
