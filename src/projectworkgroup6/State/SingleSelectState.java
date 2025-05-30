@@ -53,7 +53,6 @@ public class SingleSelectState implements CanvasState {
                         return;
                     }
 
-                    // Deseleziona eventuale altra shape selezionata
                     deselectAll(map);
 
                     selectShape(s, map);
@@ -61,7 +60,6 @@ public class SingleSelectState implements CanvasState {
                 }
             }
             deselectAll(map);
-            //nascondi il menu a tendina
             StateController.getInstance().notifyShapeDeselected();
         }
     }
@@ -72,18 +70,13 @@ public class SingleSelectState implements CanvasState {
             Shape s = entry.getKey();
             ShapeView v = entry.getValue();
 
-            // Deseleziona logicamente
             s.setSelected(false);
 
-            // Se la view è decorata (cioè è un SelectedDecorator), la sostituiamo
             if (v instanceof SelectedDecorator) {
-                // Rimuovi la versione decorata dalla vista (cioè dallo stato attuale)
                 StateController.getInstance().removeShape(s,v);
 
-                // Crea la versione "base" della view senza decorator
                 ShapeView baseView = ((SelectedDecorator) v).undecorate();
 
-                // Aggiungi di nuovo la versione base alla vista
                 StateController.getInstance().addShape(s,baseView);
 
             }
@@ -125,7 +118,7 @@ public class SingleSelectState implements CanvasState {
             return;
         }
 
-        // Converti il punto cliccato rispetto alla rotazione della figura
+        // Converto il punto cliccato rispetto alla rotazione della figura
         Point2D unrotated = rotatePointBack(x, y, selectedShape.getShape());
         double x2 = unrotated.getX();
         double y2 = unrotated.getY();
@@ -176,22 +169,21 @@ public class SingleSelectState implements CanvasState {
         double y2 = unrotated.getY();
 
         if (selectedShape != null) {
-            // Controlla se è stato cliccato il bottone di rotazione
+            // Controllo se è stato cliccato il bottone di rotazione
             boolean isRotateClicked = checkClickOnRotateButton(selectedShape, x2, y2);
 
             if (isRotateClicked) {
-                // Crea lo stato di rotazione
+                // Creo lo stato di rotazione
                 RotationState rs = new RotationState(selectedShape);
                 rs.startRotating(x, y);
                 rs.setRotateCommand(new RotateCommand(selectedShape.getShape()));
 
-                // Imposta lo stato attivo
                 StateController.getInstance().setState(rs);
             }
         }
     }
 
-    //Verifica se il click è avvenuto sul bottone di spostamento
+    //Verifico se il click è avvenuto sul bottone di spostamento
     private boolean checkClickOnMoveButton(SelectedDecorator selectedShape, double x, double y) {
         double buttonX = selectedShape.getMoveButtonX();
         double buttonY = selectedShape.getMoveButtonY();
@@ -205,7 +197,7 @@ public class SingleSelectState implements CanvasState {
         return first && second;
     }
 
-    //Verifica se il click è avvenuto sul bottone di rotazione
+    //Verifico se il click è avvenuto sul bottone di rotazione
     private boolean checkClickOnRotateButton(SelectedDecorator selectedShape, double x, double y) {
         double buttonX = selectedShape.getRotateButtonX();
         double buttonY = selectedShape.getRotateButtonY();
@@ -215,7 +207,7 @@ public class SingleSelectState implements CanvasState {
         return x >= buttonX && x <= buttonX + diameter && y >= buttonY && y <= buttonY + diameter;
     }
 
-    //Inverte la rotazione di un punto rispetto al centro della shape.
+    //Metodo per inverte la rotazione di un punto rispetto al centro della shape.
     //Serve per riportare il punto cliccato nelle coordinate originali della shape.
     private Point2D rotatePointBack(double x, double y, Shape shape) {
         double angle = Math.toRadians(-shape.getRotation()); // rotazione inversa
@@ -239,12 +231,12 @@ public class SingleSelectState implements CanvasState {
             double hx = handle.getKey(); // prendo coordinata x
             double hy = handle.getValue(); // prendo coordinata y
 
-            if (x >= hx && x <= hx + size && y >= hy && y <= hy + size) { // se il click avviene sulla maniglia
-                return new AbstractMap.SimpleEntry<>(hx, hy); // restituisco la maniglia cliccata
+            if (x >= hx && x <= hx + size && y >= hy && y <= hy + size) { 
+                return new AbstractMap.SimpleEntry<>(hx, hy);
             }
         }
 
-        return null; // altrimenti nessuna maniglia è stata cliccata
+        return null; 
     }
 
     @Override
@@ -265,7 +257,7 @@ public class SingleSelectState implements CanvasState {
     @Override
     public void handleDelete(KeyEvent event, Map<Shape,ShapeView> map) {
         if(event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE){
-            //
+            
             StateController.getInstance().notifyShapeDeselected();
             for(Shape s : map.keySet()){
                 if (map.get(s) == selectedShape) {
@@ -284,7 +276,6 @@ public class SingleSelectState implements CanvasState {
 
         StateController.getInstance().removeShape(selectedShape.getShape(),selectedShape); // rimuovo la shape dallo stato
 
-        // Converto i colori
         ColorModel border = ColorModel.fromColor(currentStroke);
         ColorModel fill = ColorModel.fromColor(currentFill);
 
