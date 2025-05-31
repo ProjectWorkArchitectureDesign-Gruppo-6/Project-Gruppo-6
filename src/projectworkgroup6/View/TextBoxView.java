@@ -25,52 +25,43 @@ public class TextBoxView extends ShapeView {
         double angle = tb.getRotation();
         /*********/
         double padding = 10;
-
         Font font = new Font(tb.getFontFamily(), tb.getFontSize());
         gc.setFont(font);
-        gc.setFill(tb.getFontColor().toColor());
-
-        double maxWidth = width - padding;
-        double maxHeight = height + 2 * padding;
-        double lineHeight = font.getSize();
 
         String text = tb.getText();
         StringBuilder line = new StringBuilder();
         int count = 1;
+        double lineHeight = font.getSize();
+        double maxWidth = width - 2 * padding;
 
-
+        // Conto le righe necessarie
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             line.append(c);
             double lineWidth = computeStringWidth(line.toString(), font);
 
-            if (lineWidth > maxWidth || c == '\r') {
+            if (lineWidth > maxWidth || c == '\r' || c == '\n') {
                 count++; //aggiorno il numero di linee ogni volta che vado a capo
-                if (c != '\n' && c != '\r') { //prova && dopo
-                    line = new StringBuilder().append(c);
-                } else {
-                    line = new StringBuilder();
-                }
+                line = new StringBuilder();
             }
         }
 
-
-        //il primo for è per calcolarmi questa altezza prima di mostrare il testo a video altrimenti si vedrebbe prima il testo uscire dalla casella e poi il ridimensionamento
-        double requiredHeight = count * 1.3*lineHeight + 2* padding; //calcolo l'altezza necessaria per l'inserimento del carattere lasciando un po' di margine
-
+        //calcolo l'altezza necessaria per l'inserimento del carattere lasciando un po' di margine
+        double requiredHeight = count * 1.3 * lineHeight + 2 * padding;
         if (requiredHeight > tb.getHeight()) {
             tb.setHeight(requiredHeight);
             height = requiredHeight;
         }
 
-        // Applico trasformazioni
+        // Rotazione e disegno della text box
         gc.save();
         gc.translate(centerX, centerY);
         gc.rotate(angle);
         gc.translate(-centerX, -centerY);
 
-        line.setLength(0);
         double currentY = y + padding; //currentY corrisponde alla posizione y in cui deve comparire il testo
+        line.setLength(0);
+        gc.setFill(tb.getFontColor().toColor());
 
         for (int i = 0; i < text.length(); i++) {
             //in questo for creo la linea con le informazioni corrette
@@ -78,45 +69,33 @@ public class TextBoxView extends ShapeView {
             line.append(c);
             double lineWidth = computeStringWidth(line.toString(), font);
 
-            if (lineWidth > maxWidth || c == '\n' || c=='\r') {
-                if (c != '\n' && c != '\r') {
-                    line.setLength(line.length() - 1);
-                    gc.fillText(line.toString(), x + padding, currentY);
-                    line = new StringBuilder().append(c);
-                } else {
-                    line.setLength(line.length() - 1);
-                    gc.fillText(line.toString(), x + padding, currentY);
-                    line = new StringBuilder();
-                }
-                currentY += lineHeight;
+            if (lineWidth > maxWidth || c == '\n' || c == '\r') {
+                line.setLength(line.length() - 1);
+                gc.fillText(line.toString(), x + padding, currentY);
+                currentY += 1.3 * lineHeight;
+                line = new StringBuilder();
             }
         }
-
 
         if (!line.toString().isEmpty()) {
             gc.fillText(line.toString(), x + padding, currentY);
         }
 
-
+        // Disegno il decorator solo se sono in editing
         if (tb.isEditing()) {
-            //se sono nella fase di editing mostro il rettangolo attorno
             gc.setStroke(Color.LIGHTGREY);
             gc.setLineWidth(1.5);
             gc.setLineDashes(5);
-            gc.strokeRect(x, y, width, Math.max(maxHeight, requiredHeight));
+            gc.strokeRect(x, y, width, height);
             gc.setLineDashes(0);
         }
 
         gc.restore();
-        /*if (requiredHeight > tb.getHeight()) {
-            //aggiorno l'altezza del rettangolo
-            tb.setHeight(requiredHeight);
-        }*/
     }
 
     private double computeStringWidth(String text, Font font) {
         double averageCharWidth = font.getSize() * 0.6;
-        return text.length() * averageCharWidth + 2; // piccolo margine di tolleranza
+        return text.length() * averageCharWidth + 2;
     }
 
 }

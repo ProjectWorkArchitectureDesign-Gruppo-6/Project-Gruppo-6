@@ -3,6 +3,7 @@ package projectworkgroup6.Strategy;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Model.Shape;
+import projectworkgroup6.Model.TextBox;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -79,6 +80,7 @@ public class RectangleSelectionStrategy extends SelectionStrategy {
         return shape.getXc() + (shape.getDim1() - buttonWidth) / 2;
     }
 
+    @Override
     public double getMoveButtonY(Shape shape) {
         return shape.getYc() + shape.getDim2() + 5; // appena sotto la figura
     }

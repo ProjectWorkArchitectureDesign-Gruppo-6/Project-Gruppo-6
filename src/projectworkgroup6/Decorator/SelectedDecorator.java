@@ -1,6 +1,8 @@
 package projectworkgroup6.Decorator;
 
 import javafx.scene.canvas.GraphicsContext;
+import projectworkgroup6.Model.Polygon;
+import projectworkgroup6.Model.TextBox;
 import projectworkgroup6.Strategy.LineSelectionStrategy;
 import projectworkgroup6.Strategy.RectangleSelectionStrategy;
 import projectworkgroup6.Strategy.SelectionStrategy;
@@ -45,8 +47,18 @@ public class SelectedDecorator extends ShapeView{
 
         //Calcola centro e angolo della figura
         double angle = shape.getRotation(); // angolo attuale della figura
-        double centerX = shape.getXc() + shape.getDim1() / 2.0;
-        double centerY = shape.getYc() + shape.getDim2() / 2.0;
+
+        double centerX, centerY;
+
+        if (shape instanceof Polygon) {
+            List<double[]> vertices = ((Polygon) shape).getVertices();
+
+            centerX = vertices.stream().mapToDouble(v -> v[0]).average().orElse(0);
+            centerY = vertices.stream().mapToDouble(v -> v[1]).average().orElse(0);
+        } else {
+            centerX = shape.getXc() + shape.getDim1() / 2.0;
+            centerY = shape.getYc() + shape.getDim2() / 2.0;
+        }
 
         gc.save();
 

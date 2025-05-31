@@ -7,11 +7,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Command.*;
 import projectworkgroup6.Controller.StateController;
-import projectworkgroup6.Controller.DropDownController;
 import projectworkgroup6.Decorator.BorderDecorator;
 import projectworkgroup6.Decorator.FillDecorator;
 import projectworkgroup6.Decorator.SelectedDecorator;
 import projectworkgroup6.Model.ColorModel;
+import projectworkgroup6.Model.Polygon;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.Model.TextBox;
 import projectworkgroup6.View.ShapeView;
@@ -212,8 +212,16 @@ public class SingleSelectState implements CanvasState {
     //Serve per riportare il punto cliccato nelle coordinate originali della shape.
     private Point2D rotatePointBack(double x, double y, Shape shape) {
         double angle = Math.toRadians(-shape.getRotation()); // rotazione inversa
-        double centerX = shape.getXc() + shape.getDim1() / 2.0;
-        double centerY = shape.getYc() + shape.getDim2() / 2.0;
+
+        double centerX, centerY;
+        if (shape instanceof Polygon) {
+            List<double[]> vertices = ((Polygon) shape).getVertices();
+            centerX = vertices.stream().mapToDouble(v -> v[0]).average().orElse(0);
+            centerY = vertices.stream().mapToDouble(v -> v[1]).average().orElse(0);
+        } else {
+            centerX = shape.getXc() + shape.getDim1() / 2.0;
+            centerY = shape.getYc() + shape.getDim2() / 2.0;
+        }
 
         double dx = x - centerX;
         double dy = y - centerY;
