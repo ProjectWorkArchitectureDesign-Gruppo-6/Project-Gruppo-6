@@ -161,6 +161,21 @@ public class ResizeState implements CanvasState{
 
     }
 
+    @Override
+    public void handleChangeFontColor(Color currentFontColor) {
+
+    }
+
+    @Override
+    public void handleChangeFontName(String currentFontName) {
+
+    }
+
+    @Override
+    public void handleChangeFontSize(int currentFontSize) {
+
+    }
+
     public void setResizeCommand(ResizeCommand resizeCommand) {
         this.currentResizeCommand = resizeCommand;
     }

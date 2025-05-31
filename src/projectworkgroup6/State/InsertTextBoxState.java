@@ -43,6 +43,13 @@ public class InsertTextBoxState implements CanvasState {
     @Override
     public void handleClick(MouseEvent e,double x, double y, Map<Shape, ShapeView> map) {
 
+        StateController sc = StateController.getInstance();
+
+        TextBoxCreator textBoxCreator = (TextBoxCreator) creator;
+
+        textBoxCreator.setFontFamily(sc.getFontFamily()); //mi prendo le impostazioni del testo dai pulsanti tramite lo state controller
+        textBoxCreator.setFontSize(sc.getFontSize());
+        textBoxCreator.setFontColor(ColorModel.fromColor(sc.getFontColor()));
         //setto una variabile da usare nel ciclo per la verifica del click su una shape oppure no
         boolean clickedOnShape = false;
         //Itero sulla mappa prendendo i valori di shape e shapeView corrispondenti
@@ -50,7 +57,6 @@ public class InsertTextBoxState implements CanvasState {
             Shape shape = entry.getKey();
             ShapeView shapeView = entry.getValue();
 
-            /*non sono riuscita ad evitare il controllo inatanceOf perchè per le altre figure non può entrare in modalità editing se fa click*/
             if (shape.contains(x, y) && shape instanceof TextBox) { //se il click avviene su una figura già sul canvas ed è un textBox
                 clickedOnShape=true; //setto clickedOnShape a true
 
@@ -63,13 +69,6 @@ public class InsertTextBoxState implements CanvasState {
             }
 
         } if(!clickedOnShape){ //se invece non sto facendo click su un textBox mi comporto come un normale stato di inserimento
-            StateController sc = StateController.getInstance();
-
-            TextBoxCreator textBoxCreator = (TextBoxCreator) creator;
-
-            textBoxCreator.setFontFamily(sc.getFontFamily()); //mi prendo le impostazioni del testo dai pulsanti tramite lo state controller
-            textBoxCreator.setFontSize(sc.getFontSize());
-            textBoxCreator.setFontColor(ColorModel.fromColor(sc.getFontColor()));
 
             textBoxCreator.setText("");
 
@@ -134,4 +133,19 @@ public class InsertTextBoxState implements CanvasState {
 
     @Override
     public void handleKeyTyped(KeyEvent event, Map<Shape, ShapeView> map) { /* niente */ }
+
+    @Override
+    public void handleChangeFontColor(Color currentFontColor) {
+
+    }
+
+    @Override
+    public void handleChangeFontName(String currentFontName) {
+
+    }
+
+    @Override
+    public void handleChangeFontSize(int currentFontSize) {
+
+    }
 }

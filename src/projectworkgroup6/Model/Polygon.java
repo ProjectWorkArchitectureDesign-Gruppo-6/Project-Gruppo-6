@@ -19,7 +19,7 @@ public class Polygon extends Shape{
 
     public Polygon(ArrayList<double []> vertices, boolean selected, ColorModel border, ColorModel fill) {
         super(vertices.get(0)[0], vertices.get(0)[1], selected, border, fill); //get(0) passo gli indici del primo click
-        //this.vertices = new ArrayList<>(); //per la creazione del poligono io mi salvo quei vertici in una list che non
+         //per la creazione del poligono io mi salvo quei vertici in una list che non
                                            // può essere modificata dall'esterno (new interno al costruttore) altrimenti varierebbe il poligono
         this.vertices = new ArrayList<>(); //perhcè altrimenti stai modificando una lista durante l'iterazione quindi ne crei una temporanea
         for (double[] v : vertices) {
@@ -127,5 +127,25 @@ public class Polygon extends Shape{
     @Override
     public String type() {
         return "Polygon";
+    }
+
+    @Override
+    public Shape cloneAt(double x, double y){
+        List<double[]> newVertices = new ArrayList<>();
+        double sumX = 0, sumY = 0;
+        for (double[] v : this.vertices) {
+            sumX += v[0];
+            sumY += v[1];
+        }
+        double centerX = sumX / vertices.size();
+        double centerY = sumY / vertices.size();
+        double dx = x - centerX;
+        double dy = y - centerY;
+
+        for (double[] v : this.vertices) {
+            newVertices.add(new double[]{v[0] + dx, v[1] + dy});
+        }
+
+        return new Polygon((ArrayList<double[]>) newVertices, false, border, fill);
     }
 }

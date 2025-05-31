@@ -6,15 +6,23 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import projectworkgroup6.Command.CommandManager;
+import projectworkgroup6.Command.InsertCommand;
+import projectworkgroup6.Decorator.BorderDecorator;
+import projectworkgroup6.Decorator.FillDecorator;
 import projectworkgroup6.Factory.*;
-import projectworkgroup6.State.InsertPolygonState;
-import projectworkgroup6.State.InsertState;
+import projectworkgroup6.Model.Shape;
+import projectworkgroup6.State.*;
 
-import projectworkgroup6.State.InsertTextBoxState;
-import projectworkgroup6.State.SingleSelectState;
+import projectworkgroup6.View.ShapeView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class ToolBarController {
 
@@ -171,6 +179,48 @@ public class ToolBarController {
     public void onFontName(ActionEvent actionEvent) { //agendo sul comboBox prendi la stringa fontName selezionata dall'utente
         String fontName = (String) fontCombo.getValue();
         StateController.getInstance().setFontFamily(fontName); //viene passata allo StateController tramite setFontFamily
+    }
+
+    @FXML
+    private GridPane buttons;
+
+    private List<ShapeView> customShapeViews = new ArrayList<>();
+    private int customShapeCounter = 1;
+
+    /*serve a creare un link fra i controller del toolbar e del canvas */
+    private CanvasController canvasController;
+
+    public void setCanvasController(CanvasController canvasController) {
+        this.canvasController = canvasController;
+    }
+    public void addCustomShape(ShapeView customShape) {
+        customShapeViews.add(customShape); //inserisco la selected shape nelle shape personalizzate
+
+        int index = customShapeViews.size() - 1; //faccio coincidere l'indice con la dimensione della lista
+        TextInputDialog dialog = new TextInputDialog("Shape " + customShapeCounter);
+        dialog.setTitle("Nuova Shape Personalizzata");
+        dialog.setHeaderText("Inserisci un nome per la nuova shape:");
+        dialog.setContentText("Nome:");
+
+        Optional<String> result = dialog.showAndWait();
+        if (!result.isPresent() || result.get().trim().isEmpty()) {
+            // Se l'utente annulla o lascia vuoto, non aggiungere nulla
+            return;
+        }
+
+        String nomeShape = result.get().trim();
+
+        Button customBtn = new Button(nomeShape);
+        customBtn.setPrefSize(60, 40);
+
+        customBtn.setOnAction(e -> {
+            canvasController.enableCustomShapeInsertion(customShapeViews.get(index));
+        });
+
+        int row = index / 2; //per posizionare i bottoni vicini a due a due
+        int col = index % 2;
+
+        buttons.add(customBtn, col, row); //aggiungo il bottone nel gridPane collegato allo scrollPane
     }
 }
 

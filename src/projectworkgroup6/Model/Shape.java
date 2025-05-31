@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import javafx.scene.paint.Color;
 import projectworkgroup6.Model.ColorModel;
 
 @JsonTypeInfo(
@@ -101,4 +102,6 @@ public abstract class Shape {
 
     public void setText(String newText) {
     }
+
+    public abstract Shape cloneAt(double x, double y);
 }

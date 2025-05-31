@@ -105,4 +105,9 @@ public class Line extends Shape {
     public String type() {
         return "Line";
     }
+
+    @Override
+    public Shape cloneAt(double x, double y){
+        return new Line(x, y, false, this.x2, this.y2, this.border, this.fill);
+    }
 }

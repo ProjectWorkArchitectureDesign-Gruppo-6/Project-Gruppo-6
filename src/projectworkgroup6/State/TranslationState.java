@@ -105,6 +105,21 @@ public class TranslationState implements CanvasState{
 
     }
 
+    @Override
+    public void handleChangeFontColor(Color currentFontColor) {
+
+    }
+
+    @Override
+    public void handleChangeFontName(String currentFontName) {
+
+    }
+
+    @Override
+    public void handleChangeFontSize(int currentFontSize) {
+
+    }
+
     public void setMoveCommand(MoveCommand moveCommand) {
         this.currentMoveCommand = moveCommand;
     }

@@ -11,6 +11,16 @@ public class TextBox extends Rectangle {
 
     private boolean isEditing=true;
 
+    //per serializzazione
+    public TextBox() {
+        super();
+        this.text = "";
+        this.fontFamily = "Arial";
+        this.fontSize = 14;
+        this.fontColor = new ColorModel(0, 0, 0, 1.0);
+        this.isEditing = true;
+    }
+
     public TextBox(double x, double y, boolean selected, double width, double height,
                    ColorModel border, ColorModel fill,
                    String text, String fontFamily, int fontSize, ColorModel fontColor) {
@@ -60,6 +70,18 @@ public class TextBox extends Rectangle {
 
     public void setEditing(boolean editing) {
         this.isEditing = editing;
+    }
+
+    @Override
+    public String type() {
+        return "TextBox";
+    }
+
+    @Override
+    public Shape cloneAt(double x, double y) {
+        TextBox tb=new TextBox(x, y, true, this.getWidth(), this.getHeight(), this.border, this.fill, this.getText(), this.getFontFamily(), this.getFontSize(), this.getFontColor());
+        tb.setEditing(false);
+        return tb;
     }
 }
 

@@ -14,8 +14,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Command.Command;
+import projectworkgroup6.Command.CommandManager;
+import projectworkgroup6.Command.InsertCommand;
 import projectworkgroup6.Command.ZoomCommand;
+import projectworkgroup6.Decorator.BorderDecorator;
+import projectworkgroup6.Decorator.FillDecorator;
 import projectworkgroup6.Decorator.SelectedDecorator;
+import projectworkgroup6.Factory.ShapeCreator;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.State.CanvasState;
 import projectworkgroup6.State.SingleSelectState;
@@ -55,7 +60,9 @@ public class CanvasController implements StateObserver{
 
     private int gridValue = 0;
     private double currentScale = 1.0;
-
+    private Color currentFontColor;
+    private String currentFontName;
+    private int currentFontSize;
 
 
     /*aggiunto per la gestione del focus al canvas*/
@@ -239,14 +246,23 @@ public class CanvasController implements StateObserver{
         currentState.handleColorChanged(currentStroke, currentFill);
     }
 
+    //metodi per la gestione delle modifiche del font di caselle di testo già presenti sul canvas
+    //si passa lo stato corrente per prendere le caratteristiche del font aggiornate
     @Override
     public void onChangeFontColor(Color currentFontColor) {
-
+        this.currentFontColor=currentFontColor;
+        currentState.handleChangeFontColor(currentFontColor);
     }
 
     @Override
     public void onChangeFontFamily(String currentFontName) {
+        this.currentFontName=currentFontName;
+        currentState.handleChangeFontName(currentFontName);
+    }
 
+    public void onChangeFontSize(int currentFontSize) {
+        this.currentFontSize=currentFontSize;
+        currentState.handleChangeFontSize(currentFontSize);
     }
 
 
@@ -305,7 +321,9 @@ public class CanvasController implements StateObserver{
     }
 
 
-    public void handleCanvasClick(MouseEvent e, double x, double y) { currentState.handleClick(e,x, y, map); }
+    public void handleCanvasClick(MouseEvent e, double x, double y) {
+        currentState.handleClick(e,x, y, map);
+    }
 
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
@@ -345,4 +363,31 @@ public class CanvasController implements StateObserver{
         Point2D clickInGroup = canvasGroup.sceneToLocal(clickInScene);
         zoomTo(clickInGroup, zoom);
     }
+
+    private ShapeView shapeToInsert = null;
+
+    public void enableCustomShapeInsertion(ShapeView shapeView) {
+        this.shapeToInsert = shapeView.undecorate(); // copia pulita
+        System.out.println("Modalità inserimento attiva per shape personalizzata");
+    }
+
+    public boolean hasShapeToInsert() { //mi permette di verificare che è stato ricevuto un click su un bottone delle figure personalizzate
+        return shapeToInsert != null;
+    }
+
+    public void pasteShapeToCanvas(double x, double y) {
+        if (shapeToInsert == null) return;
+
+
+        Shape shape = shapeToInsert.getShape().cloneAt(x, y); //clono la figura salvata alle coordinate del click sul canvas
+        ShapeCreator creator = StateController.getInstance().getCreators().get(shape.type()); //in base al type invoco il creatore corretto
+        ShapeView view = creator.createShapeView(shape);
+        view = new BorderDecorator(view, shape.getBorder().toColor());
+        view = new FillDecorator(view, shape.getFill().toColor());
+
+        CommandManager.getInstance().executeCommand(new InsertCommand(shape, view)); //effettuo l'inserimento tramite il command in modo che sia un'operazione undoabile
+
+        shapeToInsert = null; // esco da questa modalità di click sul canvas
+    }
+
 }

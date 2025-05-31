@@ -12,6 +12,7 @@ import projectworkgroup6.Decorator.FillDecorator;
 import projectworkgroup6.Decorator.SelectedDecorator;
 import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Shape;
+import projectworkgroup6.Model.TextBox;
 import projectworkgroup6.View.ShapeView;
 import javafx.scene.input.MouseButton;
 
@@ -240,5 +241,45 @@ public class SingleSelectState implements CanvasState {
     @Override
     public void handleKeyTyped(KeyEvent event, Map<Shape, ShapeView> map) {
 
+    }
+
+    @Override
+    public void handleChangeFontColor(Color currentFontColor) {
+
+
+        StateController.getInstance().removeShape(selectedShape.getShape(),selectedShape); // rimuovo la shape dallo stato
+
+        ColorModel fontColor = ColorModel.fromColor(currentFontColor);
+
+        selectedShape.getShape().setSelected(false); //rimuovo la selezione
+
+        CommandManager.getInstance().executeCommand(new ChangeFontColorCommand((TextBox) selectedShape.getShape(),fontColor)); //richiamo il comando per cambiare il font sulla shape selezionata
+
+        StateController.getInstance().addShape(selectedShape.getShape(), selectedShape); //aggiorno lo stato con la shape modificata
+        //usando il pattern command sono tutte e tre operazioni undoabili
+    }
+
+    @Override
+    public void handleChangeFontName(String currentFontName) {
+        StateController.getInstance().removeShape(selectedShape.getShape(),selectedShape); // rimuovo la shape dallo stato
+
+
+        selectedShape.getShape().setSelected(false);
+
+        CommandManager.getInstance().executeCommand(new ChangeFontNameCommand((TextBox) selectedShape.getShape(),currentFontName));
+
+        StateController.getInstance().addShape(selectedShape.getShape(), selectedShape);
+    }
+
+    @Override
+    public void handleChangeFontSize(int currentFontSize){
+        StateController.getInstance().removeShape(selectedShape.getShape(),selectedShape); // rimuovo la shape dallo stato
+
+
+        selectedShape.getShape().setSelected(false);
+
+        CommandManager.getInstance().executeCommand(new ChangeFontSizeCommand((TextBox) selectedShape.getShape(),currentFontSize));
+
+        StateController.getInstance().addShape(selectedShape.getShape(), selectedShape);
     }
 }

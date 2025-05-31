@@ -25,4 +25,10 @@ public interface CanvasState {
 
     void handleKeyTyped(KeyEvent event, Map<Shape, ShapeView> map);
 
+    //implementati nel singleSelectState
+    void handleChangeFontColor(Color currentFontColor);
+
+    void handleChangeFontName(String currentFontName);
+
+    void handleChangeFontSize(int currentFontSize);
 }

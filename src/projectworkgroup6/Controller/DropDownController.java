@@ -1,11 +1,14 @@
 package projectworkgroup6.Controller;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
+import javafx.collections.FXCollections;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import projectworkgroup6.Controller.StateController;
 import projectworkgroup6.Decorator.BorderDecorator;
+import projectworkgroup6.Factory.TextBoxCreator;
 import projectworkgroup6.Model.*;
 
 import projectworkgroup6.Factory.ShapeCreator;
@@ -66,7 +69,31 @@ public class DropDownController implements SelectionObserver {
     }
 
     @FXML
+    public ComboBox modfontCombo;
+    @FXML
+    private Spinner modfontSizeSpinner;
+    @FXML
+    private ColorPicker modfontColorPicker;
+
+    @FXML
     public void initialize() {
+
+        // Popola fontCombo con i nomi dei font disponibili
+        modfontCombo.setItems(FXCollections.observableArrayList(Font.getFamilies()));
+
+        // Imposta un valore di default
+        modfontCombo.getSelectionModel().select("Arial");
+
+        // Configura fontSizeSpinner: valori da 8 a 72, step 1, valore iniziale 12
+        modfontSizeSpinner.setValueFactory(
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(8, 72, 12, 1)
+        );
+
+        modfontSizeSpinner.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                canvasController.onChangeFontSize((int)newValue); //non esiste onAction per lo spinner quindi setto l'azione nell'inizialize
+            }
+        });
 
         StateController.getInstance().addSelectionObserver(this);
     }
@@ -154,38 +181,11 @@ public class DropDownController implements SelectionObserver {
     @FXML
     public void paste(ActionEvent event) {
         Shape originalShape = getSavedView().getShape();
-        System.out.println(originalShape.getDim1());
         setSavedView(null);
-        ShapeCreator creator = StateController.getInstance().getCreators().get(originalShape.type());
 
-        Shape newShape;
-
-        if (originalShape instanceof Polygon) {
-            List<double[]> originalVertices = ((Polygon) originalShape).getVertices();
-
-            // Calcolo il baricentro reale dei vertici
-            double sumX = 0, sumY = 0;
-            for (double[] v : originalVertices) {
-                sumX += v[0];
-                sumY += v[1];
-            }
-            double centerX = sumX / originalVertices.size();
-            double centerY = sumY / originalVertices.size();
-
-            // Calcolo lo spostamento rispetto alla posizione del click
-            double dx = pasteX - centerX;
-            double dy = pasteY - centerY;
-
-            // Nuova lista di vertici spostati
-            List<double[]> newVertices = new ArrayList<>();
-            for (double[] v : originalVertices) {
-                newVertices.add(new double[]{v[0] + dx, v[1] + dy});
-            }
-
-            newShape = new Polygon(new ArrayList<>(newVertices), false, originalShape.getBorder(), originalShape.getFill());
-        } else {
-            newShape = creator.createShape(pasteX, pasteY, originalShape.getBorder(), originalShape.getFill());
-        }
+        //richiama i metodi cloneAt di ogni modello e incolla alle coordinate del click specificate in questa modalità
+        Shape newShape = originalShape.cloneAt(pasteX, pasteY);
+        ShapeCreator creator = StateController.getInstance().getCreators().get(newShape.type());
 
         ShapeView newView = creator.createShapeView(newShape);
         newView = new BorderDecorator(newView, newShape.getBorder().toColor());
@@ -265,4 +265,29 @@ public void modifyFill(ActionEvent event) {
         StateController.getInstance().redrawCanvas();
     }
 
+    //metodi per le modifiche del font dei textBox con i parametri selezionati dall'utente
+
+    public void modifyFontColor(ActionEvent event) {
+        Color fontColor = modfontColorPicker.getValue();
+        canvasController.onChangeFontColor(fontColor);
+    }
+
+    public void modifyFontName(ActionEvent event) {
+        String fontName = (String) modfontCombo.getValue();
+        canvasController.onChangeFontFamily(fontName);
+    }
+
+
+    //per la funzionalità di salvataggio forme personalizzate
+    @FXML
+    private ToolBarController toolBarController;
+    public void setToolBarController(ToolBarController toolBarController) {
+        this.toolBarController = toolBarController;
+    }
+
+    public void onAddShape(ActionEvent event) {
+        //passo la selectedShape come shape personalizzata al toolbarController
+        ShapeView customShape = StateController.getInstance().getMap().get(selectedShape);
+        toolBarController.addCustomShape(customShape);
+    }
 }
