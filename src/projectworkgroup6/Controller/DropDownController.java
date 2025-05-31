@@ -28,6 +28,11 @@ import projectworkgroup6.View.ShapeView;
 
 import java.util.*;
 
+/**
+ * Controller del menu a tendina per la manipolazione delle shape selezionate.
+ * Implementa l'interfaccia SelectionObserver per rispondere a selezioni/deselezioni.
+ */
+
 public class DropDownController implements SelectionObserver {
     @FXML
     private AnchorPane dropDownMenuPane;
@@ -217,11 +222,7 @@ public void modifyFill(ActionEvent event) {
 
 }
 
-    @FXML
-    public void rotate(ActionEvent event) {
-        System.out.println("ruota");
-    }
-
+    //Metodo che consente di mettere una figura selezionata davanti alle altre
     @FXML
     void portaInPrimoPiano(ActionEvent event) {
 
@@ -241,6 +242,7 @@ public void modifyFill(ActionEvent event) {
             StateController.getInstance().redrawCanvas();
     }
 
+    //Metodo che consente di portare una figura selezionata in secondo piano
     @FXML
     void portaInSecondoPiano(ActionEvent event) {
         Shape s = selectedShape;
@@ -248,20 +250,16 @@ public void modifyFill(ActionEvent event) {
         Map<Shape, ShapeView> oldMap = StateController.getInstance().getMap();
         LinkedHashMap<Shape, ShapeView> newMap = new LinkedHashMap<>();
 
-        // Metti per prima la figura selezionata = "in secondo piano"
         newMap.put(s, oldMap.get(s));
 
-        // Aggiungi tutte le altre mantenendo il loro ordine
         for (Map.Entry<Shape, ShapeView> entry : oldMap.entrySet()) {
             if (!entry.getKey().equals(s)) {
                 newMap.put(entry.getKey(), entry.getValue());
             }
         }
 
-        // Aggiorna lo stato
         StateController.getInstance().setMap(newMap);
 
-        // Ridisegna il canvas
         StateController.getInstance().redrawCanvas();
     }
 
@@ -290,4 +288,22 @@ public void modifyFill(ActionEvent event) {
         ShapeView customShape = StateController.getInstance().getMap().get(selectedShape);
         toolBarController.addCustomShape(customShape);
     }
+
+    //Metodo usato per i test
+    public void setSelectedShapeForTest(Shape shape) {
+        this.selectedShape = shape;
+    }
+
+    //Metodo usato per i test senza JavaFX
+    public void testModifyStrokeWithColor(Color newColor) {
+        Color oldColor = selectedShape.getBorder().toColor();  // ex getBorderColor()
+        canvasController.onColorChanged(oldColor, newColor);
+    }
+
+    //Metodo usato per i test senza JavaFX
+    public void testModifyFillWithColor(Color newColor) {
+        Color oldColor = selectedShape.getFill().toColor();  // ex getFillColor()
+        canvasController.onColorChanged(oldColor, newColor);
+    }
+
 }

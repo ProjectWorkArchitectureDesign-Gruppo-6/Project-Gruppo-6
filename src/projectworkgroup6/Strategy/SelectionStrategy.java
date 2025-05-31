@@ -14,6 +14,7 @@ public abstract class SelectionStrategy {
 
     public abstract void drawSelectionBorder(GraphicsContext gc, Shape shape);
     public abstract void drawHandles(GraphicsContext gc, Shape shape);
+    public abstract void RotateButton(GraphicsContext gc, Shape shape);
 
     public abstract void drawMoveButton(GraphicsContext gc, Shape shape);
 
@@ -24,6 +25,14 @@ public abstract class SelectionStrategy {
         double half = size / 2;
         gc.fillOval(cx - half, cy - half, size, size);
         gc.strokeOval(cx - half, cy - half, size, size);
+    }
+
+    public double getRotateButtonX(Shape shape) {
+        return shape.getXc() + (shape.getDim1() - buttonWidth) / 2; // stesso X del move
+    }
+
+    public double getRotateButtonY(Shape shape) {
+        return shape.getYc() + shape.getDim2() + buttonHeight + 10; // sotto il bottone "move"
     }
 
 

@@ -35,5 +35,10 @@ public class CommandManager {
         history.clear();
     }
 
+    // Solo per i test
+    public static void setInstance(CommandManager testInstance) {
+        instance = testInstance;
+    }
+
 }
 

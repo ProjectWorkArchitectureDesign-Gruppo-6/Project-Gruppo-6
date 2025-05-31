@@ -84,6 +84,11 @@ public class InsertPolygonState implements CanvasState {
     }
 
     @Override
+    public void handlePressionRotate(double x, double y) {
+
+    }
+
+    @Override
     public void handleMouseDragged(double x, double y) {
         // Non serve per l'inserimento poligono
     }

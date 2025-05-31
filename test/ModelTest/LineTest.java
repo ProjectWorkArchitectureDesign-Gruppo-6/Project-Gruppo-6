@@ -32,10 +32,16 @@ public class LineTest {
 
     @Test
     public void testResize() {
+        double originalLength = Math.hypot(30 - 10, 40 - 20);
         line.resize(2.0);
-        assertEquals(20, line.getX(), 0.001);
-        assertEquals(40, line.getY(), 0.001);
-        // Nota: x2 e y2 non cambiano in questo resize
+
+        // Verifica che le coordinate iniziali non cambino
+        assertEquals(10, line.getX(), 0.001);
+        assertEquals(20, line.getY(), 0.001);
+
+        // Verifica che la lunghezza sia raddoppiata
+        double newLength = Math.hypot(line.getX2() - line.getX(), line.getY2() - line.getY());
+        assertEquals(2 * originalLength, newLength, 0.001);
     }
 
     @Test

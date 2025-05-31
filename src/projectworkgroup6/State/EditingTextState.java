@@ -100,6 +100,10 @@ public class EditingTextState implements CanvasState {
     public void handlePression(double x, double y) {}
 
     @Override
+    public void handlePressionRotate(double x, double y) {
+    }
+
+    @Override
     public void handleMouseDragged(double x, double y) {}
 
     @Override

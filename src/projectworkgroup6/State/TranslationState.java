@@ -35,6 +35,11 @@ public class TranslationState implements CanvasState{
         //Non definito
     }
 
+    @Override
+    public void handlePressionRotate(double x, double y) {
+
+    }
+
     public void startDragging(double x, double y) {
         lastX = x;
         lastY = y;

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="30.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.MenuBarController">
+<AnchorPane prefHeight="30.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.MenuBarController">
     <MenuBar fx:id="topMenuBar" prefHeight="34.0" prefWidth="760.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
         <menus>
@@ -36,11 +39,11 @@
                     </Menu>
                     <Menu mnemonicParsing="false" text="Griglia">
                         <items>
-                     <MenuItem mnemonicParsing="false" onAction="#grid5x5" text="5 x 5" />
-                     <MenuItem mnemonicParsing="false" onAction="#grid10x10" text="10 x 10" />
-                     <MenuItem mnemonicParsing="false" onAction="#grid15x15" text="15 x 15" />
                      <MenuItem mnemonicParsing="false" onAction="#grid20x20" text="20 x 20" />
-                     <MenuItem mnemonicParsing="false" onAction="#grid25x25" text="25 x 25" />
+                     <MenuItem mnemonicParsing="false" onAction="#grid30x30" text="30 x 30" />
+                     <MenuItem mnemonicParsing="false" onAction="#grid50x50" text="50 x 50" />
+                     <MenuItem mnemonicParsing="false" onAction="#grid80x80" text="80 x 80" />
+                     <MenuItem mnemonicParsing="false" onAction="#grid100x100" text="100 x 100" />
                      <MenuItem mnemonicParsing="false" onAction="#removeGrid" text="Remove" />
                         </items>
                     </Menu>

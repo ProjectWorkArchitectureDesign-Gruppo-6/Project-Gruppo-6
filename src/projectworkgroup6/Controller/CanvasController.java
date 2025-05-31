@@ -84,7 +84,7 @@ public class CanvasController implements StateObserver{
         canvasGroup.setScaleY(targetScale);
 
 
-        // Forza il layout (importante!)
+        // Forza il layout
         canvasGroup.applyCss();
         canvasGroup.layout();
 
@@ -139,7 +139,7 @@ public class CanvasController implements StateObserver{
         double width = gridCanvas.getWidth();
         double height = gridCanvas.getHeight();
 
-        // Protezione contro larghezze nulle o non inizializzate
+        // Controllo per evitare larghezze nulle o non inizializzate
         if (width <= 0 || height <= 0) {
             System.err.println("GridCanvas ha dimensioni invalide: " + width + " x " + height);
             return;
@@ -153,7 +153,7 @@ public class CanvasController implements StateObserver{
         double translateY = canvasGroup.getTranslateY();
         double spacing = value * scale;
 
-        gc.setStroke(Color.LIGHTGRAY);
+        gc.setStroke(Color.GRAY);
         gc.setLineWidth(1.0);
 
         // Linee verticali
@@ -282,11 +282,11 @@ public class CanvasController implements StateObserver{
         gridGC = gridCanvas.getGraphicsContext2D();
         drawGC = canvas.getGraphicsContext2D();
 
-        // Bind gridCanvas size to container
+        // Assoccia la dimensione del gridCanvas al container
         gridCanvas.widthProperty().bind(canvasPane.widthProperty());
         gridCanvas.heightProperty().bind(canvasPane.heightProperty());
 
-        // Bind main canvas size to container
+        // Assoccia la dimensione del main canvas al container
         canvas.widthProperty().bind(canvasPane.widthProperty());
         canvas.heightProperty().bind(canvasPane.heightProperty());
 
@@ -317,6 +317,7 @@ public class CanvasController implements StateObserver{
     }
 
     public void handlePression(double x, double y) {
+        currentState.handlePressionRotate(x, y);
         currentState.handlePression(x,y);
     }
 

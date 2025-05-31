@@ -1,38 +1,34 @@
 package projectworkgroup6.Controller;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.stage.FileChooser;
-import projectworkgroup6.Command.Command;
-import projectworkgroup6.Command.ZoomCommand;
 import projectworkgroup6.Decorator.BorderDecorator;
 import projectworkgroup6.Decorator.FillDecorator;
 import projectworkgroup6.Factory.*;
-import projectworkgroup6.Model.*;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.Command.CommandManager;
-
-import projectworkgroup6.State.SingleSelectState;
-import projectworkgroup6.View.*;
 import projectworkgroup6.View.ShapeView;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+/**
+ * Controller per la barra dei menu dell'applicazione.
+ * Gestisce le operazioni di salvataggio/caricamento file,
+ * undo delle operazioni, inserimento e rimozione della griglia e dello zoom del canvas
+ */
 
 public class MenuBarController {
 
@@ -48,15 +44,18 @@ public class MenuBarController {
     private MainController mainController;
     private CanvasController canvasController;
 
+    //Imposta il controller principale dell'applicazione
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
 
+    //Imposta il controller del canvas
     public void setCanvasController(CanvasController controller) {
         this.canvasController = controller;
     }
     // Eventuali metodi di gestione per i menu
 
+    //Metodo per caricare un disegno da file JSON selezionato dall'utente
     @FXML
     private void load(ActionEvent event) {
         try {
@@ -87,8 +86,6 @@ public class MenuBarController {
                     StateController.getInstance().addShape(shape, fill);
 
                 }
-
-
                 System.out.println("Disegno caricato da: " + fileCorrente.getAbsolutePath());
             }
         } catch (IOException ex) {
@@ -98,6 +95,8 @@ public class MenuBarController {
 
 
 
+    //Metodo per salvare lo stato attuale del canvas e le figure che contiene
+    // in un nuovo file JSON selezionato dall'utente
     @FXML
     private void save(ActionEvent event) {
         try{
@@ -120,6 +119,7 @@ public class MenuBarController {
         }
     }
 
+    //Metodo per salvare direttamente sul file già aperto, senza aprire il dialogo di scelta
     @FXML
     private void saveOnFileExist(ActionEvent event) {
         if (fileCorrente == null) {
@@ -184,25 +184,27 @@ public class MenuBarController {
     }
 
 
-
-    @FXML private void grid5x5(ActionEvent event) {
-        canvasController.insertGrid(5);
-    }
-
-    @FXML private void grid10x10(ActionEvent event) {
-        canvasController.insertGrid(10);
-    }
-
-    @FXML private void grid15x15(ActionEvent event) {
-        canvasController.insertGrid(15);
-    }
+    //I seguenti metodi inseriscono una griglia di dimensione prefissata
+    //Il metodo removeGrid permette di rimuovere una griglia inserita
 
     @FXML private void grid20x20(ActionEvent event) {
         canvasController.insertGrid(20);
     }
 
-    @FXML private void grid25x25(ActionEvent event) {
-        canvasController.insertGrid(25);
+    @FXML private void grid30x30(ActionEvent event) {
+        canvasController.insertGrid(30);
+    }
+
+    @FXML private void grid50x50(ActionEvent event) {
+        canvasController.insertGrid(50);
+    }
+
+    @FXML private void grid80x80(ActionEvent event) {
+        canvasController.insertGrid(80);
+    }
+
+    @FXML private void grid100x100(ActionEvent event) {
+        canvasController.insertGrid(100);
     }
 
     public void removeGrid(ActionEvent actionEvent) { canvasController.insertGrid(0);}

@@ -78,19 +78,7 @@ public class Polygon extends Shape{
             v[1]+=dy;
         }
     }
-/*
-    @Override
-    public void resize(double factor) {
-        double centerX = getXc(); // calcola centro X
-        double centerY = getYc(); // calcola centro Y
 
-        for (double[] v : vertices) {
-            v[0] = centerX + (v[0] - centerX) * factor; // nuova x
-            v[1] = centerY + (v[1] - centerY) * factor; // nuova y
-        }
-    }
-
- */
     @Override
     public void resize(double factor) {
         double centerX = getXc(); // calcola centro X
@@ -148,4 +136,5 @@ public class Polygon extends Shape{
 
         return new Polygon((ArrayList<double[]>) newVertices, false, border, fill);
     }
+
 }

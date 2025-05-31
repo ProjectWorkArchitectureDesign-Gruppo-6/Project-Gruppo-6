@@ -47,6 +47,3 @@ public class ProjectWorkGroup6 extends Application {
     }
     
 }
-/*
-
-*/

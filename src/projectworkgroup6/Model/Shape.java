@@ -21,6 +21,7 @@ import projectworkgroup6.Model.ColorModel;
 public abstract class Shape {
 
     protected double x, y;
+    private double rotation = 0.0;
     protected ColorModel border, fill;
 
     public Shape(double x, double y, boolean selected, ColorModel border, ColorModel fill) {
@@ -61,6 +62,14 @@ public abstract class Shape {
 
     public double getY() {
         return y;
+    }
+
+    public double getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(double rotation) {
+        this.rotation = rotation;
     }
 
     public abstract double getDim1();

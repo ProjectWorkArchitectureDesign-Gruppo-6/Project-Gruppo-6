@@ -48,6 +48,11 @@ public class ResizeState implements CanvasState{
         //System.out.println("Non definito");
     }
 
+    @Override
+    public void handlePressionRotate(double x, double y) {
+
+    }
+
 
     // Implementa il ridimensionamento solo a livello grafico
     @Override

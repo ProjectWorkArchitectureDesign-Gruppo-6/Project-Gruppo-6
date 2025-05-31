@@ -1,3 +1,5 @@
+package ModelTest;
+
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.Test;
 import projectworkgroup6.Model.ColorModel;
@@ -17,7 +19,7 @@ public class ColorModelTest {
 
     @Test
     public void testFromColor() {
-        Color fxColor = new Color(0.5, 0.25, 0.75, 0.8); // RGB(128,64,192)
+        Color fxColor = new Color(0.5, 0.25, 0.753, 0.8); // RGB should round to (128, 64, 192)
         ColorModel cm = ColorModel.fromColor(fxColor);
         assertEquals(128, cm.getRed());
         assertEquals(64, cm.getGreen());
@@ -29,9 +31,9 @@ public class ColorModelTest {
     public void testToColor() {
         ColorModel cm = new ColorModel(128, 64, 192, 0.8);
         Color fxColor = cm.toColor();
-        assertEquals(0.5, fxColor.getRed(), 0.01);
-        assertEquals(0.25, fxColor.getGreen(), 0.01);
-        assertEquals(0.75, fxColor.getBlue(), 0.01);
+        assertEquals(0.501, fxColor.getRed(), 0.01); // 128/255 ≈ 0.501
+        assertEquals(0.251, fxColor.getGreen(), 0.01);
+        assertEquals(0.753, fxColor.getBlue(), 0.01);
         assertEquals(0.8, fxColor.getOpacity(), 0.01);
     }
 
@@ -54,6 +56,9 @@ public class ColorModelTest {
         });
         assertThrows(IllegalArgumentException.class, () -> {
             ColorModel.fromRgbaString("rgba(255,255)");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            ColorModel.fromRgbaString("rgba(255,255,255,abc)");
         });
     }
 }
