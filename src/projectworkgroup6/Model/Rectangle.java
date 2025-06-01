@@ -9,7 +9,7 @@ public class Rectangle extends Shape {
 
     // Per serializzazione
     public Rectangle() {
-        super(0, 0, false, new ColorModel(0,0,0,1), new ColorModel(255,255,255,1));
+        super(0, 0, false, new ColorModel(0,0,0,1), new ColorModel(255,255,255,1), 0,0);
     }
 
     @Override
@@ -31,8 +31,8 @@ public class Rectangle extends Shape {
 
 
 
-    public Rectangle(double x, double y, boolean selected, double width, double height, ColorModel border, ColorModel fill) {
-        super(x, y, selected, border, fill);
+    public Rectangle(double x, double y, boolean selected, double width, double height, ColorModel border, ColorModel fill, int layer, int group) {
+        super(x, y, selected, border, fill, layer, group);
         this.width = width;
         this.height = height;
     }
@@ -63,9 +63,10 @@ public class Rectangle extends Shape {
 
 
     @Override
-    public void resize(double factor) {
+    public void resize(double factor, double dx, double dy) {
         width *= factor;
         height *= factor;
+
     }
 
     @Override

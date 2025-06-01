@@ -9,6 +9,7 @@ import projectworkgroup6.Controller.StateController;
 import projectworkgroup6.Decorator.BorderDecorator;
 import projectworkgroup6.Decorator.FillDecorator;
 import projectworkgroup6.Decorator.SelectedDecorator;
+import projectworkgroup6.Factory.PolygonCreator;
 import projectworkgroup6.Factory.ShapeCreator;
 import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Polygon;
@@ -22,14 +23,14 @@ import java.util.Map;
 
 public class InsertPolygonState implements CanvasState {
 
-    private final ShapeCreator creator;
+    private final PolygonCreator creator;
 
     private Color currentStroke = StateController.getInstance().getStrokeColor();
     private Color currentFill = StateController.getInstance().getFillColor();
 
     private ColorModel border, fill;
 
-    public InsertPolygonState(ShapeCreator creator) {
+    public InsertPolygonState(PolygonCreator creator) {
         this.creator = creator;
     }
     private Shape previewShape = null;
@@ -51,7 +52,7 @@ public class InsertPolygonState implements CanvasState {
         if (now - lastClickTime < DOUBLE_CLICK_THRESHOLD_MS && vertices.size() >= 3) { //se faccio doppio click e ho segnato almeno tre vertici allora posso chiudere il poligono
 
             System.out.println("Rilevato doppio click");
-            Shape polygon = creator.createShape(x, y, border, fill); //invoco il creatore
+            Shape polygon = creator.createShape(x, y, 0, 0, border, fill, map.size() + 1, 0); //invoco il creatore
             ShapeView view = creator.createShapeView(polygon); //aggiorno la vista
             view = new BorderDecorator(view,currentStroke);
             view = new FillDecorator(view,currentFill);
@@ -68,7 +69,7 @@ public class InsertPolygonState implements CanvasState {
         }else{
             lastClickTime = now;
             creator.addVertex(x, y); //se non sto chiudendo il poligono aggiungo il vertice alla lista temporanea
-            previewShape = new Polygon(new ArrayList<>(creator.getTempVertices()), false, border, fill); //mi creo il poligono che se successivamente farò doppio click verrà disegnato
+            previewShape = new Polygon(new ArrayList<>(creator.getTempVertices()), false, border, fill, map.size() + 1, 0); //mi creo il poligono che se successivamente farò doppio click verrà disegnato
         }
 
     }
@@ -103,18 +104,25 @@ public class InsertPolygonState implements CanvasState {
             // Deseleziona logicamente
             s.setSelected(false);
 
-            // Se la view è decorata (cioè è un SelectedDecorator), la sostituiamo
-            if (v instanceof SelectedDecorator) {
-                // Rimuovi la versione decorata dalla vista (cioè dallo stato attuale)
-                StateController.getInstance().removeShape(s,v);
+            // Rimuovi dal gruppo provvisorio
+            s.setGroup(0);
 
-                // Crea la versione "base" della view senza decorator
-                ShapeView baseView = ((SelectedDecorator) v).undecorate();
+            // Annulla gruppo provvisorio
+            MultipleSelectState.getInstance().setGroup(null);
 
-                // Aggiungi di nuovo la versione base alla vista
-                StateController.getInstance().addShape(s,baseView);
+            //Nascondi menù a tendina
+            StateController.getInstance().notifyGroupDeselected();
 
-            }
+
+            // Rimuovi la versione decorata dalla vista (cioè dallo stato attuale)
+            StateController.getInstance().removeShape(s,v);
+
+            // Crea la versione "base" della view senza decorator
+            ShapeView baseView = v.undecorate();
+
+            // Aggiungi di nuovo la versione base alla vista
+            StateController.getInstance().addShape(s,baseView);
+
         }
     }
 

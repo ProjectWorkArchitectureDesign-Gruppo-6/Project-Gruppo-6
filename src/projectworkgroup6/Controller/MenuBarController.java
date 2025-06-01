@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.stage.FileChooser;
@@ -75,17 +74,24 @@ public class MenuBarController {
 
                 List<Shape> shapes = mapper.readValue(fileCorrente, new TypeReference<List<Shape>>() {});
 
+                // Inizialmente carica solo le shape NON Group
                 for (Shape shape : shapes) {
+                    if (!(shape instanceof Group)) {
+                        String type = shape.getClass().getSimpleName();
+                        ShapeCreator creator = creators.get(type);
 
-                    String type = shape.getClass().getSimpleName(); // "Rectangle", "Ellipse", ...
-                    ShapeCreator creator = creators.get(type);
+                        ShapeView view = creator.createShapeView(shape);
+                        BorderDecorator border = new BorderDecorator(view, shape.getBorder().toColor());
+                        FillDecorator fill = new FillDecorator(border, shape.getFill().toColor());
+                        StateController.getInstance().addShape(shape, fill);
+                    }
+                }
 
-
-                    ShapeView view = creator.createShapeView(shape);
-                    BorderDecorator border = new BorderDecorator(view,shape.getBorder().toColor());
-                    FillDecorator fill = new FillDecorator(border, shape.getFill().toColor());
-                    StateController.getInstance().addShape(shape, fill);
-
+                // Carica gruppi e gruppi annidati
+                for (Shape shape : shapes) {
+                    if (shape instanceof Group) {
+                        processGroup((Group) shape, creators);
+                    }
                 }
 
 
@@ -95,6 +101,52 @@ public class MenuBarController {
             Logger.getLogger(MenuBarController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    private void processGroup(Group group, Map<String, ShapeCreator> creators) {
+
+        Map<Shape,ShapeView> map = StateController.getInstance().getMap();
+
+        // Prendo le shapes dal gruppo
+        List<Shape> children = group.getShapes();
+
+        // inizializzo le view oer ogni shape
+        List<ShapeView> views = new ArrayList<>();
+
+        // Per ogni shape del gruppo
+        for (Shape child : children) {
+
+            // Controllo se si tratta di un gruppo innestato
+            if (child instanceof Group) {
+
+                Group nestedGroup = (Group)child;
+
+                // Ricorsione: processa il gruppo interno
+                processGroup(nestedGroup, creators);
+
+                // Aggiungo la vista del gruppo innestato nel gruppo esterno
+                views.add(map.get(nestedGroup));
+
+                // Rimuovi dalla mappa il gruppo annidato perchè viene compreso nel gruppo esterno
+                StateController.getInstance().removeShape(nestedGroup,map.get(nestedGroup));
+
+
+            } else {
+                // È una shape normale
+                ShapeCreator creator = creators.get(child.getClass().getSimpleName());
+                ShapeView childView = creator.createShapeView(child);
+                BorderDecorator border = new BorderDecorator(childView, child.getBorder().toColor());
+                FillDecorator fill = new FillDecorator(border, child.getFill().toColor());
+
+                views.add(fill);
+            }
+        }
+
+        // Ora crea la view per il gruppo principale
+        ShapeView groupView = new GroupView(group,views);
+
+        StateController.getInstance().addShape(group, groupView);
+    }
+
 
 
 
@@ -107,6 +159,7 @@ public class MenuBarController {
 
             Map<Shape, ShapeView> map = StateController.getInstance().getMap();
             List<Shape> shapes = new ArrayList<>(map.keySet());
+
 
             fileCorrente = fileChooser.showSaveDialog(topMenuBar.getScene().getWindow());
             if (fileCorrente != null) {

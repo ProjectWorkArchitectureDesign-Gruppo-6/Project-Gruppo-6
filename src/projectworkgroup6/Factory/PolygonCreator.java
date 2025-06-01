@@ -42,14 +42,14 @@ public class PolygonCreator implements ShapeCreator{
 
 
     @Override
-    public Shape createShape(double x, double y, ColorModel border, ColorModel fill) {
+    public Shape createShape(double x, double y, double width, double height, ColorModel border, ColorModel fill, int layer, int group) {
         // Crea una nuova lista copiando i vertici
         ArrayList<double[]> copiedVertices = new ArrayList<>();
         for (double[] v : tempVertices) {
             copiedVertices.add(new double[]{v[0], v[1]});
         }
 
-        return new Polygon(copiedVertices, false, border, fill);
+        return new Polygon(copiedVertices, false, border, fill, layer, group);
     }
 
     @Override

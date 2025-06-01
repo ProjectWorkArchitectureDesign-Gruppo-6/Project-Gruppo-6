@@ -8,11 +8,11 @@ public class Line extends Shape {
     private double x2, y2;
 
     public Line() {
-        super(0, 0, false,new ColorModel(0,0,0,1), null);
+        super(0, 0, false,new ColorModel(0,0,0,1), null, 0,0);
     }
 
-    public Line(double x1, double y1, boolean selected, double x2, double y2, ColorModel border, ColorModel fill) {
-        super(x1,y1,selected, border, fill);
+    public Line(double x1, double y1, boolean selected, double x2, double y2, ColorModel border, ColorModel fill, int layer, int group) {
+        super(x1,y1,selected, border, fill, layer, group);
         this.x2 = x2;
         this.y2 = y2;
     }
@@ -64,7 +64,7 @@ public class Line extends Shape {
     }
 
         @Override
-        public void resize(double factor) {
+        public void resize(double factor, double dx, double dy) {
             // Calcola il centro della linea
             double centerX = (x + x2) / 2;
             double centerY = (y + y2) / 2;

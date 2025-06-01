@@ -240,13 +240,8 @@ public class CanvasController implements StateObserver{
     }
 
     @Override
-    public void onChangeFontColor(Color currentFontColor) {
-
-    }
-
-    @Override
-    public void onChangeFontFamily(String currentFontName) {
-
+    public void onCanvasAddGroup(ShapeView groupView) {
+        canvasView.renderTemporaryGroup(groupView);
     }
 
 

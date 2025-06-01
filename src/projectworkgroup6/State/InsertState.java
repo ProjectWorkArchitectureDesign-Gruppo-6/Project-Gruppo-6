@@ -27,6 +27,9 @@ public class InsertState implements CanvasState {
     private Color currentStroke = StateController.getInstance().getStrokeColor(); // Setto colore di default in caso non venga selezionato
     private Color currentFill = StateController.getInstance().getFillColor();
 
+    private double defaultWidth = 100;
+    private double defaultHeight = 50;
+
     private ColorModel border, fill;
 
     public InsertState(ShapeCreator creator) {
@@ -41,7 +44,7 @@ public class InsertState implements CanvasState {
         fill = ColorModel.fromColor(currentFill);
 
         // Creo Shape e View corrispondente in base al colore scelto
-        Shape shape = creator.createShape(x, y, border, fill);
+        Shape shape = creator.createShape(x, y, defaultWidth, defaultHeight, border, fill, map.size() + 1, 0);
         ShapeView shapeView = creator.createShapeView(shape);
         shapeView = new BorderDecorator(shapeView, currentStroke);
         shapeView = new FillDecorator(shapeView, currentFill);
@@ -49,7 +52,7 @@ public class InsertState implements CanvasState {
         // Inserisco Shape e View nello stato (undoable)
         InsertCommand cmd = new InsertCommand(shape, shapeView);
         CommandManager.getInstance().executeCommand(cmd);
-
+        System.out.println(shape.getLayer());
     }
 
     @Override
@@ -77,18 +80,25 @@ public class InsertState implements CanvasState {
             // Deseleziona logicamente
             s.setSelected(false);
 
-            // Se la view è decorata (cioè è un SelectedDecorator), la sostituiamo
-            if (v instanceof SelectedDecorator) {
-                // Rimuovi la versione decorata dalla vista (cioè dallo stato attuale)
-                StateController.getInstance().removeShape(s,v);
+            // Rimuovi dal gruppo provvisorio
+            s.setGroup(0);
 
-                // Crea la versione "base" della view senza decorator
-                ShapeView baseView = ((SelectedDecorator) v).undecorate();
+            // Annulla gruppo provvisorio
+            MultipleSelectState.getInstance().setGroup(null);
 
-                // Aggiungi di nuovo la versione base alla vista
-                StateController.getInstance().addShape(s,baseView);
+            //Nascondi menù a tendina
+            StateController.getInstance().notifyGroupDeselected();
 
-            }
+
+            // Rimuovi la versione decorata dalla vista (cioè dallo stato attuale)
+            StateController.getInstance().removeShape(s,v);
+
+            // Crea la versione "base" della view senza decorator
+            ShapeView baseView = v.undecorate();
+
+            // Aggiungi di nuovo la versione base alla vista
+            StateController.getInstance().addShape(s,baseView);
+
         }
     }
 

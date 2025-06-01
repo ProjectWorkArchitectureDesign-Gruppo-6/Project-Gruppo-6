@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class InsertTextBoxState implements CanvasState {
 
-    private final ShapeCreator creator;
+    private final TextBoxCreator creator;
     private Color currentStroke;
     private Color currentFill = Color.WHITE;
 
@@ -34,7 +34,7 @@ public class InsertTextBoxState implements CanvasState {
 
     private int currentFontSize = 12;
 
-    public InsertTextBoxState(ShapeCreator creator) {
+    public InsertTextBoxState(TextBoxCreator creator) {
         this.creator = creator;
         this.currentStroke = Color.BLACK;
     }
@@ -50,7 +50,6 @@ public class InsertTextBoxState implements CanvasState {
             Shape shape = entry.getKey();
             ShapeView shapeView = entry.getValue();
 
-            /*non sono riuscita ad evitare il controllo inatanceOf perchè per le altre figure non può entrare in modalità editing se fa click*/
             if (shape.contains(x, y) && shape instanceof TextBox) { //se il click avviene su una figura già sul canvas ed è un textBox
                 clickedOnShape=true; //setto clickedOnShape a true
 
@@ -65,13 +64,12 @@ public class InsertTextBoxState implements CanvasState {
         } if(!clickedOnShape){ //se invece non sto facendo click su un textBox mi comporto come un normale stato di inserimento
             StateController sc = StateController.getInstance();
 
-            TextBoxCreator textBoxCreator = (TextBoxCreator) creator;
 
-            textBoxCreator.setFontFamily(sc.getFontFamily()); //mi prendo le impostazioni del testo dai pulsanti tramite lo state controller
-            textBoxCreator.setFontSize(sc.getFontSize());
-            textBoxCreator.setFontColor(ColorModel.fromColor(sc.getFontColor()));
+            creator.setFontFamily(sc.getFontFamily()); //mi prendo le impostazioni del testo dai pulsanti tramite lo state controller
+            creator.setFontSize(sc.getFontSize());
+            creator.setFontColor(ColorModel.fromColor(sc.getFontColor()));
 
-            textBoxCreator.setText("");
+            creator.setText("");
 
             System.out.println("Sono nello stato di inserimento");
 
@@ -81,7 +79,7 @@ public class InsertTextBoxState implements CanvasState {
             ColorModel font = ColorModel.fromColor(currentFontColor);
 
             // Creo la Shape con le info necessarie
-            Shape shape = creator.createShape(x, y, border, fill);
+            Shape shape = creator.createShape(x, y, 100, 50,  border, fill, map.size() + 1, 0);
 
             // Creo la ShapeView
             ShapeView shapeView = creator.createShapeView(shape);
@@ -109,17 +107,32 @@ public class InsertTextBoxState implements CanvasState {
 
     @Override
     public void recoverShapes(Map<Shape, ShapeView> map) {
-
-        Map<Shape, ShapeView> copy = new HashMap<>(map);
+        Map<Shape, ShapeView> copy = new HashMap<Shape, ShapeView>(map);
         for (Map.Entry<Shape, ShapeView> entry : copy.entrySet()) {
             Shape s = entry.getKey();
             ShapeView v = entry.getValue();
+
+            // Deseleziona logicamente
             s.setSelected(false);
-            if (v instanceof SelectedDecorator) {
-                StateController.getInstance().removeShape(s, v);
-                ShapeView baseView = (v).undecorate();
-                StateController.getInstance().addShape(s, baseView);
-            }
+
+            // Rimuovi dal gruppo provvisorio
+            s.setGroup(0);
+
+            // Annulla gruppo provvisorio
+            MultipleSelectState.getInstance().setGroup(null);
+
+            //Nascondi menù a tendina
+            StateController.getInstance().notifyGroupDeselected();
+
+            // Rimuovi la versione decorata dalla vista (cioè dallo stato attuale)
+            StateController.getInstance().removeShape(s,v);
+
+            // Crea la versione "base" della view senza decorator
+            ShapeView baseView = v.undecorate();
+
+            // Aggiungi di nuovo la versione base alla vista
+            StateController.getInstance().addShape(s,baseView);
+
         }
     }
 

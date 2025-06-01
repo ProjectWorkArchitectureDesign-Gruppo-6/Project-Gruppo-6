@@ -12,9 +12,9 @@ public class TextBox extends Rectangle {
     private boolean isEditing=true;
 
     public TextBox(double x, double y, boolean selected, double width, double height,
-                   ColorModel border, ColorModel fill,
+                   ColorModel border, ColorModel fill, int layer, int group,
                    String text, String fontFamily, int fontSize, ColorModel fontColor) {
-        super(x, y, selected, width, height, border, fill);
+        super(x, y, selected, width, height, border, fill, layer, group);
         this.text = text;
         this.fontFamily = fontFamily;
         this.fontSize = fontSize;

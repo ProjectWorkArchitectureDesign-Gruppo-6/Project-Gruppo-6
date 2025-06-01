@@ -55,7 +55,7 @@ public class EditingTextState implements CanvasState {
             if (!currentText.isEmpty()) { //se il testo c'è
                 newText = currentText.substring(0, currentText.length() - 1); //cancella
             } else {
-                newText = ""; //altrimenti inserisce spazio vuoto in newtext
+                newText = ""; //altrimenti non cancella nulla
             }
         } else {
             //Se la casella di testo è vuota

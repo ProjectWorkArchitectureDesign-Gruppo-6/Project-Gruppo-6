@@ -1,18 +1,16 @@
 package projectworkgroup6.View;
 
 import javafx.fxml.FXML;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import projectworkgroup6.Controller.CanvasController;
+import projectworkgroup6.Model.Group;
 import projectworkgroup6.Model.Shape;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CanvasView {
 
@@ -55,9 +53,17 @@ public class CanvasView {
         this.currentViews = views; // salva per eventuali ridisegni
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        for (ShapeView v : views) {
+        // Crea una lista ordinata per layer crescente (dal fondo al primo piano)
+        List<ShapeView> sortedViews = new ArrayList<>(views);
+        sortedViews.sort(Comparator.comparingInt(ShapeView::getLayer));
+
+        for (ShapeView v : sortedViews) {
+
             v.draw(gc);
         }
     }
 
+    public void renderTemporaryGroup(ShapeView groupView) {
+        groupView.draw(gc);
+    }
 }

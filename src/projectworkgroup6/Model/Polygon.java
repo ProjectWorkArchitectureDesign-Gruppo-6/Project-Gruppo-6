@@ -14,17 +14,25 @@ public class Polygon extends Shape{
     private ArrayList<double[]> vertices;
 
     public Polygon() {
-        super(0, 0, false, new ColorModel(0,0,0,1), new ColorModel(255,255,255,1));
+        super(0, 0, false, new ColorModel(0,0,0,1), new ColorModel(255,255,255,1), 0,0);
     }
 
-    public Polygon(ArrayList<double []> vertices, boolean selected, ColorModel border, ColorModel fill) {
-        super(vertices.get(0)[0], vertices.get(0)[1], selected, border, fill); //get(0) passo gli indici del primo click
+    public Polygon(ArrayList<double []> vertices, boolean selected, ColorModel border, ColorModel fill, int layer, int group) {
+        super(vertices.get(0)[0], vertices.get(0)[1], selected, border, fill, layer, group); //get(0) passo gli indici del primo click
         //this.vertices = new ArrayList<>(); //per la creazione del poligono io mi salvo quei vertici in una list che non
                                            // può essere modificata dall'esterno (new interno al costruttore) altrimenti varierebbe il poligono
-        this.vertices = new ArrayList<>(); //perhcè altrimenti stai modificando una lista durante l'iterazione quindi ne crei una temporanea
+        this.vertices = new ArrayList<>(); //perchè altrimenti stai modificando una lista durante l'iterazione quindi ne crei una temporanea
         for (double[] v : vertices) {
             this.vertices.add(new double[] { v[0], v[1] });
         }
+
+        correctCenter();
+
+    }
+
+    private void correctCenter() {
+        setX(this.getXc() + this.getDim1()/2);
+        setY(this.getYc() + this.getDim2()/2);
     }
 
     @JsonProperty("vertices")
@@ -78,21 +86,9 @@ public class Polygon extends Shape{
             v[1]+=dy;
         }
     }
-/*
-    @Override
-    public void resize(double factor) {
-        double centerX = getXc(); // calcola centro X
-        double centerY = getYc(); // calcola centro Y
 
-        for (double[] v : vertices) {
-            v[0] = centerX + (v[0] - centerX) * factor; // nuova x
-            v[1] = centerY + (v[1] - centerY) * factor; // nuova y
-        }
-    }
-
- */
     @Override
-    public void resize(double factor) {
+    public void resize(double factor, double dx, double dy) {
         double centerX = getXc(); // calcola centro X
         double centerY = getYc(); // calcola centro Y
 

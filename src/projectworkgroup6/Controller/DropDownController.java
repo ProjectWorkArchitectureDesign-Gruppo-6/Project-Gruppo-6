@@ -10,6 +10,7 @@ import projectworkgroup6.Model.*;
 
 import projectworkgroup6.Factory.ShapeCreator;
 import projectworkgroup6.Decorator.*;
+import projectworkgroup6.View.GroupView;
 import projectworkgroup6.View.ShapeView;
 import projectworkgroup6.Command.*;
 import java.util.List;
@@ -41,7 +42,7 @@ public class DropDownController implements SelectionObserver {
     @FXML
     private Button pasteBtn;
     @FXML
-    private Button rotateBtn;
+    private Button ungroupBtn;
     @FXML
     private Button frontBtn;
     @FXML
@@ -98,7 +99,6 @@ public class DropDownController implements SelectionObserver {
         selectedShape = s;
         borderPicker.setValue(selectedShape.getBorder().toColor());
         fillPicker.setValue(selectedShape.getFill().toColor());
-        System.out.println(selectedShape);
         showDDMenu(s);
 
     }
@@ -126,6 +126,7 @@ public class DropDownController implements SelectionObserver {
         dropDownMenuPane.setLayoutY(y);
         dropDownMenuPane.setVisible(true);
         dropDownMenuPane.setManaged(true);
+        ungroupBtn.setVisible(s instanceof Group);
 
 
     }
@@ -157,6 +158,7 @@ public class DropDownController implements SelectionObserver {
         System.out.println(originalShape.getDim1());
         setSavedView(null);
         ShapeCreator creator = StateController.getInstance().getCreators().get(originalShape.type());
+        Map<Shape,ShapeView> map = StateController.getInstance().getMap(); // serve per layering
 
         Shape newShape;
 
@@ -182,9 +184,9 @@ public class DropDownController implements SelectionObserver {
                 newVertices.add(new double[]{v[0] + dx, v[1] + dy});
             }
 
-            newShape = new Polygon(new ArrayList<>(newVertices), false, originalShape.getBorder(), originalShape.getFill());
+            newShape = new Polygon(new ArrayList<>(newVertices), false, originalShape.getBorder(), originalShape.getFill(), map.size() + 1, 0 );
         } else {
-            newShape = creator.createShape(pasteX, pasteY, originalShape.getBorder(), originalShape.getFill());
+            newShape = creator.createShape(pasteX, pasteY, originalShape.getDim1(), originalShape.getDim2(), originalShape.getBorder(), originalShape.getFill(), map.size() + 1, 0);
         }
 
         ShapeView newView = creator.createShapeView(newShape);
@@ -201,21 +203,21 @@ public class DropDownController implements SelectionObserver {
 
 
     @FXML
-public void modifyStroke(ActionEvent event) {
+    public void modifyStroke(ActionEvent event) {
 
-    Color border = borderPicker.getValue(); // Prendo il colore selezionato
-    canvasController.onColorChanged(border,selectedShape.getFill().toColor()); // Delego al canvasController che agisce in base allo stato cui ci troviamo
+        Color border = borderPicker.getValue(); // Prendo il colore selezionato
+        canvasController.onColorChanged(border,selectedShape.getFill().toColor()); // Delego al canvasController che agisce in base allo stato cui ci troviamo
 
-}
+    }
 
-@FXML
-public void modifyFill(ActionEvent event) {
+    @FXML
+    public void modifyFill(ActionEvent event) {
 
-    Color fill = fillPicker.getValue(); // Prendo colore selezionato
-    System.out.println(selectedShape.getFill());
-    canvasController.onColorChanged(selectedShape.getBorder().toColor(), fill); // Delego al canvas controller che agisce in base allo stato corrente
+        Color fill = fillPicker.getValue(); // Prendo colore selezionato
+        System.out.println(selectedShape.getFill());
+        canvasController.onColorChanged(selectedShape.getBorder().toColor(), fill); // Delego al canvas controller che agisce in base allo stato corrente
 
-}
+    }
 
     @FXML
     public void rotate(ActionEvent event) {
@@ -223,46 +225,128 @@ public void modifyFill(ActionEvent event) {
     }
 
     @FXML
+    void portaInSu(ActionEvent event) {
+
+        int currentLayer = selectedShape.getLayer();
+
+        Map<Shape, ShapeView> map = StateController.getInstance().getMap();
+        // Trova il layer massimo tra tutte le shape
+        int maxLayer = map.keySet().stream()
+                .mapToInt(Shape::getLayer)
+                .max()
+                .orElse(0);
+
+
+
+        // Se è già in primo piano, non fare nulla
+        if (currentLayer == maxLayer) return;
+
+        int targetLayer = currentLayer + 1;
+
+        // Cerca se esiste una shape con il layer target
+        for (Shape s : map.keySet()) {
+            if (s != selectedShape && s.getLayer() == targetLayer) {
+                s.layerDown(); // scala indietro questa shape
+                break; // ci sarà solo una shape con quel layer
+            }
+        }
+
+        selectedShape.layerUp(); // porta avanti la shape selezionata
+
+        StateController.getInstance().redrawCanvas();
+    }
+
+
+    @FXML
+    void portaInGiù(ActionEvent event) {
+        int currentLayer = selectedShape.getLayer();
+
+        Map<Shape, ShapeView> map = StateController.getInstance().getMap();
+        // Trova il layer massimo tra tutte le shape
+        int minLayer = map.keySet().stream()
+                .mapToInt(Shape::getLayer)
+                .min()
+                .orElse(0);
+
+
+
+        // Se è già in primo piano, non fare nulla
+        if (currentLayer == minLayer) return;
+
+        int targetLayer = currentLayer - 1;
+
+        // Cerca se esiste una shape con il layer target
+        for (Shape s : map.keySet()) {
+            if (s != selectedShape && s.getLayer() == targetLayer) {
+                s.layerUp(); // scala indietro questa shape
+                break; // ci sarà solo una shape con quel layer
+            }
+        }
+
+        selectedShape.layerDown(); // porta avanti la shape selezionata
+
+        StateController.getInstance().redrawCanvas();
+    }
+
+
+    @FXML
     void portaInPrimoPiano(ActionEvent event) {
 
-            Shape s = selectedShape;
-            if (s == null) return;
-            Map<Shape, ShapeView> oldMap = StateController.getInstance().getMap();
-            LinkedHashMap<Shape, ShapeView> newMap = new LinkedHashMap<>();
+        int currentLayer = selectedShape.getLayer();
 
-            for (Map.Entry<Shape, ShapeView> entry : oldMap.entrySet()) {
-                if (!entry.getKey().equals(s)) {
-                    newMap.put(entry.getKey(), entry.getValue());
-                }
+        Map<Shape, ShapeView> map = StateController.getInstance().getMap();
+        // Trova il layer massimo tra tutte le shape
+        int maxLayer = map.keySet().stream()
+                .mapToInt(Shape::getLayer)
+                .max()
+                .orElse(0);
+
+
+
+        // Se è già in primo piano, non fare nulla
+        if (currentLayer == maxLayer) return;
+
+
+        // Cerca le shape con layer maggiore di quello selezionato
+        for (Shape s : map.keySet()) {
+            if (s != selectedShape && s.getLayer() > currentLayer) {
+                s.layerDown(); // scala indietro questa shape
             }
+        }
 
-            newMap.put(s, oldMap.get(s));
-            StateController.getInstance().setMap(newMap);
-            StateController.getInstance().redrawCanvas();
+        selectedShape.setLayer(maxLayer); // porta in primo piano la shape selezionata
+
+        StateController.getInstance().redrawCanvas();
     }
 
     @FXML
     void portaInSecondoPiano(ActionEvent event) {
-        Shape s = selectedShape;
 
-        Map<Shape, ShapeView> oldMap = StateController.getInstance().getMap();
-        LinkedHashMap<Shape, ShapeView> newMap = new LinkedHashMap<>();
+        int currentLayer = selectedShape.getLayer();
 
-        // Metti per prima la figura selezionata = "in secondo piano"
-        newMap.put(s, oldMap.get(s));
+        Map<Shape, ShapeView> map = StateController.getInstance().getMap();
 
-        // Aggiungi tutte le altre mantenendo il loro ordine
-        for (Map.Entry<Shape, ShapeView> entry : oldMap.entrySet()) {
-            if (!entry.getKey().equals(s)) {
-                newMap.put(entry.getKey(), entry.getValue());
+        // Il layer minimo ha valore 1
+        int minLayer = 1;
+
+        // Se è già in primo piano, non fare nulla
+        if (currentLayer == minLayer) return;
+
+
+        for (Shape s : map.keySet()) {
+            if (s != selectedShape && s.getLayer() < currentLayer) {
+                s.layerUp(); // scala indietro questa shape             }
             }
+
+            selectedShape.setLayer(minLayer); // porta la shape selezionata sullo sfondo
+
+            StateController.getInstance().redrawCanvas();
         }
 
-        // Aggiorna lo stato
-        StateController.getInstance().setMap(newMap);
-
-        // Ridisegna il canvas
-        StateController.getInstance().redrawCanvas();
     }
 
+    public void ungroup(ActionEvent actionEvent) {
+        Map<Shape,ShapeView> map = StateController.getInstance().getMap();
+        CommandManager.getInstance().executeCommand(new UngroupCommand((Group)selectedShape,(GroupView)map.get(selectedShape).undecorate()));
+    }
 }

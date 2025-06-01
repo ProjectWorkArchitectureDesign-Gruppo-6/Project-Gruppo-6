@@ -24,6 +24,8 @@ public class MainController implements Initializable {
     //
     private DropDownController dropDownMenuController;
 
+    private GroupMenuController groupMenuController;
+
     private StateController stateController;
 
     @FXML
@@ -60,6 +62,12 @@ public class MainController implements Initializable {
         dropDownMenuController.setMainController(this);
         dropDownMenuController.setCanvasController(canvasController);
 
+        loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/GroupMenu.fxml"));
+        AnchorPane groupMenuPane = loader.load();
+        groupMenuController = loader.getController();
+        groupMenuController.setMainController(this);
+        groupMenuController.setCanvasController(canvasController);
+
         menuBarController.setCanvasController(canvasController);
 
         /*focus al canvas*/
@@ -71,6 +79,9 @@ public class MainController implements Initializable {
         //comparirebbe sotto il canvas
         AnchorPane canvasPane=(AnchorPane)scrollCanvas.getContent();
         canvasPane.getChildren().add(dropdownmenu);
+
+        // Stesso per GroupMenu
+        canvasPane.getChildren().add(groupMenuPane);
 
         //Carico scrollPane
         mainVBox.getChildren().addAll(menu, tool, scrollCanvas);

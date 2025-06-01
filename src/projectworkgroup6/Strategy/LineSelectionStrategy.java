@@ -51,7 +51,7 @@ public class LineSelectionStrategy extends SelectionStrategy {
 
     @Override
     public double getMoveButtonY(Shape shape) {
-        return shape.getDim2() - 40;
+        return shape.getDim2() - 10;
     }
 
     @Override

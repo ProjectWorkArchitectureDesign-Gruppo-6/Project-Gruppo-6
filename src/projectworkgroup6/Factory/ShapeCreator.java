@@ -7,12 +7,7 @@ import projectworkgroup6.View.ShapeView;
 import java.util.List;
 
 public interface ShapeCreator {
-    public abstract Shape createShape(double x, double y, ColorModel border, ColorModel fill);
+    public abstract Shape createShape(double x, double y, double width, double height, ColorModel border, ColorModel fill, int layer, int group);
     public abstract ShapeView createShapeView(Shape shape);
 
-    List<double[]> getTempVertices();
-
-    void resetVertices();
-
-    void addVertex(double x, double y);
 }

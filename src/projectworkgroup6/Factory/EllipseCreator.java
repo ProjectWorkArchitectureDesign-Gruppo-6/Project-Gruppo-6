@@ -22,8 +22,8 @@ public class EllipseCreator implements ShapeCreator {
         return instance;
     }
     @Override
-    public Shape createShape(double x, double y, ColorModel border, ColorModel fill) {
-        return new Ellipse(x, y, false, 80, 40, border, fill);
+    public Shape createShape(double x, double y, double width, double height, ColorModel border, ColorModel fill, int layer, int group) {
+        return new Ellipse(x, y, false, width, height, border, fill, layer, group);
     }
 
     @Override
@@ -31,19 +31,5 @@ public class EllipseCreator implements ShapeCreator {
         return new EllipseView((Ellipse) shape);
     }
 
-    /*vengono usati solo da PolygonCreator*/
-    @Override
-    public List<double[]> getTempVertices() {
-        return null;
-    }
 
-    @Override
-    public void resetVertices() {
-
-    }
-
-    @Override
-    public void addVertex(double x, double y) {
-
-    }
 }

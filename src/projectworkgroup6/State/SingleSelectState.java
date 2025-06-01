@@ -6,7 +6,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Command.*;
 import projectworkgroup6.Controller.StateController;
-import projectworkgroup6.Controller.DropDownController;
 import projectworkgroup6.Decorator.BorderDecorator;
 import projectworkgroup6.Decorator.FillDecorator;
 import projectworkgroup6.Decorator.SelectedDecorator;
@@ -35,7 +34,7 @@ public class SingleSelectState implements CanvasState {
         return instance;
     }
 
-    private SelectedDecorator selectedShape = null;
+    private SelectedDecorator selectedShape;
 
 
     @Override
@@ -60,9 +59,12 @@ public class SingleSelectState implements CanvasState {
                     return;
                 }
             }
+
             deselectAll(map);
             //nascondi il menu a tendina
             StateController.getInstance().notifyShapeDeselected();
+            System.out.println("dopo lo spostamento");
+
         }
     }
 
@@ -72,21 +74,28 @@ public class SingleSelectState implements CanvasState {
             Shape s = entry.getKey();
             ShapeView v = entry.getValue();
 
+
             // Deseleziona logicamente
             s.setSelected(false);
 
-            // Se la view è decorata (cioè è un SelectedDecorator), la sostituiamo
-            if (v instanceof SelectedDecorator) {
-                // Rimuovi la versione decorata dalla vista (cioè dallo stato attuale)
-                StateController.getInstance().removeShape(s,v);
+            // Rimuovi dal gruppo provvisorio
+            s.setGroup(0);
 
-                // Crea la versione "base" della view senza decorator
-                ShapeView baseView = ((SelectedDecorator) v).undecorate();
+            // Annulla gruppo provvisorio
+            MultipleSelectState.getInstance().setGroup(null);
 
-                // Aggiungi di nuovo la versione base alla vista
-                StateController.getInstance().addShape(s,baseView);
+            //Nascondi menù a tendina
+            StateController.getInstance().notifyGroupDeselected();
 
-            }
+            // Rimuovi la versione decorata dalla vista (cioè dallo stato attuale)
+            StateController.getInstance().removeShape(s,v);
+
+            // Crea la versione "base" della view senza decorator
+            ShapeView baseView = v.undecorate();
+
+            // Aggiungi di nuovo la versione base alla vista
+            StateController.getInstance().addShape(s,baseView);
+
         }
     }
 
@@ -112,9 +121,6 @@ public class SingleSelectState implements CanvasState {
 
     }
 
-    public ShapeView getSelectedShape() {
-        return selectedShape;
-    }
 
     @Override
     public void handlePression(double x, double y) {
@@ -128,6 +134,7 @@ public class SingleSelectState implements CanvasState {
 
 
             if (isMoveClicked) {
+
                 TranslationState ts = new TranslationState(selectedShape);
                 ts.startDragging(x,y);
                 ts.setMoveCommand(new MoveCommand(selectedShape.getShape()));
@@ -192,7 +199,37 @@ public class SingleSelectState implements CanvasState {
 
     @Override
     public void recoverShapes(Map<Shape, ShapeView> map) {
-        //Non deve fare nulla
+        Map<Shape, ShapeView> copy = new HashMap<Shape, ShapeView>(map);
+        for (Map.Entry<Shape, ShapeView> entry : copy.entrySet()) {
+            Shape s = entry.getKey();
+            ShapeView v = entry.getValue();
+
+            if(v != selectedShape){
+                // Deseleziona logicamente
+                s.setSelected(false);
+
+                // Rimuovi dal gruppo provvisorio
+                s.setGroup(0);
+
+                // Annulla gruppo provvisorio
+                MultipleSelectState.getInstance().setGroup(null);
+
+                //Nascondi menù a tendina
+                StateController.getInstance().notifyGroupDeselected();
+
+                // Rimuovi la versione decorata dalla vista (cioè dallo stato attuale)
+                StateController.getInstance().removeShape(s,v);
+
+                // Crea la versione "base" della view senza decorator
+                ShapeView baseView = v.undecorate();
+
+                // Aggiungi di nuovo la versione base alla vista
+                StateController.getInstance().addShape(s,baseView);
+            }
+
+
+
+        }
     }
 
     @Override
@@ -222,7 +259,7 @@ public class SingleSelectState implements CanvasState {
         ColorModel fill = ColorModel.fromColor(currentFill);
 
 
-
+        // Controllo se ha cambiato il bordo o il riempimento
         if(border.toRgbaString().equals(selectedShape.getShape().getBorder().toRgbaString())){
             CommandManager.getInstance().executeCommand(new ChangeFillCommand(selectedShape.getShape(),fill));
 

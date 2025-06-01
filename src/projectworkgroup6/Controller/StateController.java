@@ -3,6 +3,7 @@ package projectworkgroup6.Controller;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Decorator.SelectedDecorator;
 import projectworkgroup6.Factory.*;
+import projectworkgroup6.Model.Group;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.State.CanvasState;
 import projectworkgroup6.State.SingleSelectState;
@@ -96,6 +97,33 @@ public class StateController{
         }
     }
 
+    // Observer gruppo per menù a tendina diverso
+
+    private final List<GroupObserver> groupObservers = new ArrayList<>();
+
+    public void addGroupObserver(GroupObserver observer){
+        groupObservers.add(observer);
+    }
+
+    public void notifyGroupSelected(Shape shape) {
+
+        for (GroupObserver observer : groupObservers) {
+            observer.onShapeSelected(shape);
+        }
+    }
+
+    public void notifyGroupDeselected() {
+        for (GroupObserver observer : groupObservers) {
+            observer.onShapeDeselected();
+        }
+    }
+
+    public void notifyMouseRight(double x,double y) {
+        for (GroupObserver observer : groupObservers) {
+            observer.onMouseRightClick(x,y);
+        }
+    }
+
 
     //// STATO DEL CANVAS ////
 
@@ -119,6 +147,7 @@ public class StateController{
 
 
     private Map<Shape, ShapeView> map = new HashMap<>();
+    private int currentGroup = 0;
 
     public Map<Shape, ShapeView> getMap() {
         return map;
@@ -178,13 +207,8 @@ public class StateController{
 
     public void setFontFamily(String fontName) {
         this.currentFontName = fontName;
-        notifyObserversToHandleFontFamily();
     }
 
-    public void notifyObserversToHandleFontFamily(){
-        for (StateObserver o : observers)
-            o.onChangeFontFamily(currentFontName);
-    }
 
     public void setFontSize(int fontSize) {
         this.currentFontSize = fontSize;
@@ -192,13 +216,8 @@ public class StateController{
 
     public void setFontColor(Color color) {
         this.currentFontColor = color;
-        notifyObserversToHandleFontColor();
     }
 
-    public void notifyObserversToHandleFontColor(){
-        for (StateObserver o : observers)
-            o.onChangeFontColor(currentFontColor);
-    }
 
     public String getFontFamily() {
         return currentFontName;
@@ -234,5 +253,23 @@ public class StateController{
         this.zoom = zoom;
         currentState = new ZoomState(zoom);
         notifyObservers();
+    }
+
+    public int getCurrentGroup() {
+        return currentGroup;
+    }
+
+    public void addCurrentGroup(){
+        currentGroup += 1;
+    }
+
+    public void remCurrentGroup(){
+        currentGroup -= 1;
+    }
+
+
+    public void addGroup(ShapeView groupView) {
+        for (StateObserver o : observers)
+            o.onCanvasAddGroup(groupView);
     }
 }

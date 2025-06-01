@@ -54,9 +54,9 @@ public class TextBoxCreator implements ShapeCreator {
     }
 
     @Override
-    public Shape createShape(double x, double y, ColorModel border, ColorModel fill) {
+    public Shape createShape(double x, double y, double width, double height, ColorModel border, ColorModel fill, int layer, int group) {
         // Creo TextBox con dimensioni di default, posizione data e parametri font configurati
-        return new TextBox(x, y, false, 100, 50, border, fill,
+        return new TextBox(x, y, false, width, height, border, fill, layer, group,
                 text, fontFamily, fontSize, fontColor);
     }
 
@@ -65,18 +65,4 @@ public class TextBoxCreator implements ShapeCreator {
         return new TextBoxView((TextBox) shape);
     }
 
-    @Override
-    public List<double[]> getTempVertices() {
-        return null;
-    }
-
-    @Override
-    public void resetVertices() {
-
-    }
-
-    @Override
-    public void addVertex(double x, double y) {
-
-    }
 }

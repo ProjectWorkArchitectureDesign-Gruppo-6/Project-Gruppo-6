@@ -9,11 +9,11 @@ public class Ellipse extends Shape {
 
 
     public Ellipse() {
-        super(0, 0, false, new ColorModel(0,0,0,1), new ColorModel(255,255,255,1));
+        super(0, 0, false, new ColorModel(0,0,0,1), new ColorModel(255,255,255,1), 0,0);
     }
 
-    public Ellipse(double x, double y, boolean selected, double diam1, double diam2, ColorModel border, ColorModel fill) {
-        super(x,y,selected, border, fill);
+    public Ellipse(double x, double y, boolean selected, double diam1, double diam2, ColorModel border, ColorModel fill, int layer, int group) {
+        super(x,y,selected, border, fill, layer, group);
         this.diam1 = diam1;
         this.diam2 = diam2;
     }
@@ -47,7 +47,7 @@ public class Ellipse extends Shape {
     @Override
     public double getXc() {
         return this.getX() - diam1/2;
-    }
+    }  // Xc e Yc angolo in alto a sinistra
 
     @Override
     public double getYc() {
@@ -63,7 +63,7 @@ public class Ellipse extends Shape {
     }
 
     @Override
-    public void resize(double factor) {
+    public void resize(double factor, double dx, double dy) {
         diam1 *= factor;
         diam2 *= factor;
     }

@@ -12,7 +12,7 @@
             <Button fx:id="cutBtn" mnemonicParsing="false" onAction="#cut" prefHeight="25.0" prefWidth="182.0" text="Taglia" />
             <ColorPicker fx:id="borderPicker" editable="true" onAction="#modifyStroke" prefHeight="25.0" prefWidth="181.0" promptText="Contorno" />
             <ColorPicker fx:id="fillPicker" editable="true" onAction="#modifyFill" prefHeight="26.0" prefWidth="182.0" promptText="Riempimento" />
-            <Button fx:id="rotateBtn" mnemonicParsing="false" onAction="#rotate" prefHeight="25.0" prefWidth="180.0" text="Ruota" />
+            <Button fx:id="ungroupBtn" mnemonicParsing="false" onAction="#ungroup" prefHeight="25.0" prefWidth="180.0" text="Annulla raggruppamento" />
             <Button fx:id="frontBtn" mnemonicParsing="false" onAction="#portaInPrimoPiano" prefHeight="25.0" prefWidth="124.0" text="Primo Piano" />
             <Button fx:id="backBtn" mnemonicParsing="false" onAction="#portaInSecondoPiano" prefHeight="25.0" prefWidth="128.0" text="Secondo Piano" />
          </children>

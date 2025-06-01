@@ -10,6 +10,8 @@ public class ResizeCommand implements Command{
 
     private double centerX, centerY;
 
+    private double lastX, lastY;
+
 
     private StateController stateController;
 
@@ -25,17 +27,21 @@ public class ResizeCommand implements Command{
 
     @Override
     public void execute() {
-        shape.resize(factor);
+        shape.resize(factor,centerX,centerY);
     }
 
     @Override
     public void undo() {
-        shape.resize(1/factor);
         shape.setX(centerX);
         shape.setY(centerY);
+        shape.resize(1/factor,lastX,lastY);
+
     }
 
-    public void undofactor(){
-        shape.resize(1/factor);
+    public void undofactor(double oldX, double oldY){
+        this.lastX = oldX;
+        this.lastY = oldY;
+        shape.resize(1/factor,oldX,oldY);
     }
+
 }

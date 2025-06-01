@@ -6,20 +6,19 @@ import javafx.scene.paint.Color;
 import projectworkgroup6.Command.CommandManager;
 import projectworkgroup6.Command.MoveCommand;
 import projectworkgroup6.Controller.StateController;
-import projectworkgroup6.Decorator.SelectedDecorator;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.ShapeView;
 
 import java.util.Map;
 
 public class TranslationState implements CanvasState{
-    private final SelectedDecorator shapeView;
+    private final ShapeView shapeView;
     private double lastX;
     private double lastY;
 
     private MoveCommand currentMoveCommand;
 
-    public TranslationState(SelectedDecorator shapeView) {
+    public TranslationState(ShapeView shapeView) {
         this.shapeView = shapeView;
     }
 
@@ -61,6 +60,7 @@ public class TranslationState implements CanvasState{
         lastX = x;
         lastY = y; // salvataggio delle coordinate ottenute in base al piccolo passo
 
+
         StateController.getInstance().addShape(shape, shapeView); // aggiungo shape alla posizione nuova
 
         // Questo permette di spostatare la shape visivamente
@@ -70,7 +70,6 @@ public class TranslationState implements CanvasState{
     // Implementa lo spostamento solo a livello logico
     @Override
     public void handleMouseReleased(double xf, double yf) { // evento che avviene al rilascio del mouse
-
 
         // a livello logico riporto la shape alla sua posizione iniziale, undo si basa sullo spostamento incrementale calcolato
         currentMoveCommand.undo();

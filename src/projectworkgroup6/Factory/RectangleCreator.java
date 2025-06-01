@@ -23,8 +23,8 @@ public class RectangleCreator implements ShapeCreator {
         return instance;
     }
     @Override
-    public Shape createShape(double x, double y, ColorModel border, ColorModel fill) {
-        return new Rectangle(x, y, false, 100, 50, border, fill); // dimensioni di default
+    public Shape createShape(double x, double y, double width, double height, ColorModel border, ColorModel fill, int layer, int group) {
+        return new Rectangle(x, y, false, width, height, border, fill, layer, group);
     }
 
     @Override
@@ -32,19 +32,4 @@ public class RectangleCreator implements ShapeCreator {
         return new RectangleView((Rectangle) shape);
     }
 
-    /*vengono usati solo da polygonCreator*/
-    @Override
-    public List<double[]> getTempVertices() {
-        return null;
-    }
-
-    @Override
-    public void resetVertices() {
-
-    }
-
-    @Override
-    public void addVertex(double x, double y) {
-
-    }
 }

@@ -10,11 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import projectworkgroup6.Factory.*;
-import projectworkgroup6.State.InsertPolygonState;
-import projectworkgroup6.State.InsertState;
-
-import projectworkgroup6.State.InsertTextBoxState;
-import projectworkgroup6.State.SingleSelectState;
+import projectworkgroup6.State.*;
 
 public class ToolBarController {
 
@@ -86,6 +82,17 @@ public class ToolBarController {
         fontColorPicker.setVisible(false);
         fontSizeSpinner.setVisible(false);
 
+    }
+
+    public void onMltSelectButton(ActionEvent actionEvent) {
+
+        StateController.getInstance().setState(MultipleSelectState.getInstance());
+
+        colorPickerBorder.setVisible(false);
+        colorPickerFill.setVisible(false);
+        fontCombo.setVisible(false);
+        fontColorPicker.setVisible(false);
+        fontSizeSpinner.setVisible(false);
     }
 
 
@@ -172,5 +179,7 @@ public class ToolBarController {
         String fontName = (String) fontCombo.getValue();
         StateController.getInstance().setFontFamily(fontName); //viene passata allo StateController tramite setFontFamily
     }
+
+
 }
 

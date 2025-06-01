@@ -15,19 +15,24 @@ import projectworkgroup6.Model.ColorModel;
         @JsonSubTypes.Type(value = Ellipse.class, name = "Ellipse"),
         @JsonSubTypes.Type(value = Line.class, name = "Line"),
         @JsonSubTypes.Type(value = Polygon.class, name = "Polygon"),
-        @JsonSubTypes.Type(value = TextBox.class, name = "TextBox")
+        @JsonSubTypes.Type(value = TextBox.class, name = "TextBox"),
+        @JsonSubTypes.Type(value = Group.class, name = "Group")
 })
 public abstract class Shape {
 
     protected double x, y;
     protected ColorModel border, fill;
+    protected int layer;
+    protected int group;
 
-    public Shape(double x, double y, boolean selected, ColorModel border, ColorModel fill) {
+    public Shape(double x, double y, boolean selected, ColorModel border, ColorModel fill, int layer, int group) {
         this.x = x;
         this.y = y;
         this.selected = selected;
         this.border = border;
         this.fill = fill;
+        this.layer = layer;
+        this.group = group;
     }
 
     public void setX(double x) {
@@ -80,7 +85,7 @@ public abstract class Shape {
 
 
     public abstract void move(double dx, double dy);
-    public abstract void resize(double scaleFactor);
+    public abstract void resize(double scaleFactor, double dx, double dy);
 
 
     public abstract boolean contains(double x, double y);
@@ -100,5 +105,29 @@ public abstract class Shape {
     }
 
     public void setText(String newText) {
+    }
+
+    public int getLayer() {
+        return layer;
+    }
+
+    public void setLayer(int layer) {
+        this.layer = layer;
+    }
+
+    public void layerUp(){
+        this.layer ++;
+    }
+
+    public void layerDown(){
+        this.layer --;
+    }
+
+    public int getGroup() {
+        return group;
+    }
+
+    public void setGroup(int group) {
+        this.group = group;
     }
 }

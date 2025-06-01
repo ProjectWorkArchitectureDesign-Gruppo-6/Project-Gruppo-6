@@ -8,6 +8,7 @@ import projectworkgroup6.Command.CommandManager;
 import projectworkgroup6.Command.InsertCommand;
 import projectworkgroup6.Controller.StateController;
 import projectworkgroup6.Decorator.SelectedDecorator;
+import projectworkgroup6.Factory.PolygonCreator;
 import projectworkgroup6.Factory.ShapeCreator;
 import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Polygon;
@@ -25,7 +26,7 @@ import static org.mockito.Mockito.*;
 class InsertPolygonStateTest {
 
     private InsertPolygonState state;
-    private ShapeCreator creatorMock;
+    private PolygonCreator creatorMock;
     private CommandManager commandManagerMock;
     private ShapeView shapeViewMock;
     private Shape shapeMock;
@@ -33,7 +34,7 @@ class InsertPolygonStateTest {
 
     @BeforeEach
     void setUp() {
-        creatorMock = mock(ShapeCreator.class);
+        creatorMock = mock(PolygonCreator.class);
         shapeMock = mock(Polygon.class);
         shapeViewMock = mock(ShapeView.class);
 

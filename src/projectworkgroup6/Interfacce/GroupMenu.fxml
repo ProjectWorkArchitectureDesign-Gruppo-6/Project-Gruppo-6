@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="groupMenuPane"
+        xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="projectworkgroup6.Controller.GroupMenuController"
+            prefHeight="400.0" prefWidth="600.0" visible="false">
+    <children>
+        <VBox fx:id="GroupMenu" prefHeight="208.0" prefWidth="122.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Button fx:id="GroupBtn" mnemonicParsing="false" onAction="#makeGroup" prefHeight="25.0" prefWidth="191.0" text="Crea Gruppo" />
+                <Button fx:id="copyBtn" mnemonicParsing="false" onAction="#copy" prefHeight="25.0" prefWidth="191.0" text="Copia" />
+                <Button fx:id="cutBtn" mnemonicParsing="false" onAction="#cut" prefHeight="25.0" prefWidth="182.0" text="Taglia" />
+                <Button fx:id="pasteBtn" disable="true" mnemonicParsing="false" onAction="#paste" prefHeight="25.0" prefWidth="181.0" text="Incolla" />
+                <ColorPicker fx:id="borderPicker" editable="true" onAction="#modifyStroke" prefHeight="25.0" prefWidth="181.0" promptText="Contorno" />
+                <ColorPicker fx:id="fillPicker" editable="true" onAction="#modifyFill" prefHeight="26.0" prefWidth="182.0" promptText="Riempimento" />
+
+            </children>
+        </VBox>
+    </children>
+
+</AnchorPane>
