@@ -7,6 +7,9 @@ import projectworkgroup6.Controller.StateController;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.ShapeView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.mockito.Mockito.*;
 
 class InsertCommandTest {
@@ -21,6 +24,13 @@ class InsertCommandTest {
         mockView = mock(ShapeView.class);
         mockController = mock(StateController.class);
 
+        // Inietto il mock nel singleton
+        StateController.setInstance(mockController);
+
+        // Simulo la mappa interna dello StateController
+        Map<Shape, ShapeView> mockMap = new HashMap<>();
+        mockMap.put(mockShape, mockView);
+        when(mockController.getMap()).thenReturn(mockMap);
     }
 
     @Test

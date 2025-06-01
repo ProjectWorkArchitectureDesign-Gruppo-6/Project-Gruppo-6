@@ -38,8 +38,22 @@ public class CanvasView {
     }
 
     private void setupEventHandlers() {
-        canvas.setOnMouseClicked(e -> controller.handleCanvasClick(e, e.getX(), e.getY()));
+
+        canvas.setOnMouseClicked(e -> {
+            double x = e.getX(); //mi prendo le coordinate del click
+            double y = e.getY();
+
+            if (controller.hasShapeToInsert()) { //se sto cercando di inserire una shape personalizzata (legata al click del bottone nel toolbar)
+                controller.pasteShapeToCanvas(x, y); //non passo semplicemente il controllo del click al canvasController ma invoco questo metodo
+
+                /*in questo modo riesco a distinguere due tipologie di click diversi ma senza creare un nuovo stato per l'inserimento delle figure personalizzate*/
+                return;
+            }
+
+            controller.handleCanvasClick(e, x, y);
+        });
         canvas.setOnMousePressed(e -> controller.handlePression(e.getX(), e.getY()));
+
         canvas.setOnMouseDragged(e -> controller.handleMouseDragged(e.getX(), e.getY()));
         canvas.setOnMouseReleased(e -> controller.handleMouseReleased(e.getX(), e.getY()));
 

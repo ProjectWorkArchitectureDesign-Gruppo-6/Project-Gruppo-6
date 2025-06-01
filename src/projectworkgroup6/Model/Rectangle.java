@@ -80,4 +80,10 @@ public class Rectangle extends Shape {
     public String type() {
         return "Rectangle";
     }
+
+    @Override
+    public Shape cloneAt(double x, double y, int layer){
+        return new Rectangle(x, y, false, this.width, this.height, this.border, this.fill, layer, this.group);
+    }
+
 }

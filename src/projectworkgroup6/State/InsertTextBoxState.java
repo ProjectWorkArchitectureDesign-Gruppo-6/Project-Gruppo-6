@@ -43,6 +43,13 @@ public class InsertTextBoxState implements CanvasState {
     @Override
     public void handleClick(MouseEvent e,double x, double y, Map<Shape, ShapeView> map) {
 
+        StateController sc = StateController.getInstance();
+
+
+
+        creator.setFontFamily(sc.getFontFamily()); //mi prendo le impostazioni del testo dai pulsanti tramite lo state controller
+        creator.setFontSize(sc.getFontSize());
+        creator.setFontColor(ColorModel.fromColor(sc.getFontColor()));
         //setto una variabile da usare nel ciclo per la verifica del click su una shape oppure no
         boolean clickedOnShape = false;
         //Itero sulla mappa prendendo i valori di shape e shapeView corrispondenti
@@ -62,12 +69,7 @@ public class InsertTextBoxState implements CanvasState {
             }
 
         } if(!clickedOnShape){ //se invece non sto facendo click su un textBox mi comporto come un normale stato di inserimento
-            StateController sc = StateController.getInstance();
 
-
-            creator.setFontFamily(sc.getFontFamily()); //mi prendo le impostazioni del testo dai pulsanti tramite lo state controller
-            creator.setFontSize(sc.getFontSize());
-            creator.setFontColor(ColorModel.fromColor(sc.getFontColor()));
 
             creator.setText("");
 
@@ -98,6 +100,11 @@ public class InsertTextBoxState implements CanvasState {
 
     @Override
     public void handlePression(double x, double y) { /* non usato */ }
+
+    @Override
+    public void handlePressionRotate(double x, double y) {
+
+    }
 
     @Override
     public void handleMouseDragged(double x, double y) { /* non usato */ }
@@ -147,4 +154,19 @@ public class InsertTextBoxState implements CanvasState {
 
     @Override
     public void handleKeyTyped(KeyEvent event, Map<Shape, ShapeView> map) { /* niente */ }
+
+    @Override
+    public void handleChangeFontColor(Color currentFontColor) {
+
+    }
+
+    @Override
+    public void handleChangeFontName(String currentFontName) {
+
+    }
+
+    @Override
+    public void handleChangeFontSize(int currentFontSize) {
+
+    }
 }

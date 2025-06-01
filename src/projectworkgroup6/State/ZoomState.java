@@ -36,6 +36,11 @@ public class ZoomState implements CanvasState{
     }
 
     @Override
+    public void handlePressionRotate(double x, double y) {
+
+    }
+
+    @Override
     public void handleMouseDragged(double x, double y) {
         // NUlla
     }
@@ -63,5 +68,20 @@ public class ZoomState implements CanvasState{
     @Override
     public void handleKeyTyped(KeyEvent event, Map<Shape, ShapeView> map) {
         //
+    }
+
+    @Override
+    public void handleChangeFontColor(Color currentFontColor) {
+
+    }
+
+    @Override
+    public void handleChangeFontName(String currentFontName) {
+
+    }
+
+    @Override
+    public void handleChangeFontSize(int currentFontSize) {
+
     }
 }

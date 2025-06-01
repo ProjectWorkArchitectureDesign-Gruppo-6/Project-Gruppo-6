@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="dropDownMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="197.0" prefWidth="122.0" visible="false" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.DropDownController">
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Spinner?>
+<AnchorPane fx:id="dropDownMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="323.0" prefWidth="122.0" visible="false" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.DropDownController">
    <children>
       <VBox fx:id="dropDownMenu" prefHeight="208.0" prefWidth="122.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -11,10 +16,15 @@
             <Button fx:id="pasteBtn" disable="true" mnemonicParsing="false" onAction="#paste" prefHeight="25.0" prefWidth="181.0" text="Incolla" />
             <Button fx:id="cutBtn" mnemonicParsing="false" onAction="#cut" prefHeight="25.0" prefWidth="182.0" text="Taglia" />
             <ColorPicker fx:id="borderPicker" editable="true" onAction="#modifyStroke" prefHeight="25.0" prefWidth="181.0" promptText="Contorno" />
-            <ColorPicker fx:id="fillPicker" editable="true" onAction="#modifyFill" prefHeight="26.0" prefWidth="182.0" promptText="Riempimento" />
+
+            <ColorPicker fx:id="fillPicker" editable="true" onAction="#modifyFill" prefHeight="25.0" prefWidth="182.0" promptText="Riempimento" />
             <Button fx:id="ungroupBtn" mnemonicParsing="false" onAction="#ungroup" prefHeight="25.0" prefWidth="180.0" text="Annulla raggruppamento" />
             <Button fx:id="frontBtn" mnemonicParsing="false" onAction="#portaInPrimoPiano" prefHeight="25.0" prefWidth="124.0" text="Primo Piano" />
             <Button fx:id="backBtn" mnemonicParsing="false" onAction="#portaInSecondoPiano" prefHeight="25.0" prefWidth="128.0" text="Secondo Piano" />
+            <ComboBox fx:id="modfontCombo" layoutX="650" layoutY="10" onAction="#modifyFontName" prefWidth="120" visible="true" />
+            <Spinner fx:id="modfontSizeSpinner" layoutX="650" layoutY="40" prefHeight="26.0" prefWidth="122.0" visible="true" />
+            <ColorPicker fx:id="modfontColorPicker" layoutX="740" layoutY="40" onAction="#modifyFontColor" prefHeight="38.0" prefWidth="122.0" visible="true" />
+            <Button fx:id="addShape" layoutY="284.0" mnemonicParsing="false" onAction="#onAddShape" prefHeight="26.0" prefWidth="122.0" text="Add figure" />
          </children>
       </VBox>
    </children>

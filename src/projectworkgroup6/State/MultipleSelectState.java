@@ -10,6 +10,7 @@ import projectworkgroup6.Controller.StateController;
 import projectworkgroup6.Decorator.*;
 import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Group;
+import projectworkgroup6.Model.Polygon;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.GroupView;
 import projectworkgroup6.View.ShapeView;
@@ -120,26 +121,54 @@ public class MultipleSelectState implements CanvasState {
             shapes.add(selections.get(i).getShape());
         }
 
-        // Se ho selezionato qualcosa, iniziliazzo i bordi del Group partendo dalla prima shape selezionata
-        double minX = shapes.get(0).getX() - shapes.get(0).getDim1() / 2;
-        double minY = shapes.get(0).getY() - shapes.get(0).getDim2() / 2;
-        double maxX = shapes.get(0).getX() + shapes.get(0).getDim1() / 2;
-        double maxY = shapes.get(0).getY() + shapes.get(0).getDim2() / 2;
+        double minX = Double.POSITIVE_INFINITY;
+        double minY = Double.POSITIVE_INFINITY;
+        double maxX = Double.NEGATIVE_INFINITY;
+        double maxY = Double.NEGATIVE_INFINITY;
 
-        for (int i = 1; i<shapes.size(); i++) {
+        for (Shape shape : shapes) {
+            double x = shape.getXc();
+            double y = shape.getYc();
+            double w = shape.getDim1();
+            double h = shape.getDim2();
+            double angle = Math.toRadians(shape.getRotation());
 
-            // Per ogni altra shape selezionata calcoli i bordi
-            double shapeMinX = shapes.get(i).getX() - shapes.get(i).getDim1() / 2;
-            double shapeMaxX = shapes.get(i).getX() + shapes.get(i).getDim1() / 2;
-            double shapeMinY = shapes.get(i).getY() - shapes.get(i).getDim2() / 2;
-            double shapeMaxY = shapes.get(i).getY() + shapes.get(i).getDim2() / 2;
+            double cx;
+            double cy;
 
-            // Li confronti con i bordi correnti e aggiorni eventualmente
-            if (shapeMinX < minX) minX = shapeMinX;
-            if (shapeMaxX > maxX) maxX = shapeMaxX;
-            if (shapeMinY < minY) minY = shapeMinY;
-            if (shapeMaxY > maxY) maxY = shapeMaxY;
+            if(shape instanceof Polygon){
+                List<double[]> vertices = ((Polygon) shape).getVertices();
+
+                cx = vertices.stream().mapToDouble(v -> v[0]).average().orElse(0);
+                cy = vertices.stream().mapToDouble(v -> v[1]).average().orElse(0);
+
+            }else{
+                cx = x + w / 2.0;
+                cy = y + h / 2.0;
+            }
+
+
+            double[][] corners = {
+                    {x, y},
+                    {x + w, y},
+                    {x, y + h},
+                    {x + w, y + h}
+            };
+
+            for (double[] corner : corners) {
+                double dx = corner[0] - cx;
+                double dy = corner[1] - cy;
+
+                double rotatedX = cx + dx * Math.cos(angle) - dy * Math.sin(angle);
+                double rotatedY = cy + dx * Math.sin(angle) + dy * Math.cos(angle);
+
+                minX = Math.min(minX, rotatedX);
+                minY = Math.min(minY, rotatedY);
+                maxX = Math.max(maxX, rotatedX);
+                maxY = Math.max(maxY, rotatedY);
+            }
         }
+
 
         // Definisci centro e limiti bordi del Group
         double centerX = minX + (maxX - minX) / 2;
@@ -265,6 +294,11 @@ public class MultipleSelectState implements CanvasState {
     }
 
     @Override
+    public void handlePressionRotate(double x, double y) {
+
+    }
+
+    @Override
     public void handleMouseDragged(double x, double y) {
         //
     }
@@ -371,6 +405,21 @@ public class MultipleSelectState implements CanvasState {
 
     @Override
     public void handleKeyTyped(KeyEvent event, Map<Shape, ShapeView> map) {
+
+    }
+
+    @Override
+    public void handleChangeFontColor(Color currentFontColor) {
+
+    }
+
+    @Override
+    public void handleChangeFontName(String currentFontName) {
+
+    }
+
+    @Override
+    public void handleChangeFontSize(int currentFontSize) {
 
     }
 }

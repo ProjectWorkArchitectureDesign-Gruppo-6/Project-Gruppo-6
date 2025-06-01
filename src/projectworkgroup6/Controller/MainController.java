@@ -51,7 +51,9 @@ public class MainController implements Initializable {
         loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/Canvas.fxml"));
         ScrollPane scrollCanvas = loader.load();
         canvasController = loader.getController();
+        //aggiunto per link fra controller
         canvasController.setMainController(this);
+        toolBarController.setCanvasController(canvasController);
 
 
         // Carica Menu a Tendina
@@ -59,14 +61,19 @@ public class MainController implements Initializable {
         loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/DropDownMenu.fxml"));
         AnchorPane dropdownmenu = loader.load();
         dropDownMenuController = loader.getController();
+        //aggiunto per link fra controller
         dropDownMenuController.setMainController(this);
         dropDownMenuController.setCanvasController(canvasController);
+
 
         loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/GroupMenu.fxml"));
         AnchorPane groupMenuPane = loader.load();
         groupMenuController = loader.getController();
         groupMenuController.setMainController(this);
         groupMenuController.setCanvasController(canvasController);
+
+        dropDownMenuController.setToolBarController(toolBarController);
+
 
         menuBarController.setCanvasController(canvasController);
 
@@ -111,7 +118,7 @@ public class MainController implements Initializable {
 
 
 
-    // --- Set controller figli ---
+    // --- Set controller figli --- //
     public void setToolBarController(ToolBarController toolBarController) {
         this.toolBarController = toolBarController;
     }

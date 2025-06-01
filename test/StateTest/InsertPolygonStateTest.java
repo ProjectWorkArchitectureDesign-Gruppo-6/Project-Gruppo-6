@@ -1,5 +1,6 @@
 package StateTest;
 
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,9 +39,11 @@ class InsertPolygonStateTest {
         shapeMock = mock(Polygon.class);
         shapeViewMock = mock(ShapeView.class);
 
-        // Mock singleton CommandManager e StateController
         commandManagerMock = mock(CommandManager.class);
+        CommandManager.setInstance(commandManagerMock);
+
         StateController controllerMock = mock(StateController.class);
+        StateController.setInstance(controllerMock);
 
         when(controllerMock.getStrokeColor()).thenReturn(Color.BLACK);
         when(controllerMock.getFillColor()).thenReturn(Color.WHITE);
@@ -52,9 +55,12 @@ class InsertPolygonStateTest {
     @Test
     void testHandleClick_AddsVertexAndCreatesPreviewPolygon() {
         ArrayList<double[]> vertices = new ArrayList<>();
+        vertices.add(new double[]{10, 20});
         when(creatorMock.getTempVertices()).thenReturn(vertices);
 
-        state.handleClick(10, 20, map);
+        MouseEvent mockEvent = mock(MouseEvent.class);
+
+        state.handleClick(mockEvent, 10, 20, map);
 
         verify(creatorMock).addVertex(10, 20);
     }
@@ -70,14 +76,16 @@ class InsertPolygonStateTest {
         when(creatorMock.createShape(anyDouble(), anyDouble(), any(), any())).thenReturn(shapeMock);
         when(creatorMock.createShapeView(shapeMock)).thenReturn(shapeViewMock);
 
+        MouseEvent mockEvent = mock(MouseEvent.class);
+
         // Primo click
-        state.handleClick(10, 20, map);
+        state.handleClick(mockEvent, 10, 20, map);
 
         // Simula click entro soglia tempo doppio click
         try { Thread.sleep(100); } catch (InterruptedException ignored) {}
 
         // Secondo click (doppio)
-        state.handleClick(10, 20, map);
+        state.handleClick(mockEvent, 10, 20, map);
 
         verify(creatorMock).resetVertices();
         verify(commandManagerMock).executeCommand(any(InsertCommand.class));
@@ -98,6 +106,7 @@ class InsertPolygonStateTest {
         when(((SelectedDecorator) decorated).undecorate()).thenReturn(undecorated);
 
         StateController controller = mock(StateController.class);
+        StateController.setInstance(controller);
 
         map.put(shape, decorated);
         state.recoverShapes(map);

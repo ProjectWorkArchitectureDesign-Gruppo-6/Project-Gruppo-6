@@ -6,7 +6,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="109.0" prefWidth="760.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.ToolBarController">
+<AnchorPane prefHeight="109.0" prefWidth="1088.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.ToolBarController">
 
     <children>
       <Button layoutX="14.0" layoutY="66.0" mnemonicParsing="false" onAction="#onMltSelectButton" text="SM" />
@@ -58,6 +58,11 @@
         <ComboBox fx:id="fontCombo" layoutX="650" layoutY="10" onAction="#onFontName" prefWidth="120" visible="false" />
         <Spinner fx:id="fontSizeSpinner" layoutX="650" layoutY="40" prefWidth="80" visible="false" />
         <ColorPicker fx:id="fontColorPicker" layoutX="740" layoutY="40" onAction="#onFontColor" visible="false" />
+      <ScrollPane fx:id="scrollPaneButton" layoutX="939.0" layoutY="5.0" prefHeight="96.0" prefWidth="120.0">
+        <content>
+            <GridPane fx:id="buttons" hgap="10" vgap="10"/>
+        </content>
+      </ScrollPane>
 
     </children>
 </AnchorPane>

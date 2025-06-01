@@ -19,8 +19,6 @@ public class Polygon extends Shape{
 
     public Polygon(ArrayList<double []> vertices, boolean selected, ColorModel border, ColorModel fill, int layer, int group) {
         super(vertices.get(0)[0], vertices.get(0)[1], selected, border, fill, layer, group); //get(0) passo gli indici del primo click
-        //this.vertices = new ArrayList<>(); //per la creazione del poligono io mi salvo quei vertici in una list che non
-                                           // può essere modificata dall'esterno (new interno al costruttore) altrimenti varierebbe il poligono
         this.vertices = new ArrayList<>(); //perchè altrimenti stai modificando una lista durante l'iterazione quindi ne crei una temporanea
         for (double[] v : vertices) {
             this.vertices.add(new double[] { v[0], v[1] });
@@ -52,14 +50,13 @@ public class Polygon extends Shape{
 
     @Override
     public double getXc() {
-        /*stream itera su tutti i vertici della lista, maptoDouble serve a prendere solo la coordinata x di ogni punto
-         * e ne calcola la media, per iterare tramite stream serve verificare che ci siano oggetti nella lista
-         * se la lista è vuota restituisce x del costruttore */
+        // restituisce x del vertice in alto a sinistra
         return vertices.stream().mapToDouble(v->v[0]).min().orElse(x);
     }
 
     @Override
     public double getYc() {
+        // restituisce y del vertice in alto a sinistra
         return vertices.stream().mapToDouble(v->v[1]).min().orElse(y);
     }
 
@@ -124,4 +121,25 @@ public class Polygon extends Shape{
     public String type() {
         return "Polygon";
     }
+
+    @Override
+    public Shape cloneAt(double x, double y, int layer){
+        List<double[]> newVertices = new ArrayList<>();
+        double sumX = 0, sumY = 0;
+        for (double[] v : this.vertices) {
+            sumX += v[0];
+            sumY += v[1];
+        }
+        double centerX = sumX / vertices.size();
+        double centerY = sumY / vertices.size();
+        double dx = x - centerX;
+        double dy = y - centerY;
+
+        for (double[] v : this.vertices) {
+            newVertices.add(new double[]{v[0] + dx, v[1] + dy});
+        }
+
+        return new Polygon((ArrayList<double[]>) newVertices, false, border, fill,layer,this.group);
+    }
+
 }

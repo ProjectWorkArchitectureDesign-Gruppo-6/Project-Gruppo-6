@@ -27,6 +27,8 @@ public class GroupBorderDecorator extends ShapeView {
         double x = group.getX() - group.getWidth() / 2;
         double y = group.getY() - group.getHeight() / 2;
 
+
+
         gc.setStroke(Color.LIGHTGRAY);
         gc.setLineDashes(6);
         gc.setLineWidth(2);

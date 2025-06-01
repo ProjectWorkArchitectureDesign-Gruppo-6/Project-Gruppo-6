@@ -18,5 +18,7 @@
     <orderEntry type="library" scope="TEST" name="junit-jupiter-engine-5.9.2" level="project" />
     <orderEntry type="library" scope="TEST" name="junit-platform-engine-1.9.2" level="project" />
     <orderEntry type="library" scope="TEST" name="junit-platform-commons-1.9.2" level="project" />
+    <orderEntry type="library" name="mockito-inline-5.2.0" level="project" />
+    <orderEntry type="library" name="byte-buddy-agent-1.14.5" level="project" />
   </component>
 </module>

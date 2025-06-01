@@ -1,11 +1,14 @@
 package projectworkgroup6.Controller;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
+import javafx.collections.FXCollections;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import projectworkgroup6.Controller.StateController;
 import projectworkgroup6.Decorator.BorderDecorator;
+import projectworkgroup6.Factory.TextBoxCreator;
 import projectworkgroup6.Model.*;
 
 import projectworkgroup6.Factory.ShapeCreator;
@@ -25,6 +28,12 @@ import projectworkgroup6.State.SingleSelectState;
 import projectworkgroup6.View.ShapeView;
 
 import java.util.*;
+
+
+/**
+ * Controller del menu a tendina per la manipolazione delle shape selezionate.
+ * Implementa l'interfaccia SelectionObserver per rispondere a selezioni/deselezioni.
+ */
 
 public class DropDownController implements SelectionObserver {
     @FXML
@@ -67,7 +76,31 @@ public class DropDownController implements SelectionObserver {
     }
 
     @FXML
+    public ComboBox modfontCombo;
+    @FXML
+    private Spinner modfontSizeSpinner;
+    @FXML
+    private ColorPicker modfontColorPicker;
+
+    @FXML
     public void initialize() {
+
+        // Popola fontCombo con i nomi dei font disponibili
+        modfontCombo.setItems(FXCollections.observableArrayList(Font.getFamilies()));
+
+        // Imposta un valore di default
+        modfontCombo.getSelectionModel().select("Arial");
+
+        // Configura fontSizeSpinner: valori da 8 a 72, step 1, valore iniziale 12
+        modfontSizeSpinner.setValueFactory(
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(8, 72, 12, 1)
+        );
+
+        modfontSizeSpinner.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                canvasController.onChangeFontSize((int)newValue); //non esiste onAction per lo spinner quindi setto l'azione nell'inizialize
+            }
+        });
 
         StateController.getInstance().addSelectionObserver(this);
     }
@@ -137,7 +170,7 @@ public class DropDownController implements SelectionObserver {
         System.out.println("copia");
         ShapeView copiedShapeView = StateController.getInstance().getMap().get(selectedShape);
         setSavedView(copiedShapeView.undecorate());
-        System.out.println(copiedShapeView.undecorate().getShape().getDim1());
+
         hideDDMenu();
     }
 
@@ -154,50 +187,84 @@ public class DropDownController implements SelectionObserver {
 
     @FXML
     public void paste(ActionEvent event) {
+
+        Map<Shape, ShapeView> map = StateController.getInstance().getMap();
+
         Shape originalShape = getSavedView().getShape();
-        System.out.println(originalShape.getDim1());
-        setSavedView(null);
-        ShapeCreator creator = StateController.getInstance().getCreators().get(originalShape.type());
-        Map<Shape,ShapeView> map = StateController.getInstance().getMap(); // serve per layering
+        //setSavedView(null);
 
-        Shape newShape;
+        //richiama i metodi cloneAt di ogni modello e incolla alle coordinate del click specificate in questa modalità
+        Shape newShape = originalShape.cloneAt(pasteX, pasteY, StateController.getInstance().getMap().size() + 1);
+        ShapeCreator creator = StateController.getInstance().getCreators().get(newShape.type());
 
-        if (originalShape instanceof Polygon) {
-            List<double[]> originalVertices = ((Polygon) originalShape).getVertices();
+        ShapeView newView;
 
-            // Calcolo il baricentro reale dei vertici
-            double sumX = 0, sumY = 0;
-            for (double[] v : originalVertices) {
-                sumX += v[0];
-                sumY += v[1];
-            }
-            double centerX = sumX / originalVertices.size();
-            double centerY = sumY / originalVertices.size();
+        if(creator == null){
 
-            // Calcolo lo spostamento rispetto alla posizione del click
-            double dx = pasteX - centerX;
-            double dy = pasteY - centerY;
 
-            // Nuova lista di vertici spostati
-            List<double[]> newVertices = new ArrayList<>();
-            for (double[] v : originalVertices) {
-                newVertices.add(new double[]{v[0] + dx, v[1] + dy});
-            }
+            processGroup((Group)newShape, StateController.getInstance().getCreators());
+            newView = map.get(newShape);
+            StateController.getInstance().removeShape(newShape,newView);
 
-            newShape = new Polygon(new ArrayList<>(newVertices), false, originalShape.getBorder(), originalShape.getFill(), map.size() + 1, 0 );
-        } else {
-            newShape = creator.createShape(pasteX, pasteY, originalShape.getDim1(), originalShape.getDim2(), originalShape.getBorder(), originalShape.getFill(), map.size() + 1, 0);
+
+        }else {
+            newView = creator.createShapeView(newShape);
+
         }
 
-        ShapeView newView = creator.createShapeView(newShape);
-        newView = new BorderDecorator(newView, newShape.getBorder().toColor());
-        newView = new FillDecorator(newView, newShape.getFill().toColor());
-
+        System.out.println(newView);
+        System.out.println(newShape);
         InsertCommand cmd = new InsertCommand(newShape, newView);
         CommandManager.getInstance().executeCommand(cmd);
 
+
         dropDownMenu.getChildren().forEach(node -> node.setDisable(node == pasteBtn));
         hideDDMenu();
+    }
+
+    private void processGroup(Group group, Map<String, ShapeCreator> creators) {
+
+        Map<Shape,ShapeView> map = StateController.getInstance().getMap();
+
+        // Prendo le shapes dal gruppo
+        List<Shape> children = group.getShapes();
+
+        // inizializzo le view oer ogni shape
+        List<ShapeView> views = new ArrayList<>();
+
+        // Per ogni shape del gruppo
+        for (Shape child : children) {
+
+            // Controllo se si tratta di un gruppo innestato
+            if (child instanceof Group) {
+
+                Group nestedGroup = (Group)child;
+
+                // Ricorsione: processa il gruppo interno
+                processGroup(nestedGroup, creators);
+
+                // Aggiungo la vista del gruppo innestato nel gruppo esterno
+                views.add(map.get(nestedGroup));
+
+                // Rimuovi dalla mappa il gruppo annidato perchè viene compreso nel gruppo esterno
+                StateController.getInstance().removeShape(nestedGroup,map.get(nestedGroup));
+
+
+            } else {
+                // È una shape normale
+                ShapeCreator creator = creators.get(child.getClass().getSimpleName());
+                ShapeView childView = creator.createShapeView(child);
+                BorderDecorator border = new BorderDecorator(childView, child.getBorder().toColor());
+                FillDecorator fill = new FillDecorator(border, child.getFill().toColor());
+
+                views.add(fill);
+            }
+        }
+
+        // Ora crea la view per il gruppo principale
+        ShapeView groupView = new GroupView(group,views);
+
+        StateController.getInstance().addShape(group, groupView);
     }
 
 
@@ -219,11 +286,7 @@ public class DropDownController implements SelectionObserver {
 
     }
 
-    @FXML
-    public void rotate(ActionEvent event) {
-        System.out.println("ruota");
-    }
-
+    //Metodo che consente di mettere una figura selezionata davanti alle altre
     @FXML
     void portaInSu(ActionEvent event) {
 
@@ -319,6 +382,7 @@ public class DropDownController implements SelectionObserver {
         StateController.getInstance().redrawCanvas();
     }
 
+    //Metodo che consente di portare una figura selezionata in secondo piano
     @FXML
     void portaInSecondoPiano(ActionEvent event) {
 
@@ -343,10 +407,55 @@ public class DropDownController implements SelectionObserver {
             StateController.getInstance().redrawCanvas();
         }
 
+
     }
 
     public void ungroup(ActionEvent actionEvent) {
         Map<Shape,ShapeView> map = StateController.getInstance().getMap();
         CommandManager.getInstance().executeCommand(new UngroupCommand((Group)selectedShape,(GroupView)map.get(selectedShape).undecorate()));
+    }
+
+
+    //metodi per le modifiche del font dei textBox con i parametri selezionati dall'utente
+
+    public void modifyFontColor(ActionEvent event) {
+        Color fontColor = modfontColorPicker.getValue();
+        canvasController.onChangeFontColor(fontColor);
+    }
+
+    public void modifyFontName(ActionEvent event) {
+        String fontName = (String) modfontCombo.getValue();
+        canvasController.onChangeFontFamily(fontName);
+    }
+
+
+    //per la funzionalità di salvataggio forme personalizzate
+    @FXML
+    private ToolBarController toolBarController;
+    public void setToolBarController(ToolBarController toolBarController) {
+        this.toolBarController = toolBarController;
+    }
+
+    public void onAddShape(ActionEvent event) {
+        //passo la selectedShape come shape personalizzata al toolbarController
+        ShapeView customShape = StateController.getInstance().getMap().get(selectedShape);
+        toolBarController.addCustomShape(customShape);
+    }
+
+    //Metodo usato per i test
+    public void setSelectedShapeForTest(Shape shape) {
+        this.selectedShape = shape;
+    }
+
+    //Metodo usato per i test senza JavaFX
+    public void testModifyStrokeWithColor(Color newColor) {
+        Color oldColor = selectedShape.getBorder().toColor();  // ex getBorderColor()
+        canvasController.onColorChanged(oldColor, newColor);
+    }
+
+    //Metodo usato per i test senza JavaFX
+    public void testModifyFillWithColor(Color newColor) {
+        Color oldColor = selectedShape.getFill().toColor();  // ex getFillColor()
+        canvasController.onColorChanged(oldColor, newColor);
     }
 }

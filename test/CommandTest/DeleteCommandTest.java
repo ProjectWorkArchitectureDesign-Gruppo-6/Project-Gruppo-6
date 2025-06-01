@@ -21,7 +21,7 @@ public class DeleteCommandTest {
         mockShape = mock(Shape.class);
         mockView = mock(ShapeView.class);
         mockController = mock(StateController.class);
-
+        StateController.setInstance(mockController);
     }
 
     @Test
@@ -33,8 +33,12 @@ public class DeleteCommandTest {
 
     @Test
     void testUndoCallsRemoveShape() {
+        ShapeView undecoratedView = mock(ShapeView.class);
+        when(mockView.undecorate()).thenReturn(undecoratedView);
+
         DeleteCommand command = new DeleteCommand(mockShape, mockView);
         command.undo();
-        verify(mockController).addShape(mockShape, mockView);
+
+        verify(mockController).addShape(mockShape, undecoratedView);
     }
 }

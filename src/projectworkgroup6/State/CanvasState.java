@@ -13,6 +13,8 @@ public interface CanvasState {
 
     void handlePression(double x, double y);
 
+    void handlePressionRotate(double x, double y);
+
     void handleMouseDragged(double x, double y);
 
     void handleMouseReleased(double x, double y);
@@ -25,4 +27,10 @@ public interface CanvasState {
 
     void handleKeyTyped(KeyEvent event, Map<Shape, ShapeView> map);
 
+    //implementati nel singleSelectState
+    void handleChangeFontColor(Color currentFontColor);
+
+    void handleChangeFontName(String currentFontName);
+
+    void handleChangeFontSize(int currentFontSize);
 }

@@ -3,6 +3,7 @@ package projectworkgroup6.Strategy;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Model.Shape;
+import projectworkgroup6.Model.TextBox;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -32,6 +33,32 @@ public class RectangleSelectionStrategy extends SelectionStrategy {
     }
 
     @Override
+    public void RotateButton(GraphicsContext gc, Shape shape) {
+        double buttonX = getMoveButtonX(shape) + 25;
+        double buttonY = getMoveButtonY(shape);
+
+
+        gc.setFill(Color.WHITE);
+        gc.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
+
+        gc.setStroke(Color.BLUE.brighter());
+        gc.strokeOval(buttonX, buttonY, buttonWidth, buttonHeight);
+
+        gc.setFill(Color.BLACK);
+        gc.fillText("⟳", buttonX + 3, buttonY + 15);
+    }
+
+    @Override
+    public double getRotateButtonX(Shape shape) {
+        return getMoveButtonX(shape) + 25;
+    }
+
+    @Override
+    public double getRotateButtonY(Shape shape) {
+        return getMoveButtonY(shape);
+    }
+
+    @Override
     public void drawMoveButton(GraphicsContext gc, Shape shape) {
 
         double buttonX = getMoveButtonX(shape);
@@ -53,6 +80,7 @@ public class RectangleSelectionStrategy extends SelectionStrategy {
         return shape.getXc() + (shape.getDim1() - buttonWidth) / 2;
     }
 
+    @Override
     public double getMoveButtonY(Shape shape) {
         return shape.getYc() + shape.getDim2() + 5; // appena sotto la figura
     }

@@ -3,6 +3,9 @@ package projectworkgroup6.State;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
 import projectworkgroup6.Controller.StateController;
 import projectworkgroup6.Factory.TextBoxCreator;
 import projectworkgroup6.Model.Shape;
@@ -78,7 +81,27 @@ public class EditingTextState implements CanvasState {
     }
 
     @Override
+    public void handleChangeFontColor(Color currentFontColor) {
+
+    }
+
+    @Override
+    public void handleChangeFontName(String currentFontName) {
+
+    }
+
+    @Override
+    public void handleChangeFontSize(int currentFontSize) {
+
+    }
+
+
+    @Override
     public void handlePression(double x, double y) {}
+
+    @Override
+    public void handlePressionRotate(double x, double y) {
+    }
 
     @Override
     public void handleMouseDragged(double x, double y) {}

@@ -1,5 +1,6 @@
 package projectworkgroup6.Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -111,6 +112,16 @@ public class Group extends Shape{
     @Override
     public String type() {
         return "Group";
+    }
+
+    @Override
+    public Shape cloneAt(double x, double y, int layer) {
+
+        List<Shape> cloned = new ArrayList<>();
+        for(Shape s : shapes){
+            cloned.add(s.cloneAt(x-this.getX() + s.getX(),y-this.getY()+s.getY(),layer));
+        }
+        return new Group(cloned,x,y,false,this.width,this.height,this.border,this.fill,layer,this.group);
     }
 
     public List<Shape> getShapes() {

@@ -38,6 +38,12 @@ public class StateController{
         return instance;
     }
 
+    //Solo per i test
+    public static void setInstance(StateController testInstance) {
+        instance = testInstance;
+    }
+
+
     //// STATO DEL CURSORE ////
     private CanvasState currentState = SingleSelectState.getInstance();
 
@@ -140,7 +146,7 @@ public class StateController{
     } //sono entrambi i metodi per dare il focus al canvas quando necessario
 
 
-    private void notifyCanvasToRepaint() {
+    public void notifyCanvasToRepaint() {
         for (StateObserver o : observers)
             o.onCanvasChanged(getMap());
     }

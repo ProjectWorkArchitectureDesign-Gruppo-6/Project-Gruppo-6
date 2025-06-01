@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import javafx.scene.paint.Color;
 import projectworkgroup6.Model.ColorModel;
 
 @JsonTypeInfo(
@@ -21,6 +22,7 @@ import projectworkgroup6.Model.ColorModel;
 public abstract class Shape {
 
     protected double x, y;
+    private double rotation = 0.0;
     protected ColorModel border, fill;
     protected int layer;
     protected int group;
@@ -65,6 +67,14 @@ public abstract class Shape {
 
     public double getY() {
         return y;
+    }
+
+    public double getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(double rotation) {
+        this.rotation = rotation;
     }
 
     public abstract double getDim1();
@@ -130,4 +140,6 @@ public abstract class Shape {
     public void setGroup(int group) {
         this.group = group;
     }
+
+    public abstract Shape cloneAt(double x, double y, int layer);
 }

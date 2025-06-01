@@ -34,6 +34,11 @@ public class TranslationState implements CanvasState{
         //Non definito
     }
 
+    @Override
+    public void handlePressionRotate(double x, double y) {
+
+    }
+
     public void startDragging(double x, double y) {
         lastX = x;
         lastY = y;
@@ -101,6 +106,21 @@ public class TranslationState implements CanvasState{
 
     @Override
     public void handleKeyTyped(KeyEvent event, Map<Shape, ShapeView> map) {
+
+    }
+
+    @Override
+    public void handleChangeFontColor(Color currentFontColor) {
+
+    }
+
+    @Override
+    public void handleChangeFontName(String currentFontName) {
+
+    }
+
+    @Override
+    public void handleChangeFontSize(int currentFontSize) {
 
     }
 

@@ -53,6 +53,11 @@ public class TemporaryTranslationState implements CanvasState{
         //Non definito
     }
 
+    @Override
+    public void handlePressionRotate(double x, double y) {
+
+    }
+
     public void startDragging(double x, double y, List<ShapeView> individualViews) {
         lastX = x;
         lastY = y;
@@ -124,6 +129,21 @@ public class TemporaryTranslationState implements CanvasState{
 
     @Override
     public void handleKeyTyped(KeyEvent event, Map<Shape, ShapeView> map) {
+
+    }
+
+    @Override
+    public void handleChangeFontColor(Color currentFontColor) {
+
+    }
+
+    @Override
+    public void handleChangeFontName(String currentFontName) {
+
+    }
+
+    @Override
+    public void handleChangeFontSize(int currentFontSize) {
 
     }
 

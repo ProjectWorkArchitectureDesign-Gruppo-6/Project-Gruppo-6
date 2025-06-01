@@ -79,4 +79,9 @@ public class Ellipse extends Shape {
     public String type() {
         return "Ellipse";
     }
+
+    @Override
+    public Shape cloneAt(double x, double y, int layer){
+        return new Ellipse(x, y, false, this.diam1, this.diam2, this.border, this.fill, layer, this.group);
+    }
 }

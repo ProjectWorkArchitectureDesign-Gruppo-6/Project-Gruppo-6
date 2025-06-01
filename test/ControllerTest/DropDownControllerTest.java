@@ -16,7 +16,7 @@ public class DropDownControllerTest {
 
     private DropDownController dropDownController;
     private CanvasController mockCanvasController;
-    private Shape mockShape;
+    private Shape testShape;
 
     @BeforeEach
     public void setUp() {
@@ -24,35 +24,23 @@ public class DropDownControllerTest {
         mockCanvasController = mock(CanvasController.class);
         dropDownController.setCanvasController(mockCanvasController);
 
-        // Crea uno shape di test (Rectangle)
-        mockShape = new Rectangle(0,0,false,20,10,new ColorModel(0,0,0,1),new ColorModel(255,255,255,1));
+        testShape = new Rectangle(0, 0, false, 20, 10,
+                new ColorModel(0, 0, 0, 1),      // border: black
+                new ColorModel(255, 255, 255, 1) // fill: white
+        );
 
-
-        dropDownController.selectedShape = mockShape;
+        dropDownController.setSelectedShapeForTest(testShape);
     }
 
     @Test
     public void testModifyStrokeDelegatesToCanvasController() {
-        // Simulo che il ColorPicker restituisca RED (mock manuale)
-        Color newStrokeColor = Color.RED;
-
-        // Uso reflection per impostare il valore della borderPicker (solo se necessario)
-
-        dropDownController.modifyStroke(new javafx.event.ActionEvent() {
-        });
-
-        // Forzato a mano perché non posso simulare ColorPicker senza GUI
-        dropDownController.onShapeSelected(mockShape);
-        dropDownController.modifyStroke(null); // Chiamata vera
-
-        verify(mockCanvasController).onColorChanged(any(Color.class), eq(Color.BLUE));
+        dropDownController.testModifyStrokeWithColor(Color.RED);
+        verify(mockCanvasController).onColorChanged(eq(Color.BLACK), eq(Color.RED));
     }
 
     @Test
     public void testModifyFillDelegatesToCanvasController() {
-        dropDownController.onShapeSelected(mockShape);
-        dropDownController.modifyFill(null); // Chiamata vera
-
-        verify(mockCanvasController).onColorChanged(eq(Color.BLACK), any(Color.class));
+        dropDownController.testModifyFillWithColor(Color.BLUE);
+        verify(mockCanvasController).onColorChanged(eq(Color.WHITE), eq(Color.BLUE));
     }
 }

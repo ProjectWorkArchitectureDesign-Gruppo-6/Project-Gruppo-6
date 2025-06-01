@@ -63,20 +63,18 @@ public class Line extends Shape {
         y2 += dy;
     }
 
+
         @Override
         public void resize(double factor, double dx, double dy) {
             // Calcola il centro della linea
             double centerX = (x + x2) / 2;
             double centerY = (y + y2) / 2;
 
-            // Ridimensiona il primo punto rispetto al centro
-            x = centerX + (x - centerX) * factor;
-            y = centerY + (y - centerY) * factor;
 
-            // Ridimensiona il secondo punto rispetto al centro
-            x2 = centerX + (x2 - centerX) * factor;
-            y2 = centerY + (y2 - centerY) * factor;
-        }
+        // Applico il fattore di scala solo al secondo punto
+        x2 = x + dx * factor;
+        y2 = y + dy * factor;
+    }
 
     @Override
     public boolean contains(double x, double y) {
@@ -105,4 +103,10 @@ public class Line extends Shape {
     public String type() {
         return "Line";
     }
+
+    @Override
+    public Shape cloneAt(double x, double y, int layer){
+        return new Line(x, y, false, this.x2, this.y2, this.border, this.fill, layer, this.group);
+    }
+
 }

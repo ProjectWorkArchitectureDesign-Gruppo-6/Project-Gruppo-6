@@ -1,5 +1,6 @@
 package projectworkgroup6.State;
 
+import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -10,13 +11,14 @@ import projectworkgroup6.Decorator.BorderDecorator;
 import projectworkgroup6.Decorator.FillDecorator;
 import projectworkgroup6.Decorator.SelectedDecorator;
 import projectworkgroup6.Model.ColorModel;
+import projectworkgroup6.Model.Polygon;
 import projectworkgroup6.Model.Shape;
+import projectworkgroup6.Model.TextBox;
 import projectworkgroup6.View.ShapeView;
 import javafx.scene.input.MouseButton;
 
 import java.util.*;
 
-// Nello stato Seleziona, ci occupiamo della modifica delle figure presenti nel Canvas.
 
 public class SingleSelectState implements CanvasState {
 
@@ -46,13 +48,15 @@ public class SingleSelectState implements CanvasState {
         } else
         {
             for (Shape s : map.keySet()) {
-                if (s.contains(x, y)) {
+                Point2D unrotated = rotatePointBack(x, y, s);
+                double x2 = unrotated.getX();
+                double y2 = unrotated.getY();
+                if (s.contains(x2, y2)) {
                     if (s.isSelected()) {
                         deselectShape(s);
                         return;
                     }
 
-                    // Deseleziona eventuale altra shape selezionata
                     deselectAll(map);
 
                     selectShape(s, map);
@@ -61,7 +65,6 @@ public class SingleSelectState implements CanvasState {
             }
 
             deselectAll(map);
-            //nascondi il menu a tendina
             StateController.getInstance().notifyShapeDeselected();
             System.out.println("dopo lo spostamento");
 
@@ -96,6 +99,7 @@ public class SingleSelectState implements CanvasState {
             // Aggiungi di nuovo la versione base alla vista
             StateController.getInstance().addShape(s,baseView);
 
+
         }
     }
 
@@ -122,15 +126,26 @@ public class SingleSelectState implements CanvasState {
     }
 
 
+    //Gestisce la pressione del mouse su una figura selezionata.
+    //Determina se l'utente vuole traslare o ridimensionare la figura.
     @Override
     public void handlePression(double x, double y) {
+        //Controlla se nessuna figura selezionata o shape null
+        if (selectedShape == null || selectedShape.getShape() == null) {
+            return;
+        }
+
+        // Converto il punto cliccato rispetto alla rotazione della figura
+        Point2D unrotated = rotatePointBack(x, y, selectedShape.getShape());
+        double x2 = unrotated.getX();
+        double y2 = unrotated.getY();
 
         // Il metodo capisce se l'utente vuole traslare, ridimensionare o stretchare la shape
         if (selectedShape != null) {
 
             // Controllo se vuole spostare la shape
 
-            boolean isMoveClicked = checkClickOnMoveButton(selectedShape,x,y);
+            boolean isMoveClicked = checkClickOnMoveButton(selectedShape,x2, y2);
 
 
             if (isMoveClicked) {
@@ -144,7 +159,7 @@ public class SingleSelectState implements CanvasState {
 
                 // Controllo se vuole ridimensionare
                 AbstractMap.SimpleEntry<Double,Double> mobilePoint;
-                mobilePoint = checkClickOnHandles(selectedShape, x, y);
+                mobilePoint = checkClickOnHandles(selectedShape, x2, y2);
 
                 if(mobilePoint != null){
                     ResizeState rs = new ResizeState(selectedShape);
@@ -157,23 +172,36 @@ public class SingleSelectState implements CanvasState {
         }
     }
 
-    private AbstractMap.SimpleEntry<Double, Double> checkClickOnHandles(SelectedDecorator selectedShape, double x, double y) {
-        List<AbstractMap.SimpleEntry<Double, Double>> handles = selectedShape.getHandles();
-        double size = 10; // tolleranza
-
-        for (AbstractMap.SimpleEntry<Double, Double> handle : handles) { // per ogni maniglia
-            double hx = handle.getKey(); // prendo coordinata x
-            double hy = handle.getValue(); // prendo coordinata y
-
-            if (x >= hx && x <= hx + size && y >= hy && y <= hy + size) { // se il click avviene sulla maniglia
-                return new AbstractMap.SimpleEntry<>(hx, hy); // restituisco la maniglia cliccata
-            }
+    //Gestisce il click sul bottone di rotazione.
+    //Se cliccato, cambia lo stato in modalità rotazione.
+    @Override
+    public void handlePressionRotate(double x, double y) {
+        //Controlla se nessuna figura selezionata o shape null
+        if (selectedShape == null || selectedShape.getShape() == null) {
+            return;
         }
 
-        return null; // altrimenti nessuna maniglia è stata cliccata
+        //Converti il punto cliccato rispetto alla rotazione della figura
+        Point2D unrotated = rotatePointBack(x, y, selectedShape.getShape());
+        double x2 = unrotated.getX();
+        double y2 = unrotated.getY();
+
+        if (selectedShape != null) {
+            // Controllo se è stato cliccato il bottone di rotazione
+            boolean isRotateClicked = checkClickOnRotateButton(selectedShape, x2, y2);
+
+            if (isRotateClicked) {
+                // Creo lo stato di rotazione
+                RotationState rs = new RotationState(selectedShape);
+                rs.startRotating(x, y);
+                rs.setRotateCommand(new RotateCommand(selectedShape.getShape()));
+
+                StateController.getInstance().setState(rs);
+            }
+        }
     }
 
-
+    //Verifico se il click è avvenuto sul bottone di spostamento
     private boolean checkClickOnMoveButton(SelectedDecorator selectedShape, double x, double y) {
         double buttonX = selectedShape.getMoveButtonX();
         double buttonY = selectedShape.getMoveButtonY();
@@ -185,6 +213,56 @@ public class SingleSelectState implements CanvasState {
         boolean second = y >= buttonY && y <= buttonY + diameter;
 
         return first && second;
+    }
+
+    //Verifico se il click è avvenuto sul bottone di rotazione
+    private boolean checkClickOnRotateButton(SelectedDecorator selectedShape, double x, double y) {
+        double buttonX = selectedShape.getRotateButtonX();
+        double buttonY = selectedShape.getRotateButtonY();
+
+        double diameter = 20;
+
+        return x >= buttonX && x <= buttonX + diameter && y >= buttonY && y <= buttonY + diameter;
+    }
+
+    //Metodo per invertire la rotazione di un punto rispetto al centro della shape.
+    //Serve per riportare il punto cliccato nelle coordinate originali della shape.
+    private Point2D rotatePointBack(double x, double y, Shape shape) {
+        double angle = Math.toRadians(-shape.getRotation()); // rotazione inversa
+
+        double centerX, centerY;
+        if (shape instanceof Polygon) {
+            List<double[]> vertices = ((Polygon) shape).getVertices();
+            centerX = vertices.stream().mapToDouble(v -> v[0]).average().orElse(0);
+            centerY = vertices.stream().mapToDouble(v -> v[1]).average().orElse(0);
+        } else {
+            centerX = shape.getXc() + shape.getDim1() / 2.0;
+            centerY = shape.getYc() + shape.getDim2() / 2.0;
+        }
+
+        double dx = x - centerX;
+        double dy = y - centerY;
+
+        double rotatedX = dx * Math.cos(angle) - dy * Math.sin(angle) + centerX;
+        double rotatedY = dx * Math.sin(angle) + dy * Math.cos(angle) + centerY;
+
+        return new Point2D(rotatedX, rotatedY);
+    }
+
+    private AbstractMap.SimpleEntry<Double, Double> checkClickOnHandles(SelectedDecorator selectedShape, double x, double y) {
+        List<AbstractMap.SimpleEntry<Double, Double>> handles = selectedShape.getHandles();
+        double size = 10; // tolleranza
+
+        for (AbstractMap.SimpleEntry<Double, Double> handle : handles) { // per ogni maniglia
+            double hx = handle.getKey(); // prendo coordinata x
+            double hy = handle.getValue(); // prendo coordinata y
+
+            if (x >= hx && x <= hx + size && y >= hy && y <= hy + size) { 
+                return new AbstractMap.SimpleEntry<>(hx, hy);
+            }
+        }
+
+        return null; 
     }
 
     @Override
@@ -235,7 +313,7 @@ public class SingleSelectState implements CanvasState {
     @Override
     public void handleDelete(KeyEvent event, Map<Shape,ShapeView> map) {
         if(event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE){
-            //
+            
             StateController.getInstance().notifyShapeDeselected();
             for(Shape s : map.keySet()){
                 if (map.get(s) == selectedShape) {
@@ -254,7 +332,6 @@ public class SingleSelectState implements CanvasState {
 
         StateController.getInstance().removeShape(selectedShape.getShape(),selectedShape); // rimuovo la shape dallo stato
 
-        // Converto i colori
         ColorModel border = ColorModel.fromColor(currentStroke);
         ColorModel fill = ColorModel.fromColor(currentFill);
 
@@ -277,5 +354,45 @@ public class SingleSelectState implements CanvasState {
     @Override
     public void handleKeyTyped(KeyEvent event, Map<Shape, ShapeView> map) {
 
+    }
+
+    @Override
+    public void handleChangeFontColor(Color currentFontColor) {
+
+
+        StateController.getInstance().removeShape(selectedShape.getShape(),selectedShape); // rimuovo la shape dallo stato
+
+        ColorModel fontColor = ColorModel.fromColor(currentFontColor);
+
+        selectedShape.getShape().setSelected(false); //rimuovo la selezione
+
+        CommandManager.getInstance().executeCommand(new ChangeFontColorCommand((TextBox) selectedShape.getShape(),fontColor)); //richiamo il comando per cambiare il font sulla shape selezionata
+
+        StateController.getInstance().addShape(selectedShape.getShape(), selectedShape); //aggiorno lo stato con la shape modificata
+        //usando il pattern command sono tutte e tre operazioni undoabili
+    }
+
+    @Override
+    public void handleChangeFontName(String currentFontName) {
+        StateController.getInstance().removeShape(selectedShape.getShape(),selectedShape); // rimuovo la shape dallo stato
+
+
+        selectedShape.getShape().setSelected(false);
+
+        CommandManager.getInstance().executeCommand(new ChangeFontNameCommand((TextBox) selectedShape.getShape(),currentFontName));
+
+        StateController.getInstance().addShape(selectedShape.getShape(), selectedShape);
+    }
+
+    @Override
+    public void handleChangeFontSize(int currentFontSize){
+        StateController.getInstance().removeShape(selectedShape.getShape(),selectedShape); // rimuovo la shape dallo stato
+
+
+        selectedShape.getShape().setSelected(false);
+
+        CommandManager.getInstance().executeCommand(new ChangeFontSizeCommand((TextBox) selectedShape.getShape(),currentFontSize));
+
+        StateController.getInstance().addShape(selectedShape.getShape(), selectedShape);
     }
 }
