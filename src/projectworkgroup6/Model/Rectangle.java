@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Rectangle extends Shape {
     private double width, height;
 
+
     // Per serializzazione
     public Rectangle() {
         super(0, 0, false, new ColorModel(0,0,0,1), new ColorModel(255,255,255,1), 0,0);
@@ -20,6 +21,16 @@ public class Rectangle extends Shape {
     @Override
     public double getDim2() {
         return height;
+    }
+
+    @Override
+    public void setDim1(double dim1) {
+        this.width = dim1;
+    }
+
+    @Override
+    public void setDim2(double dim2) {
+this.height=dim2;
     }
 
     public double getXc(){
@@ -41,13 +52,11 @@ public class Rectangle extends Shape {
         return width;
     }
 
-    public void setWidth(double width) {
-        this.width = width;
-    }
 
     public double getHeight() {
         return height;
     }
+
 
     public void setHeight(double height) {
         this.height = height;
@@ -68,6 +77,25 @@ public class Rectangle extends Shape {
         height *= factor;
 
     }
+
+@Override
+public void stretch(double dx, double dy, String id) {
+    this.x += dx / 2;
+   this.y += dy / 2;
+
+    if (id.equals("RIGHT") || id.equals("UP")) {
+        this.width = Math.max(width + dx + dy , 1);
+       this.height = Math.max(height - dx -dy, 1);
+
+    }
+    if (id.equals("LEFT") || id.equals("DOWN")) {
+        this.width = Math.max(width -dx -dy,1);
+        this.height =  Math.max(height +dx +dy,1);
+    }
+
+}
+
+
 
     @Override
     public boolean contains(double x, double y) {

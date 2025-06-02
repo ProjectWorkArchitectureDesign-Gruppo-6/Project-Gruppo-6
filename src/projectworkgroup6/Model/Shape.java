@@ -79,6 +79,9 @@ public abstract class Shape {
 
     public abstract double getDim1();
     public abstract double getDim2();
+    public abstract void setDim1(double dim1);
+    public abstract void setDim2(double dim2);
+
 
 
     public abstract double getXc();
@@ -97,6 +100,7 @@ public abstract class Shape {
     public abstract void move(double dx, double dy);
     public abstract void resize(double scaleFactor, double dx, double dy);
 
+    public abstract void stretch(double dx, double dy, String id);
 
     public abstract boolean contains(double x, double y);
 

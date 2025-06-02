@@ -57,6 +57,10 @@ public class DropDownController implements SelectionObserver {
     @FXML
     private Button backBtn;
     @FXML
+    private Button portaInGiùBtn;
+    @FXML
+    private Button portaInSuBtn;;
+    @FXML
     private ColorPicker borderPicker;
     @FXML
     private ColorPicker fillPicker;
@@ -107,7 +111,7 @@ public class DropDownController implements SelectionObserver {
 
     @Override
     public void onShapeDeselected() {
-       hideDDMenu();
+        hideDDMenu();
     }
 
     @Override
@@ -151,9 +155,10 @@ public class DropDownController implements SelectionObserver {
 
     public void showDDMenu(Shape s) {
         selectedShape = s;
-        double x = s.getX();
+        //centro della figura
+        double x = s instanceof Polygon ? (s.getXc()+s.getDim1()/2) : s.getX();
         double width = s.getDim1();
-        double y = s.getY();
+        double y = s instanceof Polygon ? (s.getYc()+s.getDim2()/2) : s.getY();
         // Posiziona il menu con un piccolo offset
         dropDownMenuPane.setLayoutX(x + width/2 + 10);
         dropDownMenuPane.setLayoutY(y);

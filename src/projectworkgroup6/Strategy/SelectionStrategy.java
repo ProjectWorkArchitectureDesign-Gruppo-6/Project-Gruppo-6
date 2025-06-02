@@ -15,6 +15,8 @@ public abstract class SelectionStrategy {
     public abstract void drawSelectionBorder(GraphicsContext gc, Shape shape);
     public abstract void drawHandles(GraphicsContext gc, Shape shape);
     public abstract void RotateButton(GraphicsContext gc, Shape shape);
+    public abstract void drawStretchHandles(GraphicsContext gc, Shape shape);
+
 
     public abstract void drawMoveButton(GraphicsContext gc, Shape shape);
 
@@ -25,6 +27,12 @@ public abstract class SelectionStrategy {
         double half = size / 2;
         gc.fillOval(cx - half, cy - half, size, size);
         gc.strokeOval(cx - half, cy - half, size, size);
+    }
+    protected void drawStretchHandle(GraphicsContext gc, double cx, double cy, double size) {
+        double half = size / 2;
+
+        gc.strokeLine(cx - half, cy - half, cx + half, cy + half); // \
+        gc.strokeLine(cx - half, cy + half, cx + half, cy - half); // /
     }
 
     public double getRotateButtonX(Shape shape) {
@@ -37,4 +45,6 @@ public abstract class SelectionStrategy {
 
 
     public abstract List<AbstractMap.SimpleEntry<Double, Double>> getHandles(Shape shape);
+    public abstract List<AbstractMap.SimpleEntry<Double, Double>> getStretchHandles(Shape shape);
+
 }

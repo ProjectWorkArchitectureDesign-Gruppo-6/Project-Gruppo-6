@@ -1,7 +1,6 @@
 package projectworkgroup6.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import javafx.scene.canvas.GraphicsContext;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Ellipse extends Shape {
@@ -22,17 +21,12 @@ public class Ellipse extends Shape {
         return diam1;
     }
 
-    public void setDiam1(double diam1) {
-        this.diam1 = diam1;
-    }
 
     public double getDiam2() {
         return diam2;
     }
 
-    public void setDiam2(double diam2) {
-        this.diam2 = diam2;
-    }
+
 
     @Override
     public double getDim1() {
@@ -42,6 +36,14 @@ public class Ellipse extends Shape {
     @Override
     public double getDim2() {
         return diam2;
+    }
+    @Override
+    public void setDim1(double diam1) {
+        this.diam1 = diam1;
+    }
+    @Override
+    public void setDim2(double diam2) {
+        this.diam2 = diam2;
     }
 
     @Override
@@ -67,6 +69,23 @@ public class Ellipse extends Shape {
         diam1 *= factor;
         diam2 *= factor;
     }
+
+        @Override
+        public void stretch(double dx, double dy, String id) {
+
+            this.x += dx / 2;
+            this.y += dy / 2;
+            if (id.equals("RIGHT") || id.equals("UP")) {
+                this.diam1 = Math.max(diam1 + dx + dy , 1);
+                this.diam2 = Math.max(diam2 - dx -dy, 1);
+            }
+            if (id.equals("LEFT") || id.equals("DOWN")) {
+                this.diam1 = Math.max(diam1 -dx -dy,1);
+                this.diam2 =  Math.max(diam2 +dx +dy,1);
+            }
+
+
+        }
 
     @Override
     public boolean contains(double x, double y) {

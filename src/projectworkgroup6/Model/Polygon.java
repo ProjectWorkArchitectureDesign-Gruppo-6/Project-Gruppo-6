@@ -77,6 +77,30 @@ public class Polygon extends Shape{
     }
 
     @Override
+    public void setDim1(double newWidth) {
+        double oldWidth = getDim1();
+        if (oldWidth == 0) return; // evita divisione per zero
+        double scaleX = newWidth / oldWidth;
+        double centerX = getXc() + oldWidth / 2;
+
+        for (double[] v : vertices) {
+            v[0] = centerX + (v[0] - centerX) * scaleX;
+        }
+    }
+
+    @Override
+    public void setDim2(double newHeight) {
+        double oldHeight = getDim2();
+        if (oldHeight == 0) return;
+        double scaleY = newHeight / oldHeight;
+        double centerY = getYc() + oldHeight / 2;
+
+        for (double[] v : vertices) {
+            v[1] = centerY + (v[1] - centerY) * scaleY;
+        }
+    }
+
+    @Override
     public void move(double dx, double dy) {
         for (double [] v : vertices){
             v[0]+=dx;
@@ -94,6 +118,24 @@ public class Polygon extends Shape{
             v[1] = centerY + (v[1] - centerY) * factor; // nuova y
         }
     }
+
+    @Override
+    public void stretch(double dx, double dy, String id) {
+        double centerX = getXc() + getDim1() / 2;
+        double centerY = getYc() + getDim2() / 2;
+
+            for (double[] v : vertices) {
+                if ((id.equals("RIGHT") && v[0] > centerX) ||
+                        (id.equals("LEFT") && v[0] < centerX)) {
+                    v[0] += dx;
+                }
+            else   if ((id.equals("DOWN") && v[1] > centerY) ||
+                        (id.equals("UP") && v[1] < centerY)) {
+                    v[1] += dy;
+                }
+            }
+        }
+
 
     @Override
     public boolean contains(double x, double y) {
