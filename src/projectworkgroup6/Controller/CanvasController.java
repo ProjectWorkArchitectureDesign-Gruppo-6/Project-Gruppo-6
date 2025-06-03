@@ -32,6 +32,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import static projectworkgroup6.Controller.DropDownController.processGroup;
+
 public class CanvasController implements StateObserver{
 
 
@@ -383,12 +385,24 @@ public class CanvasController implements StateObserver{
     public void pasteShapeToCanvas(double x, double y) {
         if (shapeToInsert == null) return;
 
-
         Shape shape = shapeToInsert.getShape().cloneAt(x, y, map.size() + 1); //clono la figura salvata alle coordinate del click sul canvas
+
         ShapeCreator creator = StateController.getInstance().getCreators().get(shape.type()); //in base al type invoco il creatore corretto
-        ShapeView view = creator.createShapeView(shape);
-        view = new BorderDecorator(view, shape.getBorder().toColor());
-        view = new FillDecorator(view, shape.getFill().toColor());
+        ShapeView view;
+        if(creator == null){
+
+
+            processGroup((projectworkgroup6.Model.Group)shape, StateController.getInstance().getCreators());
+            view = map.get(shape);
+            StateController.getInstance().removeShape(shape,view);
+
+
+        }else {
+            view = creator.createShapeView(shape);
+            view = new BorderDecorator(view, shape.getBorder().toColor());
+            view = new FillDecorator(view, shape.getFill().toColor());
+        }
+
 
         CommandManager.getInstance().executeCommand(new InsertCommand(shape, view)); //effettuo l'inserimento tramite il command in modo che sia un'operazione undoabile
 

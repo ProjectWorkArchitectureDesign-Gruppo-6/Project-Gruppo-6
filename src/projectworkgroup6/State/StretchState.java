@@ -1,5 +1,6 @@
 package projectworkgroup6.State;
 
+import javafx.geometry.Point2D;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -13,6 +14,8 @@ import projectworkgroup6.Model.Line;
 import projectworkgroup6.View.ShapeView;
 
 import java.util.Map;
+
+import static projectworkgroup6.State.SingleSelectState.rotatePointBack;
 
 public class StretchState implements CanvasState {
     private final SelectedDecorator shapeView;
@@ -57,23 +60,28 @@ public class StretchState implements CanvasState {
 
     @Override
     public void handleMouseDragged(double x, double y) {
+
+
         StateController.getInstance().notifyShapeDeselected();
         Shape shape = shapeView.getShape();
+
+        Point2D unrotated = rotatePointBack(x, y, shape);
+        x = unrotated.getX();
+        y = unrotated.getY();
+
         StateController.getInstance().removeShape(shape, shapeView);
 
         double dx =x - lastX;
         double dy= y - lastY;
 
+        double angle = Math.toRadians(shape.getRotation());
+        dx = dx * Math.cos(angle) - dy * Math.sin(angle);
+        dy = dx * Math.sin(angle) + dy * Math.cos(angle);
 
-//gestisci linee
-/*if (shape instanceof Line) {
-    strechLineMethod(x,y,dx,dy,shape);
-    return;
-}*/
-/*else*/ if (shape instanceof Polygon) {
-    strechPolygonMethod(x,y,dx,dy,shape);
-    return;
-}
+        if (shape instanceof Polygon) {
+            strechPolygonMethod(x,y,dx,dy,shape);
+            return;
+        }
         double width = shape.getDim1();
         double height = shape.getDim2();
 
@@ -88,13 +96,12 @@ public class StretchState implements CanvasState {
         }
 
         // Stretch SINISTRA
-          if ((x <= shape.getX() - width/2 + 10 && x > shape.getX() - width/2 -10 && direction.equals("NONE") ) || direction.equals("LEFT") || (shape.getDim1()<=1 && direction.equals("RIGHT")) ) {
-            System.out.println("SINISTRA");
-            direction = "LEFT";
-            System.out.println(direction);
+        if ((x <= shape.getX() - width/2 + 10 && x > shape.getX() - width/2 -10 && direction.equals("NONE") ) || direction.equals("LEFT") || (shape.getDim1()<=1 && direction.equals("RIGHT")) ) {
+              direction = "LEFT";
+              System.out.println(direction);
 
-            shape.stretch(dx, 0, direction);
-           // shape.move(dx, 0);
+              shape.stretch(dx, 0, direction);
+              // shape.move(dx, 0);
               currentStretchCommand.accumulate(dx, 0, direction);
         }
 
@@ -109,7 +116,7 @@ public class StretchState implements CanvasState {
         // Stretch ALTO
          if ((y <= shape.getY() - height/2 + 10 && x > shape.getY() - height/2 - 10 && direction.equals("NONE")) || direction.equals("UP") || (shape.getDim2()<=1 && direction.equals("DOWN") )) {
             direction = "UP";
-
+            System.out.println(direction);
             shape.stretch(0, dy, direction);
             currentStretchCommand.accumulate(0, dy, direction);
         }
@@ -121,7 +128,7 @@ public class StretchState implements CanvasState {
     }
 
 
-    public void strechLineMethod(double x, double y,double dx,double dy, Shape shape) {
+    /*public void strechLineMethod(double x, double y,double dx,double dy, Shape shape) {
         double x1 = shape.getXc();
         double y1 = shape.getYc();
         double x2 = shape.getDim1();
@@ -146,6 +153,8 @@ public class StretchState implements CanvasState {
         lastY = y;
         StateController.getInstance().addShape(shape, shapeView);
     }
+
+     */
 
     public void strechPolygonMethod(double x,double y,double dx,double dy,Shape shape) {
         double width = shape.getDim1();
@@ -182,10 +191,9 @@ public class StretchState implements CanvasState {
     public void handleMouseReleased(double x, double y) {
         System.out.println("release");
         direction = "NONE";
-        currentStretchCommand.undoStretchOnly();
+        currentStretchCommand.undo();
         CommandManager.getInstance().executeCommand(currentStretchCommand);
         StateController.getInstance().notifyShapeSelected(shapeView.getShape());
-        StateController.getInstance().setState(SingleSelectState.getInstance());
     }
 
     @Override

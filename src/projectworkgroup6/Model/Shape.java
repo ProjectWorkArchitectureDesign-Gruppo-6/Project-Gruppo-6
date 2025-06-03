@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Model.ColorModel;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         property = "type",
@@ -70,6 +73,25 @@ public abstract class Shape {
 
     public void setBorder(ColorModel border) {
         this.border = border;
+    }
+
+
+    public Object getStroke() {
+        return this.border;
+    }
+
+    @JsonIgnore
+    public void setStroke(Object snapshot) {
+        this.setBorder((ColorModel) snapshot);
+    }
+
+    public Object getFilling() {
+        return this.fill;
+    }
+
+    @JsonIgnore
+    public void setFilling(Object snapshot) {
+        this.setFill((ColorModel) snapshot);
     }
 
     public ColorModel getFill() {

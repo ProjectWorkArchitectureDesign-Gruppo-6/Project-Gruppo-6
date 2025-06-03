@@ -1,8 +1,8 @@
 package projectworkgroup6.Model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -132,10 +132,7 @@ public class Group extends Shape{
         resizeProportional(oldX, oldY, oldW, oldH);
     }
 
-    @Override
-    public void stretch(double dx, double dy, String id) {
 
-    }
 
     private void resizeProportional(double oldX, double oldY, double oldW, double oldH) {
         double newX = getX(); // Il nuovo centro già calcolato in base allo spostamento settato nello state
@@ -169,6 +166,30 @@ public class Group extends Shape{
             s.setY(newShapeY);
             s.resize(scaleX, scaleY, nestedOldX,nestedOldY);
         }
+    }
+
+    @Override
+    public void stretch(double dx, double dy, String id) {
+
+
+        this.x += dx / 2;
+        this.y += dy / 2;
+
+        if (id.equals("RIGHT") || id.equals("UP")) {
+            this.width = Math.max(width + dx + dy , 1);
+            this.height = Math.max(height - dx -dy, 1);
+
+        }
+        if (id.equals("LEFT") || id.equals("DOWN")) {
+            this.width = Math.max(width -dx -dy,1);
+            this.height =  Math.max(height +dx +dy,1);
+        }
+
+        for(Shape s : shapes){
+            s.stretch(dx,dy,id);
+        }
+
+
     }
 
 
@@ -226,17 +247,60 @@ public class Group extends Shape{
 
     @Override
     public void setBorder(ColorModel border) {
-        for(Shape s : shapes){
-            s.setBorder(border);
+        if(shapes != null){
+            for(Shape s : shapes){
+                s.setBorder(border);
+            }
         }
+
     }
+
+
 
     @Override
     public void setFill(ColorModel fill) {
-        for(Shape s : shapes){
-            s.setFill(fill);
+        if(shapes != null){
+            for(Shape s : shapes){
+                s.setFill(fill);
+            }
+        }
+
+    }
+
+
+
+    // Usato nel command per polimorfismo
+    public Object getStroke() {
+        Map<Shape, ColorModel> map = new HashMap<>();
+        for (Shape s : shapes) {
+            map.put(s, s.getBorder());
+        }
+        return map;
+    }
+
+    public void setStroke(Object snapshot) {
+        Map<Shape, ColorModel> map = (Map<Shape, ColorModel>) snapshot;
+        for (Map.Entry<Shape, ColorModel> entry : map.entrySet()) {
+            entry.getKey().setBorder(entry.getValue());
         }
     }
+
+    public Object getFilling() {
+        Map<Shape, ColorModel> map = new HashMap<>();
+        for (Shape s : shapes) {
+            map.put(s, s.getFill());
+        }
+        return map;
+    }
+
+    @JsonIgnore
+    public void setFilling(Object snapshot) {
+        Map<Shape, ColorModel> map = (Map<Shape, ColorModel>) snapshot;
+        for (Map.Entry<Shape, ColorModel> entry : map.entrySet()) {
+            entry.getKey().setFill(entry.getValue());
+        }
+    }
+
 
 
 }

@@ -227,7 +227,7 @@ public class DropDownController implements SelectionObserver {
         hideDDMenu();
     }
 
-    private void processGroup(Group group, Map<String, ShapeCreator> creators) {
+    public static void processGroup(Group group, Map<String, ShapeCreator> creators) {
 
         Map<Shape,ShapeView> map = StateController.getInstance().getMap();
 
@@ -286,7 +286,6 @@ public class DropDownController implements SelectionObserver {
     public void modifyFill(ActionEvent event) {
 
         Color fill = fillPicker.getValue(); // Prendo colore selezionato
-        System.out.println(selectedShape.getFill());
         canvasController.onColorChanged(selectedShape.getBorder().toColor(), fill); // Delego al canvas controller che agisce in base allo stato corrente
 
     }

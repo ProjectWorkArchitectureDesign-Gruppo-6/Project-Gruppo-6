@@ -11,12 +11,12 @@ import javax.swing.plaf.nimbus.State;
 public class ChangeFillCommand implements Command{
 
     Shape shape;
-    ColorModel oldFill;
+    Object oldFill;
     ColorModel fill;
 
     public ChangeFillCommand(Shape shape, ColorModel fill) {
         this.shape = shape;
-        this.oldFill = this.shape.getFill();
+        this.oldFill = shape.getFilling();
         this.fill = fill;
     }
 
@@ -28,7 +28,7 @@ public class ChangeFillCommand implements Command{
 
     @Override
     public void undo() {
-        shape.setFill(oldFill);
+        shape.setFilling(oldFill);
 
     }
 }

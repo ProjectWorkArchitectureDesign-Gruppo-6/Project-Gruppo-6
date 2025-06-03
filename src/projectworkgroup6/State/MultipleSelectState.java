@@ -1,5 +1,6 @@
 package projectworkgroup6.State;
 
+import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -17,6 +18,8 @@ import projectworkgroup6.View.ShapeView;
 
 import javax.swing.plaf.nimbus.State;
 import java.util.*;
+
+import static projectworkgroup6.State.SingleSelectState.rotatePointBack;
 
 // Nello stato Seleziona, ci occupiamo della modifica delle figure presenti nel Canvas.
 
@@ -64,7 +67,10 @@ public class MultipleSelectState implements CanvasState {
             StateController.getInstance().notifyMouseRightClick(x,y);
         } else{
             for (Shape s : map.keySet()) { // controllo se il click è accaduto su una figura, per ogni figura
-                if (s.contains(x, y)) { // se ho cliccato su una figura
+                Point2D unrotated = rotatePointBack(x, y, s);
+                double x2 = unrotated.getX();
+                double y2 = unrotated.getY();
+                if (s.contains(x2, y2)) { // se ho cliccato su una figura
                     if (s.isSelected()) { // se questa fa già parte del gruppo
                         deselectShape(s, map); // la deseleziono
                         break; //gestisco un click per volta, non ha senso continuare il ciclo
@@ -379,9 +385,12 @@ public class MultipleSelectState implements CanvasState {
 
         Map<Shape,ShapeView> map = StateController.getInstance().getMap();
 
+        // Per aggiornare le shape le rimuovo dallo stato e le ricarico aggiornate
         for(Shape s : group.getShapes()){
             StateController.getInstance().removeShape(s, map.get(s)); // rimuovo la shape dallo stato
         }
+
+
 
         // Converto i colori
         ColorModel border = ColorModel.fromColor(currentStroke);
@@ -394,13 +403,16 @@ public class MultipleSelectState implements CanvasState {
             CommandManager.getInstance().executeCommand(new ChangeBorderCommand(group,border));
         }
 
+
         int i = 0;
         for(Shape s : group.getShapes()){
-            BorderDecorator borderDecorator = new BorderDecorator(selections.get(i),border.toColor());
+            BorderDecorator borderDecorator = new BorderDecorator(selections.get(i).undecorate(),border.toColor());
             FillDecorator fillDecorator = new FillDecorator(borderDecorator,fill.toColor());
             StateController.getInstance().addShape(s, fillDecorator);
             i++;
         }
+
+
     }
 
     @Override

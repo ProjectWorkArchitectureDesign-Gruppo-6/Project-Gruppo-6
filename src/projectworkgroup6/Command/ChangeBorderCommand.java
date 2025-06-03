@@ -11,12 +11,12 @@ import javax.swing.plaf.nimbus.State;
 public class ChangeBorderCommand implements Command{
 
     Shape shape;
-    ColorModel oldBorder;
+    Object oldBorder;
     ColorModel border;
 
     public ChangeBorderCommand(Shape shape, ColorModel border) {
         this.shape = shape;
-        this.oldBorder = this.shape.getBorder();
+        this.oldBorder = shape.getStroke();
         this.border = border;
     }
 
@@ -28,7 +28,7 @@ public class ChangeBorderCommand implements Command{
 
     @Override
     public void undo() {
-        shape.setBorder(oldBorder);
+        shape.setStroke(oldBorder);
 
     }
 }

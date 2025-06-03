@@ -108,6 +108,7 @@ public class Polygon extends Shape{
 
     @Override
     public void resize(double factorX, double factorY, double dx, double dy) {
+
         double centerX = getX(); // calcola centro X
         double centerY = getY(); // calcola centro Y
 
@@ -123,6 +124,8 @@ public class Polygon extends Shape{
         double Ymin = vertices.stream().mapToDouble(v->v[1]).min().orElse(y);
         double Ymax = vertices.stream().mapToDouble(v->v[1]).max().orElse(y);
         height = Ymax - Ymin;
+
+
 
 
     }

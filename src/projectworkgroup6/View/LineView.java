@@ -15,8 +15,8 @@ public class LineView extends ShapeView {
 
         Line line = (Line) shape;
 
-        double centerX = (line.getXc() + line.getDim1()) / 2.0;
-        double centerY = (line.getYc() + line.getDim2()) / 2.0;
+        double centerX = (line.getXc() + line.getX2()) / 2.0;
+        double centerY = (line.getYc() + line.getY2()) / 2.0;
         double angle = line.getRotation();
 
         gc.save();

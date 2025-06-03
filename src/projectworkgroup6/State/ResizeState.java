@@ -6,6 +6,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Command.CommandManager;
 import projectworkgroup6.Command.ResizeCommand;
+import projectworkgroup6.Command.StretchCommand;
 import projectworkgroup6.Controller.StateController;
 import projectworkgroup6.Model.Line;
 import projectworkgroup6.Model.Shape;
@@ -205,6 +206,7 @@ public class ResizeState implements CanvasState{
         // Ridisegno la shape ridimensionata
         StateController.getInstance().addShape(shape, shapeView);
     }
+
 
     // Implementa il ridimensionamento solo a livello logico
     @Override

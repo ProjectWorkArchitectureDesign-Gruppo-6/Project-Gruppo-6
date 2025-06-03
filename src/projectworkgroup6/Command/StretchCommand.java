@@ -48,8 +48,4 @@ public class StretchCommand implements Command {
             shape.stretch(-dxList.get(i), -dyList.get(i), directionList.get(i));
         }
     }
-
-    public void undoStretchOnly() {
-        undo();
-    }
 }

@@ -108,6 +108,9 @@ public class TemporaryResizeState implements CanvasState{
         double dx;
         double dy;
 
+        double boundWidth = 30;
+        double boundHeight = 20;
+
 
 
         // Visivamente la ridimensione cambia in base alla maniglia che sta venendo trascinata
@@ -169,24 +172,52 @@ public class TemporaryResizeState implements CanvasState{
         double dxRot = dx * Math.cos(angle) - dy * Math.sin(angle);
         double dyRot = dx * Math.sin(angle) + dy * Math.cos(angle);
 
-        shape.setX(shape.getX() + dxRot);
-        shape.setY(shape.getY() + dyRot);
+        if(shape.getDim1() * factorX >= boundWidth && shape.getDim2() * factorY >= boundHeight){
+
+            shape.setX(shape.getX() + dxRot);
+            shape.setY(shape.getY() + dyRot);
 
 
-        // La nuova posizione della maniglia segue lo stesso spostamento del centro
-        startX = startX + dxRot;
-        startY = startY + dyRot;
+            // La nuova posizione della maniglia segue lo stesso spostamento del centro
+            startX = startX + dxRot;
+            startY = startY + dyRot;
+
+
+            shape.resize(factorX, factorY, oldCenterX, oldCenterY);  // Resize uniforme in larghezza e altezza
+            currentResizeCommand.accumulate(factorX,factorY); //Accumula ridimensionamento totale
+
+        } else if (shape.getDim1() * factorX < boundWidth && shape.getDim2() * factorY >= boundHeight) {
+
+            shape.setY(shape.getY() + dyRot);
+
+
+            // La nuova posizione della maniglia segue lo stesso spostamento del centro
+            startY = startY + dyRot;
+
+
+            shape.resize(1, factorY, oldCenterX, oldCenterY);  // Resize uniforme in larghezza e altezza
+            currentResizeCommand.accumulate(1,factorY); //Accumula ridimensionamento totale
+
+        } else if (shape.getDim1() * factorX >= boundWidth && shape.getDim2() * factorY < boundHeight) {
+            shape.setX(shape.getX() + dxRot);
+
+
+            // La nuova posizione della maniglia segue lo stesso spostamento del centro
+            startX = startX + dxRot;
+
+
+            shape.resize(factorX, 1, oldCenterX, oldCenterY);  // Resize uniforme in larghezza e altezza
+            currentResizeCommand.accumulate(factorX,1); //Accumula ridimensionamento totale
+        }
+
 
         //Usati per il command nel released. Contengono ultimo centro raggiunto
         lastCenterX = shape.getX();
         lastCenterY = shape.getY();
 
-        shape.resize(factorX, factorY, oldCenterX, oldCenterY);  // Resize uniforme in larghezza e altezza
-        currentResizeCommand.accumulate(factorX,factorY); //Accumula ridimensionamento totale
-
-
         // Ridisegno la shape ridimensionata
         StateController.getInstance().addShape(shape, shapeView);
+
     }
 
     // Implementa il ridimensionamento solo a livello logico

@@ -72,22 +72,23 @@ this.height=dim2;
 
     }
 
-@Override
-public void stretch(double dx, double dy, String id) {
-    this.x += dx / 2;
-   this.y += dy / 2;
+    @Override
+    public void stretch(double dx, double dy, String id) {
 
-    if (id.equals("RIGHT") || id.equals("UP")) {
-        this.width = Math.max(width + dx + dy , 1);
-       this.height = Math.max(height - dx -dy, 1);
+        this.x += dx / 2;
+        this.y += dy / 2;
+
+        if (id.equals("RIGHT") || id.equals("UP")) {
+            this.width = Math.max(width + dx + dy , 1);
+           this.height = Math.max(height - dx -dy, 1);
+
+        }
+        if (id.equals("LEFT") || id.equals("DOWN")) {
+            this.width = Math.max(width -dx -dy,1);
+            this.height =  Math.max(height +dx +dy,1);
+        }
 
     }
-    if (id.equals("LEFT") || id.equals("DOWN")) {
-        this.width = Math.max(width -dx -dy,1);
-        this.height =  Math.max(height +dx +dy,1);
-    }
-
-}
 
 
 

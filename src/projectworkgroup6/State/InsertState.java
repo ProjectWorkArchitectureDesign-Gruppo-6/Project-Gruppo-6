@@ -52,7 +52,8 @@ public class InsertState implements CanvasState {
         // Inserisco Shape e View nello stato (undoable)
         InsertCommand cmd = new InsertCommand(shape, shapeView);
         CommandManager.getInstance().executeCommand(cmd);
-        System.out.println(StateController.getInstance().getMap());
+        System.out.println(shape.getXc() + shape.getDim1() / 2.0);
+        System.out.println(shape.getYc() + shape.getDim2() / 2.0);
 
 
     }
