@@ -47,13 +47,11 @@ public class TextBoxView extends ShapeView {
         }
 
         //calcolo l'altezza necessaria per l'inserimento del carattere lasciando un po' di margine
-       /* double requiredHeight = count * 1.3 * lineHeight + 2 * padding;
+        double requiredHeight = count * 1.3 * lineHeight + 2 * padding;
         if (requiredHeight > tb.getHeight()) {
             tb.setHeight(requiredHeight);
             height = requiredHeight;
-        }else {*/
-            height = tb.getHeight(); // usa l’altezza corrente, non la sovrascrive
-
+        }
 
         // Rotazione e disegno della text box
         gc.save();

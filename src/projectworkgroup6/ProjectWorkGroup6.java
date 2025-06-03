@@ -30,6 +30,8 @@ public class ProjectWorkGroup6 extends Application {
         stage.show();
 
         passScene(scene, loader);
+
+        scene.getStylesheets().add(getClass().getResource("/projectworkgroup6/Interfacce/style.css").toExternalForm());
     }
 
     private void passScene(Scene scene, FXMLLoader loader) {

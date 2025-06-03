@@ -106,7 +106,6 @@ public class Polygon extends Shape{
         }
     }
 
-
     @Override
     public void resize(double factorX, double factorY, double dx, double dy) {
         double centerX = getX(); // calcola centro X

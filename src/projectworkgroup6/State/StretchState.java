@@ -66,11 +66,11 @@ public class StretchState implements CanvasState {
 
 
 //gestisci linee
-if (shape instanceof Line) {
+/*if (shape instanceof Line) {
     strechLineMethod(x,y,dx,dy,shape);
     return;
-}
-else if (shape instanceof Polygon) {
+}*/
+/*else*/ if (shape instanceof Polygon) {
     strechPolygonMethod(x,y,dx,dy,shape);
     return;
 }
