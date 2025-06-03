@@ -1,11 +1,12 @@
 package projectworkgroup6.Controller;
 
 import javafx.collections.FXCollections;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import projectworkgroup6.Controller.StateController;
 import projectworkgroup6.Decorator.BorderDecorator;
 import projectworkgroup6.Factory.TextBoxCreator;
@@ -27,6 +28,7 @@ import javafx.scene.layout.AnchorPane;
 import projectworkgroup6.State.SingleSelectState;
 import projectworkgroup6.View.ShapeView;
 
+import javax.xml.soap.Text;
 import java.util.*;
 
 
@@ -43,7 +45,7 @@ public class DropDownController implements SelectionObserver {
     private CanvasController canvasController; // riferimento al canvasController che contiene il menù a tendina
 
     @FXML
-    private VBox dropDownMenu;
+    private HBox dropDownMenu;
     @FXML
     private Button copyBtn;
     @FXML
@@ -52,6 +54,7 @@ public class DropDownController implements SelectionObserver {
     private Button pasteBtn;
     @FXML
     private Button ungroupBtn;
+
     @FXML
     private Button frontBtn;
     @FXML
@@ -87,6 +90,14 @@ public class DropDownController implements SelectionObserver {
     private ColorPicker modfontColorPicker;
 
     @FXML
+    Button addShape;
+
+    @FXML
+    TitledPane stylePane;
+    @FXML
+    Button GroupBtn;
+
+    @FXML
     public void initialize() {
 
         // Popola fontCombo con i nomi dei font disponibili
@@ -120,15 +131,47 @@ public class DropDownController implements SelectionObserver {
             showPasteMenu(x, y);
         }
     }
-    public void showPasteMenu(double x,double y) {
+    public void showPasteMenu(double x, double y) {
         dropDownMenuPane.setLayoutX(x);
         dropDownMenuPane.setLayoutY(y);
         pasteX = x;
         pasteY = y;
-        dropDownMenu.getChildren().forEach(node -> node.setDisable(node != pasteBtn));
+
+        disableAllButtons();         // prima disabiliti tutto
+        pasteBtn.setDisable(false);  // poi riattivi solo paste
 
         dropDownMenuPane.setVisible(true);
         dropDownMenuPane.setManaged(true);
+    }
+
+    //eccetto paste
+    private void enableAllButtons() {
+
+        copyBtn.setDisable(false);
+        cutBtn.setDisable(false);
+        addShape.setDisable(false);
+        frontBtn.setDisable(false);
+        backBtn.setDisable(false);
+        portaInGiùBtn.setDisable(false);
+        portaInSuBtn.setDisable(false);
+        stylePane.setDisable(false);
+        GroupBtn.setDisable(false);
+        ungroupBtn.setDisable(false);
+    }
+
+    //eccetto paste
+    private void disableAllButtons() {
+
+        copyBtn.setDisable(true);
+        cutBtn.setDisable(true);
+        addShape.setDisable(true);
+        frontBtn.setDisable(true);
+        backBtn.setDisable(true);
+        portaInGiùBtn.setDisable(true);
+        portaInSuBtn.setDisable(true);
+        stylePane.setDisable(true);
+        GroupBtn.setDisable(true);
+        ungroupBtn.setDisable(true);
     }
 
     @Override
@@ -139,6 +182,8 @@ public class DropDownController implements SelectionObserver {
         showDDMenu(s);
 
     }
+
+
 
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
@@ -164,9 +209,14 @@ public class DropDownController implements SelectionObserver {
         dropDownMenuPane.setLayoutY(y);
         dropDownMenuPane.setVisible(true);
         dropDownMenuPane.setManaged(true);
+
         ungroupBtn.setVisible(s instanceof Group);
-
-
+        modfontColorPicker.setVisible(s instanceof TextBox);
+        modfontCombo.setVisible(s instanceof TextBox);
+        modfontSizeSpinner.setVisible(s instanceof TextBox);
+        borderPicker.setVisible(!(s instanceof TextBox));
+        fillPicker.setVisible(!(s instanceof TextBox));
+        enableAllButtons();
     }
 
 
@@ -462,5 +512,22 @@ public class DropDownController implements SelectionObserver {
     public void testModifyFillWithColor(Color newColor) {
         Color oldColor = selectedShape.getFill().toColor();  // ex getFillColor()
         canvasController.onColorChanged(oldColor, newColor);
+    }
+
+    public void makeGroup(ActionEvent event) {
+        Group group = (Group) selectedShape;
+        Map<Shape,ShapeView> map = StateController.getInstance().getMap();
+        List<ShapeView> views = new ArrayList<>();
+        for(Shape s : group.getShapes()){
+            s.setSelected(false);
+            views.add(map.get(s).undecorate()); // Tolgo la decorazione della selezione multipla
+            StateController.getInstance().removeShape(s,map.get(s));
+        }
+
+        GroupView view = new GroupView(group,views);
+        group.setLayer(StateController.getInstance().getMap().size() + 1);
+        CommandManager.getInstance().executeCommand(new InsertGroupCommand(group,view));
+        StateController.getInstance().setState(SingleSelectState.getInstance());
+        System.out.println(group.getLayer());
     }
 }

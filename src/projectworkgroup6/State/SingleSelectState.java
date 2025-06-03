@@ -89,7 +89,7 @@ public class SingleSelectState implements CanvasState {
             MultipleSelectState.getInstance().setGroup(null);
 
             //Nascondi menù a tendina
-            StateController.getInstance().notifyGroupDeselected();
+            //StateController.getInstance().notifyGroupDeselected();
 
             // Rimuovi la versione decorata dalla vista (cioè dallo stato attuale)
             StateController.getInstance().removeShape(s,v);
@@ -317,6 +317,8 @@ private void deselectShape(Shape s) {
             Shape s = entry.getKey();
             ShapeView v = entry.getValue();
 
+            s.setEditing(false);
+
             if(v != selectedShape){
                 // Deseleziona logicamente
                 s.setSelected(false);
@@ -328,7 +330,7 @@ private void deselectShape(Shape s) {
                 MultipleSelectState.getInstance().setGroup(null);
 
                 //Nascondi menù a tendina
-                StateController.getInstance().notifyGroupDeselected();
+                StateController.getInstance().notifyShapeDeselected();
 
                 // Rimuovi la versione decorata dalla vista (cioè dallo stato attuale)
                 StateController.getInstance().removeShape(s,v);

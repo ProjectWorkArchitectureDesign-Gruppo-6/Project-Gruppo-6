@@ -71,7 +71,7 @@ public class TemporaryTranslationState implements CanvasState{
         Shape shape = shapeView.getShape();
 
         //nascondi il menu a tendina
-        StateController.getInstance().notifyGroupDeselected();
+        StateController.getInstance().notifyShapeDeselected();
 
         StateController.getInstance().removeShape(shape,shapeView); // rimuovo la shape dalla posizione iniziale
 
@@ -106,7 +106,7 @@ public class TemporaryTranslationState implements CanvasState{
         //mostra il menu a tendina
         Group group = (Group)shapeView.getShape();
         if(group.getShapes().size() > 1){
-            StateController.getInstance().notifyGroupSelected(shapeView.getShape());
+            StateController.getInstance().notifyShapeSelected(shapeView.getShape());
         }
     }
 

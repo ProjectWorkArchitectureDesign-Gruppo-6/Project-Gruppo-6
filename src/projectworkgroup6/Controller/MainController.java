@@ -25,7 +25,7 @@ public class MainController implements Initializable {
     //
     private DropDownController dropDownMenuController;
 
-    private GroupMenuController groupMenuController;
+    //private GroupMenuController groupMenuController;
 
     private StateController stateController;
 
@@ -68,11 +68,11 @@ public class MainController implements Initializable {
         toolBarController.setDropDownController(dropDownMenuController);
 
 
-        loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/GroupMenu.fxml"));
-        AnchorPane groupMenuPane = loader.load();
-        groupMenuController = loader.getController();
-        groupMenuController.setMainController(this);
-        groupMenuController.setCanvasController(canvasController);
+        //loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/GroupMenu.fxml"));
+        //AnchorPane groupMenuPane = loader.load();
+        //groupMenuController = loader.getController();
+        //groupMenuController.setMainController(this);
+        //groupMenuController.setCanvasController(canvasController);
 
         dropDownMenuController.setToolBarController(toolBarController);
 
@@ -90,7 +90,7 @@ public class MainController implements Initializable {
         canvasPane.getChildren().add(dropdownmenu);
 
         // Stesso per GroupMenu
-        canvasPane.getChildren().add(groupMenuPane);
+        //canvasPane.getChildren().add(groupMenuPane);
 
         //Carico scrollPane
         //mainVBox.getChildren().addAll(menu, tool, scrollCanvas);
@@ -99,7 +99,6 @@ public class MainController implements Initializable {
         mainVBox.setLeft(tool);
         tool.getChildren().add(0, menu);
         mainVBox.setCenter(scrollCanvas);
-
 
         canvasController.bindCanvasSize(scrollCanvas);
 

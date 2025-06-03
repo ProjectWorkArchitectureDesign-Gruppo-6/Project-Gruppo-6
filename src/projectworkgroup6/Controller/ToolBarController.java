@@ -108,7 +108,6 @@ public class ToolBarController {
     public void onMltSelectButton(ActionEvent actionEvent) {
 
         StateController.getInstance().setState(MultipleSelectState.getInstance());
-
         colorPickerBorder.setVisible(false);
         colorPickerFill.setVisible(false);
         fontCombo.setVisible(false);

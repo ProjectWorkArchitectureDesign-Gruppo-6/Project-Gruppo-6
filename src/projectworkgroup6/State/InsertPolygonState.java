@@ -32,6 +32,7 @@ public class InsertPolygonState implements CanvasState {
 
     public InsertPolygonState(PolygonCreator creator) {
         this.creator = creator;
+        this.creator.resetVertices();
     }
     private Shape previewShape = null;
     private boolean isClosed = false;
@@ -112,15 +113,17 @@ public class InsertPolygonState implements CanvasState {
             // Deseleziona logicamente
             s.setSelected(false);
 
+            s.setEditing(false);
+
             // Rimuovi dal gruppo provvisorio
             s.setGroup(0);
 
             // Annulla gruppo provvisorio
             MultipleSelectState.getInstance().setGroup(null);
 
-            //Nascondi menù a tendina
-            StateController.getInstance().notifyGroupDeselected();
 
+            //Nascondi menù a tendina
+            //StateController.getInstance().notifyGroupDeselected();
 
             // Rimuovi la versione decorata dalla vista (cioè dallo stato attuale)
             StateController.getInstance().removeShape(s,v);

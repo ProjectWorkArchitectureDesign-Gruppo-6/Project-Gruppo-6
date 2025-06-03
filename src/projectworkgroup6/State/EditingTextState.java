@@ -80,6 +80,8 @@ public class EditingTextState implements CanvasState {
         StateController.getInstance().redrawCanvas();
     }
 
+
+
     @Override
     public void handleChangeFontColor(Color currentFontColor) {
 
@@ -110,7 +112,8 @@ public class EditingTextState implements CanvasState {
     public void handleMouseReleased(double x, double y) {}
 
     @Override
-    public void recoverShapes(Map<Shape, ShapeView> map) {}
+    public void recoverShapes(Map<Shape, ShapeView> map) {
+    }
 
     @Override
     public void handleDelete(KeyEvent event, Map<Shape, ShapeView> map) {}

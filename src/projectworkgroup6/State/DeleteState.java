@@ -10,6 +10,7 @@ import projectworkgroup6.Factory.TextBoxCreator;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.ShapeView;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class DeleteState implements CanvasState{
@@ -50,6 +51,12 @@ public class DeleteState implements CanvasState{
     @Override
     public void recoverShapes(Map<Shape, ShapeView> map) {
 
+        Map<Shape, ShapeView> copy = new HashMap<Shape, ShapeView>(map);
+        for (Map.Entry<Shape, ShapeView> entry : copy.entrySet()) {
+            Shape s = entry.getKey();
+
+            s.setEditing(false);
+        }
     }
 
     @Override

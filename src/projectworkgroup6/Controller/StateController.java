@@ -105,7 +105,7 @@ public class StateController{
 
     // Observer gruppo per menù a tendina diverso
 
-    private final List<GroupObserver> groupObservers = new ArrayList<>();
+    /*private final List<GroupObserver> groupObservers = new ArrayList<>();
 
     public void addGroupObserver(GroupObserver observer){
         groupObservers.add(observer);
@@ -128,7 +128,7 @@ public class StateController{
         for (GroupObserver observer : groupObservers) {
             observer.onMouseRightClick(x,y);
         }
-    }
+    }*/
 
 
     //// STATO DEL CANVAS ////
@@ -278,4 +278,5 @@ public class StateController{
         for (StateObserver o : observers)
             o.onCanvasAddGroup(groupView);
     }
+
 }
