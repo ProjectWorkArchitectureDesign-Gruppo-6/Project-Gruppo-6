@@ -33,6 +33,16 @@ public class Group extends Shape{
     }
 
     @Override
+    public void setDim1(double dim1) {
+
+    }
+
+    @Override
+    public void setDim2(double dim2) {
+
+    }
+
+    @Override
     public double getXc() {
         return x - width/2;
     }
@@ -65,6 +75,11 @@ public class Group extends Shape{
 
         // Ora ho tutto per applicare la trasformazione alle shape figlie
         resizeProportional(oldX, oldY, oldW, oldH);
+    }
+
+    @Override
+    public void stretch(double dx, double dy, String id) {
+
     }
 
     private void resizeProportional(double oldX, double oldY, double oldW, double oldH) {

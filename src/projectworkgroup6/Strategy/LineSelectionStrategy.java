@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -31,6 +32,22 @@ public class LineSelectionStrategy extends SelectionStrategy {
         gc.setStroke(Color.BLACK);
         drawHandle(gc, shape.getXc(), shape.getYc(), size);
         drawHandle(gc, shape.getX2(), shape.getY2(), size);
+    }
+
+    @Override
+    public void drawStretchHandles(GraphicsContext gc, Shape shape) {
+        double x1 = shape.getXc();
+        double y1 = shape.getYc();
+        double x2 = shape.getDim1();
+        double y2 = shape.getDim2();
+        double size = 6;
+
+        //maniglia di streach
+        gc.setStroke(Color.BLACK);
+        //maniglia stretch+mirroring
+        drawStretchHandle(gc,x1 +  (x2 - x1)/4,y1 + (y2 - y1)/4, size);
+
+        drawStretchHandle(gc,x1 +  3*(x2 - x1)/4,y1 + 3*(y2 - y1)/4, size);
     }
 
     //Disegna il pulsante di rotazione sotto alla figura selezionata.
@@ -90,7 +107,9 @@ public class LineSelectionStrategy extends SelectionStrategy {
     //Calcola la coordinata Y del pulsante di spostamento (↔)
     @Override
     public double getMoveButtonY(Shape shape) {
+
         return shape.getY() + 20;
+
     }
 
     //Restituisce una lista di maniglie in termini di coordinate alle due estremità della linea.
@@ -118,6 +137,25 @@ public class LineSelectionStrategy extends SelectionStrategy {
 
 
         return handles;
+    }
+
+    @Override
+    public List<AbstractMap.SimpleEntry<Double, Double>> getStretchHandles(Shape shape) {
+
+        // Lista di mappe semplici con due double x e y
+        List<AbstractMap.SimpleEntry<Double, Double>> stretchHandles = new ArrayList<>();
+
+        double x1 = shape.getXc();
+        double y1 = shape.getYc();
+        double x2 = shape.getDim1();
+        double y2 = shape.getDim2();
+        double size = 6;
+        double half = size / 2;
+
+System.out.println("aggiungo handle nella mappa[LineSelectionStrategy]");
+        stretchHandles.add(new AbstractMap.SimpleEntry<>( x1 + (x2 - x1)/4 - half,y1 + (y2 - y1)/4 - half));
+        stretchHandles.add(new AbstractMap.SimpleEntry<>( x1 + 3*(x2 - x1)/4 - half,y1 + 3*(y2 - y1)/4 - half));
+        return stretchHandles;
     }
 
 

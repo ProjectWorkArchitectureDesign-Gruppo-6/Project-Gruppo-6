@@ -72,6 +72,9 @@ public class TextBox extends Rectangle {
         this.isEditing = editing;
     }
 
+
+
+
     @Override
     public String type() {
         return "TextBox";
@@ -84,4 +87,3 @@ public class TextBox extends Rectangle {
         return tb;
     }
 }
-

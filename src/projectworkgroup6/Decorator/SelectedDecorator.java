@@ -41,8 +41,7 @@ public class SelectedDecorator extends ShapeView{
     //Bordo, maniglie e pulsanti, anch'essi ruotati per restare allineati alla figura
     @Override
     public void draw(GraphicsContext gc) {
-
-        //Disegna la shape ruotata
+        // 1. Disegna la shape originale
         base.draw(gc);
 
         //Calcola centro e angolo della figura
@@ -72,6 +71,9 @@ public class SelectedDecorator extends ShapeView{
         //Disegna decorazioni allineate
         drawSelectionBorder(gc);
         drawHandles(gc);
+        drawStretchHandles(gc);
+
+        // Disegna il bottone di movimento
         drawMoveButton(gc);
         drawRotateButton(gc);
 
@@ -113,6 +115,8 @@ public class SelectedDecorator extends ShapeView{
     private void drawHandles(GraphicsContext gc) {
         strategy.drawHandles(gc, base.getShape());
     }
+//
+    private void drawStretchHandles(GraphicsContext gc) {strategy.drawStretchHandles(gc, base.getShape());}
 
     // Disegna il pulsante per il movimento
     private void drawMoveButton(GraphicsContext gc) {
@@ -126,5 +130,7 @@ public class SelectedDecorator extends ShapeView{
 
     //Restituisce la lista delle maniglie di ridimensionamento
     public List<AbstractMap.SimpleEntry<Double, Double>> getHandles() {return strategy.getHandles(base.getShape()); }
+//
+public List<AbstractMap.SimpleEntry<Double, Double>> getStretchHandles() {return strategy.getStretchHandles(base.getShape()); }
 
 }

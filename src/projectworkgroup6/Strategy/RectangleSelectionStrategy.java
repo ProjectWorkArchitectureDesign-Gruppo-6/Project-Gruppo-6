@@ -26,11 +26,28 @@ public class RectangleSelectionStrategy extends SelectionStrategy {
         double size = 6;
         gc.setFill(Color.WHITE);
         gc.setStroke(Color.BLACK);
+        //maniglie ridimensionamneto
         drawHandle(gc, x, y, size);
         drawHandle(gc, x + w, y, size);
         drawHandle(gc, x, y + h, size);
         drawHandle(gc, x + w, y + h, size);
     }
+
+    @Override
+    public void drawStretchHandles(GraphicsContext gc, Shape shape) {
+            double x = shape.getXc();
+            double y = shape.getYc();
+            double w = shape.getDim1();
+            double h = shape.getDim2();
+            double size = 6;
+
+            gc.setStroke(Color.BLACK);
+            //maniglia stretch+mirroring
+            drawStretchHandle(gc, x + w / 2, y, size);
+            drawStretchHandle(gc, x + w, y + h / 2, size);
+            drawStretchHandle(gc, x + w / 2, y + h, size);
+            drawStretchHandle(gc, x, y + h / 2, size);
+        }
 
     @Override
     public void RotateButton(GraphicsContext gc, Shape shape) {
@@ -72,7 +89,7 @@ public class RectangleSelectionStrategy extends SelectionStrategy {
         gc.strokeOval(buttonX, buttonY, buttonWidth, buttonHeight);
 
         gc.setFill(Color.BLACK);
-        gc.fillText("↔", buttonX + 3 , buttonY + 15);
+        gc.fillText("<>", buttonX + 3 , buttonY + 15);
     }
 
     @Override
@@ -82,7 +99,7 @@ public class RectangleSelectionStrategy extends SelectionStrategy {
 
     @Override
     public double getMoveButtonY(Shape shape) {
-        return shape.getYc() + shape.getDim2() + 5; // appena sotto la figura
+        return shape.getYc() + shape.getDim2() + 10; // appena sotto la figura
     }
 
     @Override
@@ -117,6 +134,40 @@ public class RectangleSelectionStrategy extends SelectionStrategy {
 
 
     }
+    @Override
+    public List<AbstractMap.SimpleEntry<Double, Double>> getStretchHandles(Shape shape) {
+
+        // Lista di mappe semplici con due double x e y
+        List<AbstractMap.SimpleEntry<Double, Double>> stretchHandles = new ArrayList<>();
+
+        double x = shape.getXc();
+        double y = shape.getYc();
+        double w = shape.getDim1();
+        double h = shape.getDim2();
+        double size = 6;
+        double half = size / 2;
+
+
+        // Aggiungo le coordinate alla lista, inserendo una nuova mappa semplice nella lista
+
+        // Coordinate stretch sopra
+        stretchHandles.add(new AbstractMap.SimpleEntry<>(x + w/2 -half,y -half));
+
+        // Coordinate stretch destra
+        stretchHandles.add(new AbstractMap.SimpleEntry<>(x+w-half,y +h/2 -half));
+
+        // Coordinate stretch sotto
+        stretchHandles.add(new AbstractMap.SimpleEntry<>(x + w/2 - half,y +h -half));
+
+        // Coordinate stretch sinistra
+        stretchHandles.add(new AbstractMap.SimpleEntry<>(x - half,y +h/2 -half));
+
+        return stretchHandles;
+
+
+    }
+
+
 
 
 }
