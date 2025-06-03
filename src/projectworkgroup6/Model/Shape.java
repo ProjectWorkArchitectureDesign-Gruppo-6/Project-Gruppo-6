@@ -25,7 +25,7 @@ import java.util.Map;
 public abstract class Shape {
 
     protected double x, y;
-    private double rotation = 0.0;
+    protected double rotation = 0.0;
     protected ColorModel border, fill;
     protected int layer;
     protected int group;

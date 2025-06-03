@@ -52,6 +52,7 @@ public class TemporaryResizeState implements CanvasState{
     public void handleClick(MouseEvent e, double x, double y, Map<Shape, ShapeView> map) {
         Group group = (Group)shapeView.getShape();
         StateController.getInstance().removeShape(group, shapeView);
+
         for(int i = 0; i< group.getShapes().size(); i++){
             StateController.getInstance().addShape(group.getShapes().get(i), individualViews.get(i));
         }

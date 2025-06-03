@@ -202,7 +202,7 @@ public class MultipleSelectState implements CanvasState {
 
         if(selections.size() > 1){
             StateController.getInstance().notifyShapeSelected(group);
-            StateController.getInstance().addGroup(groupView);
+            //StateController.getInstance().addGroup(groupView);
 
         }
         else{
@@ -388,7 +388,7 @@ public class MultipleSelectState implements CanvasState {
 
 
             }
-            /*
+/*
             // Ridisegno il bordo sul gruppo corrente
             if(group != null){
                 System.out.println("AAAAAAAAAAAAAAAA");
@@ -397,7 +397,11 @@ public class MultipleSelectState implements CanvasState {
                 StateController.getInstance().addGroup(groupView);
             }
 
-             */
+
+ */
+
+
+
 
         }
 
