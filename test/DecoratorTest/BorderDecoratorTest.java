@@ -4,28 +4,45 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import projectworkgroup6.Decorator.BorderDecorator;
 import projectworkgroup6.View.ShapeView;
+import projectworkgroup6.Model.Shape;
 
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class BorderDecoratorTest {
+class BorderDecoratorTest {
 
     private ShapeView baseView;
-    private BorderDecorator borderDecorator;
+    private Shape mockedShape;
+    private BorderDecorator decorator;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
+        mockedShape = mock(Shape.class); // Shape nel tuo progetto
         baseView = mock(ShapeView.class);
-        borderDecorator = new BorderDecorator(baseView, Color.RED);
+        when(baseView.getShape()).thenReturn(mockedShape);
+        decorator = new BorderDecorator(baseView, Color.RED);
     }
 
     @Test
-    public void testUndecorateReturnsBaseView() {
-        ShapeView result = borderDecorator.undecorate();
-        assertSame(baseView, result);
+    void testUndecorateReturnsBaseView() {
+        ShapeView undecorated = decorator.undecorate();
+        assertSame(baseView, undecorated, "undecorate() should return the base view");
     }
 
+    @Test
+    void testDrawCallsBaseDrawAndSetsStrokeAndWidth() {
+        GraphicsContext gc = mock(GraphicsContext.class);
 
+        decorator.draw(gc);
+
+        // Verifica che abbia impostato il colore e lo spessore del bordo
+        verify(gc).setStroke(Color.RED);
+        verify(gc).setLineWidth(3.0);
+
+        // Verifica che il draw originale sia stato chiamato
+        verify(baseView).draw(gc);
+    }
 }
