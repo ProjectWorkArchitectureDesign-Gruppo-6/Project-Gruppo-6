@@ -61,61 +61,6 @@ public class Group extends Shape{
         }
     }
 
-    /*
-    @Override
-    public void resize(double factor, double oldX, double oldY) {
-        double oldW = width;
-        double oldH = height;
-
-
-        // Applico la nuova dimensione al gruppo (cornice)
-        width *= factor;
-        height *= factor;
-
-
-        // Ora ho tutto per applicare la trasformazione alle shape figlie
-        resizeProportional(oldX, oldY, oldW, oldH);
-    }
-
-    @Override
-    public void stretch(double dx, double dy, String id) {
-
-    }
-
-    private void resizeProportional(double oldX, double oldY, double oldW, double oldH) {
-        double newX = getX(); // Il nuovo centro già calcolato in base allo spostamento settato nello state
-        double newY = getY();
-        double newW = getDim1(); // width
-        double newH = getDim2(); // height
-
-        for (Shape s : shapes) {
-            // Posizione relativa del centro della shape, valore percentuale di area occupata
-            //Calcoli quanto lontano si trova la shape dal centro del gruppo, in percentuale rispetto alla larghezza e altezza del gruppo.
-            double relX = (s.getX() - oldX) / oldW;
-            double relY = (s.getY() - oldY) / oldH;
-
-            // Nuova posizione proporzionale
-            // Con le nuove dimensioni e il nuovo centro, voglio che la shape rimanga alla stessa distanza iniziale dal centro rispetto alla larghezza e all'altezza del gruppo
-            double newShapeX = newX + relX * newW;
-            double newShapeY = newY + relY * newH;
-
-            // Fattori di scala
-            double scaleX = newW / oldW;
-            double scaleY = newH / oldH;
-            double scale = Math.min(scaleX, scaleY);
-
-            // Salva centro della shape vecchio in caso di riesecuzione su gruppi annidati
-            double nestedOldX = s.getX();
-            double nestedOldY = s.getY();
-
-            // Applica trasformazione
-            s.setX(newShapeX);
-            s.setY(newShapeY);
-            s.resize(scale,nestedOldX,nestedOldY);
-        }
-    }
-
-     */
 
     @Override
     public void resize(double factorX, double factorY, double oldX, double oldY) {

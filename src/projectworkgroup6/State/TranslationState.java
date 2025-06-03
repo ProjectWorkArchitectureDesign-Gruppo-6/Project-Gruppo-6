@@ -53,8 +53,6 @@ public class TranslationState implements CanvasState{
         //nascondi il menu a tendina
         StateController.getInstance().notifyShapeDeselected();
 
-        StateController.getInstance().removeShape(shape,shapeView); // rimuovo la shape dalla posizione iniziale
-
         // Calcolo il microspostamento
         double dx = x - lastX;
         double dy = y - lastY;
@@ -66,7 +64,8 @@ public class TranslationState implements CanvasState{
         lastY = y; // salvataggio delle coordinate ottenute in base al piccolo passo
 
 
-        StateController.getInstance().addShape(shape, shapeView); // aggiungo shape alla posizione nuova
+
+        StateController.getInstance().notifyCanvasToRepaint();
 
         // Questo permette di spostatare la shape visivamente
 

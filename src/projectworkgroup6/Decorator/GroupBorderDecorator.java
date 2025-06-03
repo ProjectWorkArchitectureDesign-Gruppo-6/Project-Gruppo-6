@@ -22,10 +22,28 @@ public class GroupBorderDecorator extends ShapeView {
     @Override
     public void draw(GraphicsContext gc) {
 
+        // Disegno il contenuto
+        baseView.draw(gc);
+
         // 1. Disegno il bordo tratteggiato
         Group group = (Group) getShape();
         double x = group.getX() - group.getWidth() / 2;
         double y = group.getY() - group.getHeight() / 2;
+
+
+        double centerX = shape.getXc() + shape.getDim1() / 2.0;
+        double centerY = shape.getYc() + shape.getDim2() / 2.0;
+
+        double angle = shape.getRotation();
+
+
+
+        gc.save();
+
+        //Ruota il contesto per decorazioni
+        gc.translate(centerX, centerY);
+        gc.rotate(angle);
+        gc.translate(-centerX, -centerY);
 
 
 
@@ -40,9 +58,11 @@ public class GroupBorderDecorator extends ShapeView {
 
         // 3. Disegna il bottone di movimento
         drawMoveButton(gc);
+        drawRotateButton(gc);
 
-        // Disegno il contenuto
-        baseView.draw(gc);
+        gc.restore();
+
+
     }
 
     @Override
@@ -67,5 +87,18 @@ public class GroupBorderDecorator extends ShapeView {
     }
 
     public List<AbstractMap.SimpleEntry<Double, Double>> getHandles() {return strategy.getHandles(baseView.getShape()); }
+
+    private void drawRotateButton(GraphicsContext gc) {
+        strategy.RotateButton(gc, baseView.getShape());
+    }
+
+    public double getRotateButtonX() {
+        return strategy.getRotateButtonX(shape);
+    }
+
+    //Restituisce le coordinate Y del pulsante di rotazione
+    public double getRotateButtonY() {
+        return strategy.getRotateButtonY(shape);
+    }
 
 }

@@ -95,7 +95,7 @@ public class TemporaryResizeState implements CanvasState{
         double oldh = shape.getDim2();
 
         // cancello la shape con la dimensione base
-        StateController.getInstance().removeShape(shape, shapeView);
+        //StateController.getInstance().removeShape(shape, shapeView);
 
         // Ad ogni aggiornamento calcolo il centro della shape
         double oldCenterX = shape.getX();
@@ -216,8 +216,8 @@ public class TemporaryResizeState implements CanvasState{
         lastCenterY = shape.getY();
 
         // Ridisegno la shape ridimensionata
-        StateController.getInstance().addShape(shape, shapeView);
-
+        //StateController.getInstance().addShape(shape, shapeView);
+        StateController.getInstance().notifyCanvasToRepaint();
     }
 
     // Implementa il ridimensionamento solo a livello logico

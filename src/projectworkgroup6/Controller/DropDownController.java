@@ -14,6 +14,8 @@ import projectworkgroup6.Model.*;
 
 import projectworkgroup6.Factory.ShapeCreator;
 import projectworkgroup6.Decorator.*;
+import projectworkgroup6.State.CanvasState;
+import projectworkgroup6.State.MultipleSelectState;
 import projectworkgroup6.View.GroupView;
 import projectworkgroup6.View.ShapeView;
 import projectworkgroup6.Command.*;
@@ -37,7 +39,7 @@ import java.util.*;
  * Implementa l'interfaccia SelectionObserver per rispondere a selezioni/deselezioni.
  */
 
-public class DropDownController implements SelectionObserver {
+public class DropDownController implements SelectionObserver, StateObserver {
     @FXML
     private AnchorPane dropDownMenuPane;
 
@@ -97,6 +99,8 @@ public class DropDownController implements SelectionObserver {
     @FXML
     Button GroupBtn;
 
+    private CanvasState currentState;
+
     @FXML
     public void initialize() {
 
@@ -118,6 +122,7 @@ public class DropDownController implements SelectionObserver {
         });
 
         StateController.getInstance().addSelectionObserver(this);
+        StateController.getInstance().addObserver(this);
     }
 
     @Override
@@ -210,19 +215,29 @@ public class DropDownController implements SelectionObserver {
         dropDownMenuPane.setVisible(true);
         dropDownMenuPane.setManaged(true);
 
-        ungroupBtn.setVisible(s instanceof Group);
+
+        GroupBtn.setVisible(currentState instanceof MultipleSelectState);
+        ungroupBtn.setVisible(s instanceof Group && currentState instanceof SingleSelectState);
         modfontColorPicker.setVisible(s instanceof TextBox);
         modfontCombo.setVisible(s instanceof TextBox);
         modfontSizeSpinner.setVisible(s instanceof TextBox);
         borderPicker.setVisible(!(s instanceof TextBox));
         fillPicker.setVisible(!(s instanceof TextBox));
-        enableAllButtons();
+        if(currentState instanceof MultipleSelectState){
+            disableAllButtons();
+            stylePane.setDisable(false);
+            GroupBtn.setDisable(false);
+        }else{
+            enableAllButtons();
+        }
+
     }
 
 
     @FXML
     public void copy(ActionEvent event) {
         System.out.println("copia");
+        System.out.println(selectedShape);
         ShapeView copiedShapeView = StateController.getInstance().getMap().get(selectedShape);
         setSavedView(copiedShapeView.undecorate());
 
@@ -528,5 +543,25 @@ public class DropDownController implements SelectionObserver {
         CommandManager.getInstance().executeCommand(new InsertGroupCommand(group,view));
         StateController.getInstance().setState(SingleSelectState.getInstance());
         System.out.println(group.getLayer());
+    }
+
+    @Override
+    public void onStateChanged(CanvasState newMode) {
+        this.currentState = newMode;
+    }
+
+    @Override
+    public void onCanvasChanged(Map<Shape, ShapeView> map) {
+        //
+    }
+
+    @Override
+    public void onColorChanged(Color currentStroke, Color currentFill) {
+        //
+    }
+
+    @Override
+    public void onCanvasAddGroup(ShapeView groupView) {
+        //
     }
 }

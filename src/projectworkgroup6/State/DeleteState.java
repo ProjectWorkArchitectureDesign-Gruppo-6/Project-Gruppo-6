@@ -54,8 +54,34 @@ public class DeleteState implements CanvasState{
         Map<Shape, ShapeView> copy = new HashMap<Shape, ShapeView>(map);
         for (Map.Entry<Shape, ShapeView> entry : copy.entrySet()) {
             Shape s = entry.getKey();
+            ShapeView v = entry.getValue();
+
+            // Deseleziona logicamente
+            s.setSelected(false);
+
+            // Rimuovi dal gruppo provvisorio
+            s.setGroup(0);
+
+            // Annulla gruppo provvisorio
+            MultipleSelectState.getInstance().setGroup(null);
+
+            //Nascondi menù a tendina
+            //StateController.getInstance().notifyGroupDeselected();
 
             s.setEditing(false);
+
+
+            // Rimuovi la versione decorata dalla vista (cioè dallo stato attuale)
+            StateController.getInstance().removeShape(s,v);
+
+            // Crea la versione "base" della view senza decorator
+            ShapeView baseView = v.undecorate();
+
+            // Aggiungi di nuovo la versione base alla vista
+            StateController.getInstance().addShape(s,baseView);
+
+            StateController.getInstance().notifyShapeDeselected();
+
         }
     }
 

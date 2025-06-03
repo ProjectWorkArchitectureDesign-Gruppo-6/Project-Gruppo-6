@@ -213,6 +213,9 @@ public class ToolBarController {
         this.canvasController = canvasController;
     }
     public void addCustomShape(ShapeView customShape) {
+        StateController.getInstance().notifyShapeDeselected();
+        StateController.getInstance().addShape(customShape.getShape(),customShape.undecorate());
+        System.out.println(StateController.getInstance().getMap());
         customShapeViews.add(customShape); //inserisco la selected shape nelle shape personalizzate
 
         int index = customShapeViews.size() - 1; //faccio coincidere l'indice con la dimensione della lista

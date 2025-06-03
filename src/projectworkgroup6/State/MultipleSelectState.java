@@ -41,15 +41,16 @@ public class MultipleSelectState implements CanvasState {
         if (instance == null) {
             instance = new MultipleSelectState();
         }
-        //group = null; // Ogni volta che entro nello stato, considero un nuovo gruppo temporaneo
-        //selections = new ArrayList<ShapeView>(); // basato su un insieme temporaneo di figure
+
         return instance;
     }
 
     public void setGroup(Group group){
+
         this.group = group;
         if(group == null){
             selections = new ArrayList<>();
+
         }
 
     }
@@ -64,7 +65,7 @@ public class MultipleSelectState implements CanvasState {
         System.out.println("Hai cliccato in modalità MULTIPLE SELECT su: " + x + ", " + y);
 
         if (e.getButton()== MouseButton.SECONDARY) {
-            StateController.getInstance().notifyMouseRightClick(x,y);
+            //StateController.getInstance().notifyMouseRightClick(x,y);
         } else{
             for (Shape s : map.keySet()) { // controllo se il click è accaduto su una figura, per ogni figura
                 Point2D unrotated = rotatePointBack(x, y, s);
@@ -81,7 +82,10 @@ public class MultipleSelectState implements CanvasState {
                 }
                 // se clicchi a vuoto non fai nulla
             }
+
             calculateBorderGroup(selections, map);
+
+
         }
     }
 
@@ -92,20 +96,18 @@ public class MultipleSelectState implements CanvasState {
         s.setSelected(true);
         s.setGroup(currentGroup + 1);
         ShapeView view = map.get(s);
-        System.out.println(map);
-        System.out.println("Nella ms : " + view);
         view = new MultiSelectedDecorator(view);
         StateController.getInstance().addShape(s,view);
+        System.out.println(map);
         selections.add(view);
 
     }
 
     private void deselectShape(Shape s, Map<Shape, ShapeView> map) {
+
         s.setSelected(false);
         s.setGroup(0);
-        //StateController.getInstance().notifyShapeDeselected();
         ShapeView view = map.get(s);
-        StateController.getInstance().removeShape(s, view); // rimuovo la grafica di selezione
         StateController.getInstance().addShape(s, view.undecorate()); // aggiungo la grafica prima del selezionamento
         selections.remove(view);
 
@@ -218,17 +220,19 @@ public class MultipleSelectState implements CanvasState {
         // Il metodo capisce se l'utente vuole traslare, ridimensionare o stretchare la shape
         if (group != null) {
 
+            //Converti il punto cliccato rispetto alla rotazione della figura
+            Point2D unrotated = rotatePointBack(x, y, group);
+            double x2 = unrotated.getX();
+            double y2 = unrotated.getY();
+
             ShapeView groupView = new GroupView(group,selections);
             GroupBorderDecorator view = new GroupBorderDecorator(groupView);
             Map<Shape,ShapeView> map = StateController.getInstance().getMap();
 
             // Controllo se vuole spostare il gruppo
-
-            boolean isMoveClicked = checkClickOnMoveButton(view, x, y);
-
+            boolean isMoveClicked = checkClickOnMoveButton(view, x2, y2);
 
             if (isMoveClicked) {
-
 
                 // Aggiungo temporaneamente il gruppo allo stato
                 List<ShapeView> individualViews = new ArrayList<ShapeView>();
@@ -244,10 +248,9 @@ public class MultipleSelectState implements CanvasState {
                 StateController.getInstance().setState(ts);
             }
             else{
-
                 // Controllo se vuole ridimensionare
                 AbstractMap.SimpleEntry<Double,Double> mobilePoint;
-                mobilePoint = checkClickOnHandles(view, x, y);
+                mobilePoint = checkClickOnHandles(view, x2, y2);
 
                 if(mobilePoint != null){
 
@@ -265,8 +268,39 @@ public class MultipleSelectState implements CanvasState {
                     StateController.getInstance().setState(rs);
 
                 }
+                else{
+                    // Controllo se vuole ruotare
+                    // Controllo se è stato cliccato il bottone di rotazione
+                    boolean isRotateClicked = checkClickOnRotateButton(view, x2, y2);
+                    if (isRotateClicked) {
+
+                        // Aggiungo temporaneamente il gruppo allo stato
+                        List<ShapeView> individualViews = new ArrayList<ShapeView>();
+                        for(Shape s : group.getShapes()){
+                            individualViews.add(map.get(s));
+                            StateController.getInstance().removeShape(s, map.get(s));
+                        }
+                        StateController.getInstance().addShape(group,view);
+
+                        // Creo lo stato di rotazione
+                        TemporaryRotationState rs = new TemporaryRotationState(view);
+                        rs.startRotating(x, y, individualViews);
+                        rs.setRotateCommand(new RotateCommand(group));
+                        StateController.getInstance().setState(rs);
+
+                    }
+                }
             }
         }
+    }
+
+    private boolean checkClickOnRotateButton(GroupBorderDecorator selectedShape, double x, double y) {
+        double buttonX = selectedShape.getRotateButtonX();
+        double buttonY = selectedShape.getRotateButtonY();
+
+        double diameter = 20;
+
+        return x >= buttonX && x <= buttonX + diameter && y >= buttonY && y <= buttonY + diameter;
     }
 
     private AbstractMap.SimpleEntry<Double, Double> checkClickOnHandles(GroupBorderDecorator selectedShape, double x, double y) {
@@ -325,10 +359,9 @@ public class MultipleSelectState implements CanvasState {
             s.setEditing(false);
 
 
-            System.out.println("dopo il translate: " + group);
-
-
             if(group == null || !group.getShapes().contains(s)){
+
+
 
                 // Deseleziona logicamente
                 s.setSelected(false);
@@ -354,14 +387,17 @@ public class MultipleSelectState implements CanvasState {
                 }
 
 
-                // Ridisegno il bordo sul gruppo corrente
-                if(group != null){
-                    ShapeView groupView = new GroupView(group,selections);
-                    groupView = new GroupBorderDecorator(groupView);
-                    StateController.getInstance().addGroup(groupView);
-                }
-
             }
+            /*
+            // Ridisegno il bordo sul gruppo corrente
+            if(group != null){
+                System.out.println("AAAAAAAAAAAAAAAA");
+                ShapeView groupView = new GroupView(group,selections);
+                groupView = new GroupBorderDecorator(groupView);
+                StateController.getInstance().addGroup(groupView);
+            }
+
+             */
 
         }
 
