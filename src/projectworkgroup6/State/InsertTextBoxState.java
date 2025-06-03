@@ -119,6 +119,8 @@ public class InsertTextBoxState implements CanvasState {
             Shape s = entry.getKey();
             ShapeView v = entry.getValue();
 
+            s.setEditing(false);
+
             // Deseleziona logicamente
             s.setSelected(false);
 
@@ -129,7 +131,7 @@ public class InsertTextBoxState implements CanvasState {
             MultipleSelectState.getInstance().setGroup(null);
 
             //Nascondi menù a tendina
-            StateController.getInstance().notifyGroupDeselected();
+            //StateController.getInstance().notifyGroupDeselected();
 
             // Rimuovi la versione decorata dalla vista (cioè dallo stato attuale)
             StateController.getInstance().removeShape(s,v);

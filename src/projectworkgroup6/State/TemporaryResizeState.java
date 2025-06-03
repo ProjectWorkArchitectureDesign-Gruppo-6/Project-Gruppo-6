@@ -238,7 +238,7 @@ public class TemporaryResizeState implements CanvasState{
         //mostra il menu a tendina
         Group group = (Group)shapeView.getShape();
         if(group.getShapes().size() > 1){
-            StateController.getInstance().notifyGroupSelected(shapeView.getShape());
+            StateController.getInstance().notifyShapeSelected(shapeView.getShape());
         }
 
     }

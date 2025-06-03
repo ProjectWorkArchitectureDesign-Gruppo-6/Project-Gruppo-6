@@ -199,12 +199,12 @@ public class MultipleSelectState implements CanvasState {
         StateController.getInstance().addGroup(groupView);
 
         if(selections.size() > 1){
-            StateController.getInstance().notifyGroupSelected(group);
+            StateController.getInstance().notifyShapeSelected(group);
             StateController.getInstance().addGroup(groupView);
 
         }
         else{
-            StateController.getInstance().notifyGroupDeselected();
+            StateController.getInstance().notifyShapeDeselected();
         }
 
 
@@ -322,11 +322,13 @@ public class MultipleSelectState implements CanvasState {
             Shape s = entry.getKey();
             ShapeView v = entry.getValue();
 
+            s.setEditing(false);
+
+
             System.out.println("dopo il translate: " + group);
 
 
             if(group == null || !group.getShapes().contains(s)){
-
 
                 // Deseleziona logicamente
                 s.setSelected(false);
@@ -335,7 +337,7 @@ public class MultipleSelectState implements CanvasState {
                 s.setGroup(0);
 
                 //Nascondi menù a tendina
-                StateController.getInstance().notifyGroupDeselected();
+                StateController.getInstance().notifyShapeDeselected();
 
                 //Nascondi menù a tendina
                 StateController.getInstance().notifyShapeDeselected();
@@ -369,7 +371,7 @@ public class MultipleSelectState implements CanvasState {
     public void handleDelete(KeyEvent event, Map<Shape,ShapeView> map) {
         if(event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE){
             //
-            StateController.getInstance().notifyGroupDeselected();
+            StateController.getInstance().notifyShapeDeselected();
             for(Shape s : group.getShapes()){
                 DeleteCommand cmd = new DeleteCommand(s, map.get(s));
                 CommandManager.getInstance().executeCommand(cmd);

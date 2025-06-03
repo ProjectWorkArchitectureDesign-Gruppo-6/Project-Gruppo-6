@@ -7,26 +7,164 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="dropDownMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="323.0" prefWidth="122.0" visible="false" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.DropDownController">
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.TitledPane?>
+<AnchorPane fx:id="dropDownMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="500.0" visible="false" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projectworkgroup6.Controller.DropDownController" styleClass="drop-down-pane">
    <children>
-      <VBox fx:id="dropDownMenu" prefHeight="208.0" prefWidth="122.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox fx:id="dropDownMenu" prefHeight="100.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" styleClass="drop-down-bar">
          <children>
-            <Button fx:id="copyBtn" mnemonicParsing="false" onAction="#copy" prefHeight="25.0" prefWidth="191.0" text="Copia" />
-            <Button fx:id="pasteBtn" disable="true" mnemonicParsing="false" onAction="#paste" prefHeight="25.0" prefWidth="181.0" text="Incolla" />
-            <Button fx:id="cutBtn" mnemonicParsing="false" onAction="#cut" prefHeight="25.0" prefWidth="182.0" text="Taglia" />
-            <ColorPicker fx:id="borderPicker" editable="true" onAction="#modifyStroke" prefHeight="25.0" prefWidth="181.0" promptText="Contorno" />
+            <VBox>
+               <HBox spacing="5">
+                  <Button fx:id="copyBtn" onAction="#copy" styleClass="image-button">
+                     <graphic>
+                        <ImageView fitHeight="30" fitWidth="30" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Images/copy.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <tooltip>
+                        <Tooltip text="Copia" />
+                     </tooltip>
+                  </Button>
+                  <Button fx:id="pasteBtn" disable="true" mnemonicParsing="false" onAction="#paste" styleClass="image-button">
+                     <graphic>
+                        <ImageView fitHeight="30" fitWidth="30" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Images/paste.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <tooltip>
+                        <Tooltip text="Incolla" />
+                     </tooltip>
+                  </Button>
+               </HBox>
+               <HBox spacing="5">
+                  <Button fx:id="cutBtn" mnemonicParsing="false" onAction="#cut" styleClass="image-button">
+                     <graphic>
+                        <ImageView fitHeight="30" fitWidth="30" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Images/cut.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <tooltip>
+                        <Tooltip text="Taglia" />
+                     </tooltip>
+                  </Button>
+                  <Button fx:id="addShape" mnemonicParsing="false" onAction="#onAddShape" styleClass="image-button">
+                     <graphic>
+                        <ImageView fitHeight="30" fitWidth="30" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Images/salvas.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <tooltip>
+                        <Tooltip text="Salva Figure Personalizzate" />
+                     </tooltip>
+                  </Button>
+               </HBox>
+            </VBox>
 
-            <ColorPicker fx:id="fillPicker" editable="true" onAction="#modifyFill" prefHeight="25.0" prefWidth="182.0" promptText="Riempimento" />
-            <Button fx:id="ungroupBtn" mnemonicParsing="false" onAction="#ungroup" prefHeight="25.0" prefWidth="180.0" text="Annulla raggruppamento" />
-            <Button fx:id="frontBtn" mnemonicParsing="false" onAction="#portaInPrimoPiano" prefHeight="25.0" prefWidth="124.0" text="Primo Piano" />
-            <Button fx:id="backBtn" mnemonicParsing="false" onAction="#portaInSecondoPiano" prefHeight="25.0" prefWidth="128.0" text="Secondo Piano" />
-            <ComboBox fx:id="modfontCombo" layoutX="650" layoutY="10" onAction="#modifyFontName" prefWidth="120" visible="true" />
-            <Spinner fx:id="modfontSizeSpinner" layoutX="650" layoutY="40" prefHeight="26.0" prefWidth="122.0" visible="true" />
-            <ColorPicker fx:id="modfontColorPicker" layoutX="740" layoutY="40" onAction="#modifyFontColor" prefHeight="38.0" prefWidth="122.0" visible="true" />
-            <Button fx:id="addShape" layoutY="284.0" mnemonicParsing="false" onAction="#onAddShape" prefHeight="26.0" prefWidth="122.0" text="Add figure" />
-            <Button fx:id="portaInGiùBtn" mnemonicParsing="false" onAction="#portaInGiù" prefHeight="25.0" prefWidth="123.0" text="Porta in Giù" />
-            <Button fx:id="portaInSuBtn" mnemonicParsing="false" onAction="#portaInSu" prefHeight="25.0" prefWidth="126.0" text="Porta in Su" />
+            <VBox>
+               <HBox spacing="5">
+                  <Button fx:id="frontBtn" mnemonicParsing="false" onAction="#portaInPrimoPiano" styleClass="image-button">
+                     <graphic>
+                        <ImageView fitHeight="30" fitWidth="30" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Images/primopiano.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <tooltip>
+                        <Tooltip text="Porta in primo piano" />
+                     </tooltip>
+                  </Button>
+                  <Button fx:id="backBtn" mnemonicParsing="false" onAction="#portaInSecondoPiano" styleClass="image-button">
+                     <graphic>
+                        <ImageView fitHeight="30" fitWidth="30" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Images/back.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <tooltip>
+                        <Tooltip text="Porta sul fondo" />
+                     </tooltip>
+                  </Button>
+               </HBox>
+               <HBox spacing="5">
+                  <Button fx:id="portaInGiùBtn" mnemonicParsing="false" onAction="#portaInGiù" styleClass="image-button">
+                     <graphic>
+                        <ImageView fitHeight="30" fitWidth="30" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Images/portagiu.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <tooltip>
+                        <Tooltip text="Porta dietro" />
+                     </tooltip>
+                  </Button>
+                  <Button fx:id="portaInSuBtn" mnemonicParsing="false" onAction="#portaInSu" styleClass="image-button">
+                     <graphic>
+                        <ImageView fitHeight="30" fitWidth="30" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Images/portasu.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <tooltip>
+                        <Tooltip text="Porta avanti" />
+                     </tooltip>
+                  </Button>
+               </HBox>
+            </VBox>
+
+            <TitledPane fx:id="stylePane" text="Style" expanded="false" animated="true" prefWidth="200.0" styleClass="titled-pane">
+               <content>
+                  <VBox spacing="8" alignment="TOP_LEFT">
+                     <ColorPicker fx:id="borderPicker" onAction="#modifyStroke" prefWidth="181.0" promptText="Contorno" />
+                     <ColorPicker fx:id="fillPicker" onAction="#modifyFill" prefWidth="182.0" promptText="Riempimento" />
+                     <ComboBox fx:id="modfontCombo" onAction="#modifyFontName" prefWidth="120" visible="true" />
+                     <Spinner fx:id="modfontSizeSpinner" prefHeight="26.0" prefWidth="122.0" visible="true" />
+                     <ColorPicker fx:id="modfontColorPicker" onAction="#modifyFontColor" prefHeight="38.0" prefWidth="122.0" visible="true" />
+                  </VBox>
+               </content>
+            </TitledPane>
+               <VBox spacing="5">
+                  <Button fx:id="GroupBtn" mnemonicParsing="false" onAction="#makeGroup" styleClass="image-button">
+                     <graphic>
+                        <ImageView fitHeight="30" fitWidth="30" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Images/group.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <tooltip>
+                        <Tooltip text="Crea Gruppo" />
+                     </tooltip>
+                  </Button>
+                  <Button fx:id="ungroupBtn" mnemonicParsing="false" onAction="#ungroup" styleClass="image-button">
+                     <graphic>
+                        <ImageView fitHeight="25" fitWidth="25" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Images/ungroup2.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <tooltip>
+                        <Tooltip text="Annulla Raggruppamento" />
+                     </tooltip>
+                  </Button>
+               </VBox>
+
          </children>
-      </VBox>
+      </HBox>
    </children>
 </AnchorPane>

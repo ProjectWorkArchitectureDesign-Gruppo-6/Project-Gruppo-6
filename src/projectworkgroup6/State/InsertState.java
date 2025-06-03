@@ -95,7 +95,9 @@ public class InsertState implements CanvasState {
             MultipleSelectState.getInstance().setGroup(null);
 
             //Nascondi menù a tendina
-            StateController.getInstance().notifyGroupDeselected();
+            //StateController.getInstance().notifyGroupDeselected();
+
+            s.setEditing(false);
 
 
             // Rimuovi la versione decorata dalla vista (cioè dallo stato attuale)
