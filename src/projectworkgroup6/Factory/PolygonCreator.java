@@ -49,7 +49,15 @@ public class PolygonCreator implements ShapeCreator{
             copiedVertices.add(new double[]{v[0], v[1]});
         }
 
-        return new Polygon(copiedVertices, false, border, fill, layer, group);
+        double Xmin = tempVertices.stream().mapToDouble(v->v[0]).min().orElse(x); //si prende il vertice con la coordinata x minima
+        double Xmax = tempVertices.stream().mapToDouble(v->v[0]).max().orElse(x);
+        width =  Xmax - Xmin;
+
+        double Ymin = tempVertices.stream().mapToDouble(v->v[1]).min().orElse(y);
+        double Ymax = tempVertices.stream().mapToDouble(v->v[1]).max().orElse(y);
+        height = Ymax - Ymin;
+
+        return new Polygon(copiedVertices, false, width, height, border, fill, layer, group);
     }
 
     @Override

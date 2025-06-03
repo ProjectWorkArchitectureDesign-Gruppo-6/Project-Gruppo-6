@@ -72,7 +72,6 @@ public class CanvasView {
         sortedViews.sort(Comparator.comparingInt(ShapeView::getLayer));
 
         for (ShapeView v : sortedViews) {
-
             v.draw(gc);
         }
     }

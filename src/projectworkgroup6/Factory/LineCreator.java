@@ -26,7 +26,7 @@ public class LineCreator implements ShapeCreator {
     @Override
     public Shape createShape(double x, double y, double width, double height, ColorModel border, ColorModel fill, int layer, int group) {
 
-        return new Line(x, y, false, x + width, y + height, border, fill, layer, group);
+        return new Line(x, y, false, width, height, border, fill, layer, group);
     }
 
     @Override

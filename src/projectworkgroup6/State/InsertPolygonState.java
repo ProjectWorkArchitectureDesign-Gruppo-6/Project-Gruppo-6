@@ -62,27 +62,30 @@ public class InsertPolygonState implements CanvasState {
 
             System.out.println("Poligono aggiunto alla mappa. Totale forme: " + map.size());
             creator.resetVertices(); //resetto la lista temporanea di vertici in modo tale che quando creo un nuovo poligono sarà vuota
-            isClosed = true; //setto che il poligono è chiuso
-            previewShape = null; //setto che non sto più facendo un preview del poligono ma è una forma finita
+            isClosed = false; //setto che il poligono è chiuso
             lastClickTime = now;
             return;
         }else{
             lastClickTime = now;
             creator.addVertex(x, y); //se non sto chiudendo il poligono aggiungo il vertice alla lista temporanea
-            previewShape = new Polygon(new ArrayList<>(creator.getTempVertices()), false, border, fill, map.size() + 1, 0); //mi creo il poligono che se successivamente farò doppio click verrà disegnato
         }
 
     }
 
     @Override
     public void handlePression(double x, double y) {
-       /* if (isClosed || creator.getTempVertices().isEmpty()) return;
+
+    }
+
+    /*@Override
+    public void handlePression(double x, double y) {
+       if (isClosed || creator.getTempVertices().isEmpty()) return;
 
         // Aggiorna l'anteprima con l'ultimo punto fluttuante
-        List<double[]> temp = new ArrayList<>(creator.getTempVertices());
+        ArrayList<double[]> temp = new ArrayList<>(creator.getTempVertices());
         temp.add(new double[]{x, y});
-        previewShape = new Polygon(temp, false);*/
-    }
+        previewShape = new Polygon(temp, false);
+    }*/
 
     @Override
     public void handlePressionRotate(double x, double y) {

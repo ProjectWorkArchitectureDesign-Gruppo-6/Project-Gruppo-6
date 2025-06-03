@@ -25,7 +25,7 @@ public class LineView extends ShapeView {
         gc.translate(-centerX, -centerY);
 
         gc.setStroke(line.getBorder().toColor());
-        gc.strokeLine(line.getXc(), line.getYc(), line.getDim1(), line.getDim2());
+        gc.strokeLine(line.getXc(), line.getYc(), line.getX2(), line.getY2());
 
         gc.restore();
     }
