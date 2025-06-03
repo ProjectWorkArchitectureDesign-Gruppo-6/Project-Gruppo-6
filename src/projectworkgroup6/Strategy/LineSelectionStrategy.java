@@ -1,6 +1,7 @@
 package projectworkgroup6.Strategy;
 
 import javafx.scene.canvas.GraphicsContext;
+import projectworkgroup6.Model.Line;
 import projectworkgroup6.Model.Shape;
 import javafx.scene.paint.Color;
 
@@ -15,9 +16,10 @@ public class LineSelectionStrategy extends SelectionStrategy {
     //Per le linee, il bordo coincide con la linea stessa.
     @Override
     public void drawSelectionBorder(GraphicsContext gc, Shape shape) {
+
         gc.setStroke(Color.BLUE);
         gc.setLineWidth(3.0);
-        gc.strokeLine(shape.getXc(), shape.getYc(), shape.getDim1(), shape.getDim2());
+        gc.strokeLine(shape.getXc(), shape.getYc(), shape.getX2(), shape.getY2());
     }
 
     //Disegna le maniglie di ridimensionamento alle estremità della linea.
@@ -28,15 +30,15 @@ public class LineSelectionStrategy extends SelectionStrategy {
         gc.setFill(Color.WHITE);
         gc.setStroke(Color.BLACK);
         drawHandle(gc, shape.getXc(), shape.getYc(), size);
-        drawHandle(gc, shape.getDim1(), shape.getDim2(), size);
+        drawHandle(gc, shape.getX2(), shape.getY2(), size);
     }
 
     //Disegna il pulsante di rotazione sotto alla figura selezionata.
     //Questo bottone è rappresentato da un cerchio bianco con un'icona ⟳.
     @Override
     public void RotateButton(GraphicsContext gc, Shape shape) {
-        double buttonX = getMoveButtonX(shape) + 20;
-        double buttonY =  getMoveButtonY(shape) + 22;
+        double buttonX = getRotateButtonX(shape);
+        double buttonY =  getRotateButtonY(shape);
 
         gc.setFill(Color.WHITE);
         gc.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
@@ -59,7 +61,7 @@ public class LineSelectionStrategy extends SelectionStrategy {
     //calcolata a partire dalla posizione del pulsante di movimento.
     @Override
     public double getRotateButtonY(Shape shape) {
-        return getMoveButtonY(shape) + 22;
+        return getMoveButtonY(shape) + 12;
     }
 
     //Disegna il pulsante muovi sotto alla figura selezionata.
@@ -82,13 +84,13 @@ public class LineSelectionStrategy extends SelectionStrategy {
     //Calcola la coordinata X del pulsante di spostamento (↔)
     @Override
     public double getMoveButtonX(Shape shape) {
-        return (shape.getXc() + shape.getDim1() - 40) / 2;
+        return shape.getX() - 20;
     }
 
     //Calcola la coordinata Y del pulsante di spostamento (↔)
     @Override
     public double getMoveButtonY(Shape shape) {
-        return shape.getDim2() - 10;
+        return shape.getY() + 20;
     }
 
     //Restituisce una lista di maniglie in termini di coordinate alle due estremità della linea.
@@ -102,8 +104,8 @@ public class LineSelectionStrategy extends SelectionStrategy {
 
         double x = shape.getXc();
         double y = shape.getYc();
-        double w = shape.getDim1();
-        double h = shape.getDim2();
+        double w = shape.getX2();
+        double h = shape.getY2();
         double size = 6;
         double half = size / 2;
 

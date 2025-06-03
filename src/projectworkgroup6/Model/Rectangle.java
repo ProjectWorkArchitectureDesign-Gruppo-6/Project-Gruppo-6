@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Rectangle extends Shape {
-    private double width, height;
+
 
     // Per serializzazione
     public Rectangle() {
-        super(0, 0, false, new ColorModel(0,0,0,1), new ColorModel(255,255,255,1), 0,0);
+        super(0, 0, false, 0, 0, new ColorModel(0,0,0,1), new ColorModel(255,255,255,1), 0,0);
     }
 
     @Override
@@ -32,26 +32,10 @@ public class Rectangle extends Shape {
 
 
     public Rectangle(double x, double y, boolean selected, double width, double height, ColorModel border, ColorModel fill, int layer, int group) {
-        super(x, y, selected, border, fill, layer, group);
-        this.width = width;
-        this.height = height;
+        super(x, y, selected, width, height, border, fill, layer, group);
     }
 
-    public double getWidth() {
-        return width;
-    }
 
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
-    public double getHeight() {
-        return height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
-    }
 
 
 
@@ -61,11 +45,13 @@ public class Rectangle extends Shape {
         y += dy;
     }
 
-
     @Override
-    public void resize(double factor, double dx, double dy) {
-        width *= factor;
-        height *= factor;
+    public void resize(double factorX, double factorY, double dx, double dy) {
+
+
+        width *= factorX;
+        height *= factorY;
+
 
     }
 

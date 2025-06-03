@@ -26,11 +26,14 @@ public abstract class Shape {
     protected ColorModel border, fill;
     protected int layer;
     protected int group;
+    protected double width, height;
 
-    public Shape(double x, double y, boolean selected, ColorModel border, ColorModel fill, int layer, int group) {
+    public Shape(double x, double y, boolean selected, double width, double height, ColorModel border, ColorModel fill, int layer, int group) {
         this.x = x;
         this.y = y;
         this.selected = selected;
+        this.width = width;
+        this.height = height;
         this.border = border;
         this.fill = fill;
         this.layer = layer;
@@ -43,6 +46,22 @@ public abstract class Shape {
 
     public void setY(double y) {
         this.y = y;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
     }
 
     public ColorModel getBorder() {
@@ -83,6 +102,15 @@ public abstract class Shape {
 
     public abstract double getXc();
     public abstract double getYc();
+
+    public double getX2() {
+        return this.getXc() + this.getDim1();
+    }
+
+    public double getY2() {
+        return this.getYc() + this.getDim2();
+    }
+
     protected boolean selected = false;
 
     public void setSelected(boolean selected) {
@@ -95,8 +123,9 @@ public abstract class Shape {
 
 
     public abstract void move(double dx, double dy);
-    public abstract void resize(double scaleFactor, double dx, double dy);
+    //public abstract void resize(double scaleFactor, double dx, double dy);
 
+    public abstract void resize(double factorX, double factorY, double dx, double dy);
 
     public abstract boolean contains(double x, double y);
 

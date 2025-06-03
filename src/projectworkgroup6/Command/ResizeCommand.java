@@ -6,7 +6,8 @@ import projectworkgroup6.Model.Shape;
 public class ResizeCommand implements Command{
 
     private Shape shape;
-    private double factor = 1; // ridimensionamento totale
+    private double factorX = 1; // ridimensionamento totale
+    private double factorY = 1;
 
     private double centerX, centerY;
 
@@ -21,27 +22,27 @@ public class ResizeCommand implements Command{
         this.centerY = shape.getY();
     }
 
-    public void accumulate(double factor) {
-        this.factor *= factor;
+    public void accumulate(double factorX, double factorY) {
+        this.factorX *= factorX;
+        this.factorY *= factorY;
     }
 
     @Override
     public void execute() {
-        shape.resize(factor,centerX,centerY);
+        shape.resize(factorX,factorY,centerX,centerY);
     }
 
     @Override
     public void undo() {
         shape.setX(centerX);
         shape.setY(centerY);
-        shape.resize(1/factor,lastX,lastY);
-
+        shape.resize(1/factorX,1/factorY,lastX,lastY);
     }
 
     public void undofactor(double oldX, double oldY){
         this.lastX = oldX;
         this.lastY = oldY;
-        shape.resize(1/factor,oldX,oldY);
+        shape.resize(1/factorX,1/factorY,oldX,oldY);
     }
 
 }

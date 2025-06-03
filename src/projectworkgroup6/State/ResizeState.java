@@ -1,15 +1,20 @@
 package projectworkgroup6.State;
 
+import javafx.geometry.Point2D;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Command.CommandManager;
 import projectworkgroup6.Command.ResizeCommand;
 import projectworkgroup6.Controller.StateController;
+import projectworkgroup6.Model.Line;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.View.ShapeView;
 
 import java.util.Map;
+
+import static javafx.geometry.Point2D.*;
+import static projectworkgroup6.State.SingleSelectState.rotatePointBack;
 
 public class ResizeState implements CanvasState{
     private final ShapeView shapeView;
@@ -39,6 +44,7 @@ public class ResizeState implements CanvasState{
     }
 
     public void startDragging(double x, double y) {
+
         lastX = x;
         lastY = y;
         startX = x;
@@ -61,7 +67,6 @@ public class ResizeState implements CanvasState{
     }
 
 
-    // Implementa il ridimensionamento solo a livello grafico
     @Override
     public void handleMouseDragged(double x, double y) {
 
@@ -70,6 +75,10 @@ public class ResizeState implements CanvasState{
 
 
         Shape shape = shapeView.getShape();
+
+        Point2D unrotated = rotatePointBack(x, y, shape);
+        x = unrotated.getX();
+        y = unrotated.getY();
 
         double oldw = shape.getDim1();
         double oldh = shape.getDim2();
@@ -82,63 +91,55 @@ public class ResizeState implements CanvasState{
         double oldCenterY = shape.getY();
 
 
-        double scaleFactor;
+        double factorX;
+        double factorY;
+
+        double dx;
+        double dy;
+
+        double boundWidth = 30;
+        double boundHeight = 20;
+
 
 
         // Visivamente la ridimensione cambia in base alla maniglia che sta venendo trascinata
 
-        if(startX > shape.getX() && startY > shape.getY()){ // Trascino la maniglia nel vertice in basso a destra
+        if(startX > shape.getX() && startY >= shape.getY()){ // Trascino la maniglia nel vertice in basso a destra
 
             System.out.println("in basso a destra");
 
-            double factorX = (x - shape.getXc())/shape.getDim1();
-            double factorY = (y - shape.getYc()) / shape.getDim2();
-            scaleFactor = Math.min(factorX,factorY);
+            factorX = (x - shape.getXc())/shape.getDim1();
+            factorY = (y - shape.getYc()) / shape.getDim2();
 
             // Il nuovo centro si sposta in basso a destra
-            shape.setX(shape.getX() - oldw/2 * (1-scaleFactor));
-            shape.setY(shape.getY() - oldh/2 * (1-scaleFactor));
-            // La nuova posizione della maniglia segue lo stesso spostamento del centro, simmetricamente ricopre sempre il vertice in basso a destra della figura ridimensionata.
-            startX = startX - oldw/2 * (1-scaleFactor);
-            startY = startY - oldw/2 * (1-scaleFactor);
-
-
+            dx = -oldw/2 * (1 - factorX);
+            dy = -oldh/2 * (1 - factorY);
 
 
         } else if(startX > shape.getX() && startY <= shape.getY()){ // Trascino la maniglia nel vertice in alto a destra
 
             System.out.println("in alto a destra");
-            double factorX = (x - shape.getXc())/shape.getDim1();
-            double factorY = (y + shape.getYc()) / shape.getDim2();
-            scaleFactor = Math.min(factorX,factorY);
+
+            factorX = (x - shape.getXc())/shape.getDim1();
+            factorY = ((shape.getYc()+shape.getDim2()) - y ) / shape.getDim2();
+
 
             // Il nuovo centro si sposta in alto a destra
-            shape.setX(shape.getX() - oldw/2 * (1-scaleFactor));
-            shape.setY(shape.getY() + oldh/2 * (1-scaleFactor));
-
-            // La nuova posizione della maniglia segue lo stesso spostamento del centro, simmetricamente ricopre sempre il vertice in alto a destra della figura ridimensionata.
-            startX = startX - oldw/2 * (1-scaleFactor);
-            startY = startY + oldw/2 * (1-scaleFactor);
-
-
+            dx= - oldw/2 * (1-factorX);
+            dy = oldh/2 * (1-factorY);
 
 
         } else if(startX <= shape.getX() && startY > shape.getY()){ // Trascino la maniglia nel vertice in basso a sinistra
 
             System.out.println("in basso a sinistra");
 
-            double factorX = (x + shape.getXc())/shape.getDim1();
-            double factorY = (y - shape.getYc()) / shape.getDim2();
-            scaleFactor = Math.min(factorX,factorY);
-
+            factorX = ((shape.getXc() + shape.getDim1()) - x)/shape.getDim1();
+            factorY = (y - shape.getYc()) / shape.getDim2();
 
             // Il nuovo centro si sposta in basso a sinistra
-            shape.setX(shape.getX() + oldw/2 * (1-scaleFactor));
-            shape.setY(shape.getY() - oldh/2 * (1-scaleFactor));
+            dx = oldw/2 * (1-factorX);
+            dy = - oldh/2 * (1-factorY);
 
-            // La nuova posizione della maniglia segue lo stesso spostamento del centro, simmetricamente ricopre sempre il vertice in basso a sinistra della figura ridimensionata.
-            startX = startX + oldw/2 * (1-scaleFactor);
-            startY = startY - oldw/2 * (1-scaleFactor);
 
         } else{ //Trascino maniglia nel vertice in alto a sinistra
 
@@ -146,36 +147,75 @@ public class ResizeState implements CanvasState{
 
             double xbd = shape.getXc() + shape.getDim1();
             double ybd = shape.getYc() + shape.getDim2();
-            double factorX = (xbd - x)/shape.getDim1();
-            double factorY = (ybd - y) / shape.getDim2();
-            scaleFactor = Math.min(factorX,factorY);
+            factorX = (xbd - x)/shape.getDim1();
+            factorY = (ybd - y) / shape.getDim2();
 
             // Il nuovo centro si sposta in alto a sinistra
-            shape.setX(shape.getX() + oldw/2 * (1-scaleFactor));
-            shape.setY(shape.getY() + oldh/2 * (1-scaleFactor));
+            dx = oldw/2 * (1-factorX);
+            dy = oldh/2 * (1-factorY);
 
-            // La nuova posizione della maniglia segue lo stesso spostamento del centro, simmetricamente ricopre sempre il vertice in alto a sinistra della figura ridimensionata.
-            startX = startX + oldw/2 * (1-scaleFactor);
-            startY = startY + oldw/2 * (1-scaleFactor);
         }
+
+        // Proietto lo spostamento del centro in base alla rotazione della figura
+        double angle = Math.toRadians(shape.getRotation());
+        double dxRot = dx * Math.cos(angle) - dy * Math.sin(angle);
+        double dyRot = dx * Math.sin(angle) + dy * Math.cos(angle);
+
+        if(shape.getDim1() * factorX >= boundWidth && shape.getDim2() * factorY >= boundHeight){
+
+            shape.setX(shape.getX() + dxRot);
+            shape.setY(shape.getY() + dyRot);
+
+
+            // La nuova posizione della maniglia segue lo stesso spostamento del centro
+            startX = startX + dxRot;
+            startY = startY + dyRot;
+
+
+            shape.resize(factorX, factorY, oldCenterX, oldCenterY);  // Resize uniforme in larghezza e altezza
+            currentResizeCommand.accumulate(factorX,factorY); //Accumula ridimensionamento totale
+
+        } else if (shape.getDim1() * factorX < boundWidth && shape.getDim2() * factorY >= boundHeight) {
+
+            shape.setY(shape.getY() + dyRot);
+
+
+            // La nuova posizione della maniglia segue lo stesso spostamento del centro
+            startY = startY + dyRot;
+
+
+            shape.resize(1, factorY, oldCenterX, oldCenterY);  // Resize uniforme in larghezza e altezza
+            currentResizeCommand.accumulate(1,factorY); //Accumula ridimensionamento totale
+
+        } else if (shape.getDim1() * factorX >= boundWidth && shape.getDim2() * factorY < boundHeight) {
+            shape.setX(shape.getX() + dxRot);
+
+
+            // La nuova posizione della maniglia segue lo stesso spostamento del centro
+            startX = startX + dxRot;
+
+
+            shape.resize(factorX, 1, oldCenterX, oldCenterY);  // Resize uniforme in larghezza e altezza
+            currentResizeCommand.accumulate(factorX,1); //Accumula ridimensionamento totale
+        }
+
 
         //Usati per il command nel released. Contengono ultimo centro raggiunto
         lastCenterX = shape.getX();
         lastCenterY = shape.getY();
 
-        shape.resize(scaleFactor, oldCenterX, oldCenterY);  // Resize uniforme in larghezza e altezza
-        currentResizeCommand.accumulate(scaleFactor); //Accumula ridimensionamento totale
-
-
         // Ridisegno la shape ridimensionata
         StateController.getInstance().addShape(shape, shapeView);
     }
+
+
 
     // Implementa il ridimensionamento solo a livello logico
     @Override
     public void handleMouseReleased(double x, double y) {
         // a livello logico riporto la shape alla sua posizione iniziale, undo si basa sullo spostamento incrementale calcolato
         Shape shape = shapeView.getShape();
+
         shape.setX(centerX);
         shape.setY(centerY);
         currentResizeCommand.undofactor(lastCenterX, lastCenterY);

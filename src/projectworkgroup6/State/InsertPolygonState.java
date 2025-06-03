@@ -63,13 +63,11 @@ public class InsertPolygonState implements CanvasState {
             System.out.println("Poligono aggiunto alla mappa. Totale forme: " + map.size());
             creator.resetVertices(); //resetto la lista temporanea di vertici in modo tale che quando creo un nuovo poligono sarà vuota
             isClosed = true; //setto che il poligono è chiuso
-            previewShape = null; //setto che non sto più facendo un preview del poligono ma è una forma finita
             lastClickTime = now;
             return;
         }else{
             lastClickTime = now;
             creator.addVertex(x, y); //se non sto chiudendo il poligono aggiungo il vertice alla lista temporanea
-            previewShape = new Polygon(new ArrayList<>(creator.getTempVertices()), false, border, fill, map.size() + 1, 0); //mi creo il poligono che se successivamente farò doppio click verrà disegnato
         }
 
     }

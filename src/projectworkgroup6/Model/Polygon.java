@@ -14,11 +14,11 @@ public class Polygon extends Shape{
     private ArrayList<double[]> vertices;
 
     public Polygon() {
-        super(0, 0, false, new ColorModel(0,0,0,1), new ColorModel(255,255,255,1), 0,0);
+        super(0, 0, false, 0,0, new ColorModel(0,0,0,1), new ColorModel(255,255,255,1), 0,0);
     }
 
-    public Polygon(ArrayList<double []> vertices, boolean selected, ColorModel border, ColorModel fill, int layer, int group) {
-        super(vertices.get(0)[0], vertices.get(0)[1], selected, border, fill, layer, group); //get(0) passo gli indici del primo click
+    public Polygon(ArrayList<double []> vertices, boolean selected, double width, double height, ColorModel border, ColorModel fill, int layer, int group) {
+        super(vertices.get(0)[0], vertices.get(0)[1], selected, width, height,border, fill, layer, group); //get(0) passo gli indici del primo click
         this.vertices = new ArrayList<>(); //perchè altrimenti stai modificando una lista durante l'iterazione quindi ne crei una temporanea
         for (double[] v : vertices) {
             this.vertices.add(new double[] { v[0], v[1] });
@@ -63,17 +63,13 @@ public class Polygon extends Shape{
 
     //getDim1 e getDim2 restituiscono lunghezza e altezza del rettangolo che racchiude tutti i vertici, non restituiscono le coordinate di punti
     @Override
-    public double getDim1() {
-        double Xmin = vertices.stream().mapToDouble(v->v[0]).min().orElse(x); //si prende il vertice con la coordinata x minima
-        double Xmax = vertices.stream().mapToDouble(v->v[0]).max().orElse(x);
-        return Xmax - Xmin;
+    public double getDim1() { // calcolo di width ed height nel creatore, ottenuto dai vertici.
+        return width;
     }
 
     @Override
     public double getDim2() {
-        double Ymin = vertices.stream().mapToDouble(v->v[1]).min().orElse(y);
-        double Ymax = vertices.stream().mapToDouble(v->v[1]).max().orElse(y);
-        return Ymax - Ymin;
+        return height;
     }
 
     @Override
@@ -84,15 +80,26 @@ public class Polygon extends Shape{
         }
     }
 
+
     @Override
-    public void resize(double factor, double dx, double dy) {
-        double centerX = getXc(); // calcola centro X
-        double centerY = getYc(); // calcola centro Y
+    public void resize(double factorX, double factorY, double dx, double dy) {
+        double centerX = getX(); // calcola centro X
+        double centerY = getY(); // calcola centro Y
 
         for (double[] v : vertices) {
-            v[0] = centerX + (v[0] - centerX) * factor; // nuova x
-            v[1] = centerY + (v[1] - centerY) * factor; // nuova y
+            v[0] = centerX + (v[0] - centerX) * factorX; // nuova x
+            v[1] = centerY + (v[1] - centerY) * factorY; // nuova y
         }
+
+        double Xmin = vertices.stream().mapToDouble(v->v[0]).min().orElse(x); //si prende il vertice con la coordinata x minima
+        double Xmax = vertices.stream().mapToDouble(v->v[0]).max().orElse(x);
+        width =  Xmax - Xmin;
+
+        double Ymin = vertices.stream().mapToDouble(v->v[1]).min().orElse(y);
+        double Ymax = vertices.stream().mapToDouble(v->v[1]).max().orElse(y);
+        height = Ymax - Ymin;
+
+
     }
 
     @Override
@@ -139,7 +146,31 @@ public class Polygon extends Shape{
             newVertices.add(new double[]{v[0] + dx, v[1] + dy});
         }
 
-        return new Polygon((ArrayList<double[]>) newVertices, false, border, fill,layer,this.group);
+        return new Polygon((ArrayList<double[]>) newVertices, false, this.getDim1(), this.getDim2(), border, fill,layer,this.group);
     }
+
+    @Override
+    public void setX(double x) {
+        double oldc = this.getX();
+        this.x = x;
+        double dx = x-oldc;
+        for (double[] v : vertices) {
+            v[0] = v[0] + dx; // nuova x
+        }
+    }
+
+    @Override
+    public void setY(double y) {
+        double oldc = this.getY();
+        this.y = y;
+        double dy = y-oldc;
+        for (double[] v : vertices) {
+            v[1] = v[1] + dy; // nuova x
+        }
+
+    }
+
+
+
 
 }

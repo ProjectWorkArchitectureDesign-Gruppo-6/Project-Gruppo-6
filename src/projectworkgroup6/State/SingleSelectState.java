@@ -227,7 +227,7 @@ public class SingleSelectState implements CanvasState {
 
     //Metodo per invertire la rotazione di un punto rispetto al centro della shape.
     //Serve per riportare il punto cliccato nelle coordinate originali della shape.
-    private Point2D rotatePointBack(double x, double y, Shape shape) {
+    public static Point2D rotatePointBack(double x, double y, Shape shape) {
         double angle = Math.toRadians(-shape.getRotation()); // rotazione inversa
 
         double centerX, centerY;
