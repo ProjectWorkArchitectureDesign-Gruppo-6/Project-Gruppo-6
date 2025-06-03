@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import projectworkgroup6.Command.CommandManager;
+import projectworkgroup6.Command.DeleteCommand;
 import projectworkgroup6.Command.InsertCommand;
 import projectworkgroup6.Decorator.BorderDecorator;
 import projectworkgroup6.Decorator.FillDecorator;
@@ -61,6 +62,11 @@ public class ToolBarController {
     }
 
 
+    private DropDownController dropDownController;
+
+    public void setDropDownController(DropDownController dropDownController) {
+        this.dropDownController = dropDownController;
+    }
 
 
     @FXML
@@ -236,5 +242,25 @@ public class ToolBarController {
 
         buttons.add(customBtn, col, row); //aggiungo il bottone nel gridPane collegato allo scrollPane
     }
+
+    @FXML
+    private void undo(ActionEvent event) {
+        CommandManager.getInstance().undoLastCommand();
+        StateController.getInstance().redrawCanvas();
+    }
+
+    public void copym(ActionEvent event) {
+        dropDownController.copy(event);
+    }
+
+    public void deletem(ActionEvent event) {
+
+        StateController.getInstance().setState(new DeleteState());
+    }
+
+    public void cutm(ActionEvent event) {
+        dropDownController.cut(event);
+    }
+
 }
 

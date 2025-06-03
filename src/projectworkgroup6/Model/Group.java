@@ -132,6 +132,11 @@ public class Group extends Shape{
         resizeProportional(oldX, oldY, oldW, oldH);
     }
 
+    @Override
+    public void stretch(double dx, double dy, String id) {
+
+    }
+
     private void resizeProportional(double oldX, double oldY, double oldW, double oldH) {
         double newX = getX(); // Il nuovo centro già calcolato in base allo spostamento settato nello state
         double newY = getY();

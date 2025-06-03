@@ -36,7 +36,7 @@ public class LineSelectionStrategy extends SelectionStrategy {
 
     @Override
     public void drawStretchHandles(GraphicsContext gc, Shape shape) {
-        double x1 = shape.getXc();
+       /* double x1 = shape.getXc();
         double y1 = shape.getYc();
         double x2 = shape.getDim1();
         double y2 = shape.getDim2();
@@ -48,6 +48,7 @@ public class LineSelectionStrategy extends SelectionStrategy {
         drawStretchHandle(gc,x1 +  (x2 - x1)/4,y1 + (y2 - y1)/4, size);
 
         drawStretchHandle(gc,x1 +  3*(x2 - x1)/4,y1 + 3*(y2 - y1)/4, size);
+        */
     }
 
     //Disegna il pulsante di rotazione sotto alla figura selezionata.
@@ -143,7 +144,7 @@ public class LineSelectionStrategy extends SelectionStrategy {
     public List<AbstractMap.SimpleEntry<Double, Double>> getStretchHandles(Shape shape) {
 
         // Lista di mappe semplici con due double x e y
-        List<AbstractMap.SimpleEntry<Double, Double>> stretchHandles = new ArrayList<>();
+       /* List<AbstractMap.SimpleEntry<Double, Double>> stretchHandles = new ArrayList<>();
 
         double x1 = shape.getXc();
         double y1 = shape.getYc();
@@ -155,7 +156,8 @@ public class LineSelectionStrategy extends SelectionStrategy {
 System.out.println("aggiungo handle nella mappa[LineSelectionStrategy]");
         stretchHandles.add(new AbstractMap.SimpleEntry<>( x1 + (x2 - x1)/4 - half,y1 + (y2 - y1)/4 - half));
         stretchHandles.add(new AbstractMap.SimpleEntry<>( x1 + 3*(x2 - x1)/4 - half,y1 + 3*(y2 - y1)/4 - half));
-        return stretchHandles;
+        return stretchHandles;*/
+        return null;
     }
 
 

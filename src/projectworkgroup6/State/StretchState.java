@@ -66,11 +66,11 @@ public class StretchState implements CanvasState {
 
 
 //gestisci linee
-if (shape instanceof Line) {
+/*if (shape instanceof Line) {
     strechLineMethod(x,y,dx,dy,shape);
     return;
-}
-else if (shape instanceof Polygon) {
+}*/
+/*else*/ if (shape instanceof Polygon) {
     strechPolygonMethod(x,y,dx,dy,shape);
     return;
 }
@@ -107,7 +107,7 @@ else if (shape instanceof Polygon) {
         }
 
         // Stretch ALTO
-         if ((y <= shape.getY() - height/2 + 10 && x > shape.getY() - height/2 - 10 && direction.equals("NONE")) || direction.equals("UP") || (shape.getDim2()<=1 && direction.equals("DOWN") ) {
+         if ((y <= shape.getY() - height/2 + 10 && x > shape.getY() - height/2 - 10 && direction.equals("NONE")) || direction.equals("UP") || (shape.getDim2()<=1 && direction.equals("DOWN") )) {
             direction = "UP";
 
             shape.stretch(0, dy, direction);

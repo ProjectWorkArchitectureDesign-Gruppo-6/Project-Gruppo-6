@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import projectworkgroup6.Decorator.BorderDecorator;
 import projectworkgroup6.Decorator.FillDecorator;
@@ -35,7 +36,7 @@ import java.util.logging.Logger;
 public class MenuBarController {
 
     @FXML
-    private MenuBar topMenuBar;
+    private VBox topMenuBar;
     @FXML
     private Menu fileBtn;
     @FXML
@@ -195,12 +196,6 @@ public class MenuBarController {
             System.err.println("Errore durante il salvataggio:");
             e.printStackTrace();
         }
-    }
-    @FXML
-    private void undo(ActionEvent event) {
-        CommandManager.getInstance().undoLastCommand();
-        StateController.getInstance().redrawCanvas();
-        StateController.getInstance().notifyShapeDeselected();
     }
 
     @FXML

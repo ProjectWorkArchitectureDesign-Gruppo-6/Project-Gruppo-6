@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
@@ -29,7 +30,7 @@ public class MainController implements Initializable {
     private StateController stateController;
 
     @FXML
-    private VBox mainVBox;
+    private BorderPane mainVBox;
 
 
     private void loadInterfaceComponents() throws IOException {
@@ -37,13 +38,13 @@ public class MainController implements Initializable {
 
         // Carica MenuBar
         loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/MenuBar.fxml"));
-        AnchorPane menu = loader.load();
+        VBox menu = loader.load();
         menuBarController = loader.getController();
         menuBarController.setMainController(this);
 
         // Carica ToolBar
         loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/ToolBar.fxml"));
-        AnchorPane tool = loader.load();
+        VBox tool = loader.load();
         toolBarController = loader.getController();
         toolBarController.setMainController(this);
 
@@ -64,6 +65,7 @@ public class MainController implements Initializable {
         //aggiunto per link fra controller
         dropDownMenuController.setMainController(this);
         dropDownMenuController.setCanvasController(canvasController);
+        toolBarController.setDropDownController(dropDownMenuController);
 
 
         loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/GroupMenu.fxml"));
@@ -91,9 +93,13 @@ public class MainController implements Initializable {
         canvasPane.getChildren().add(groupMenuPane);
 
         //Carico scrollPane
-        mainVBox.getChildren().addAll(menu, tool, scrollCanvas);
+        //mainVBox.getChildren().addAll(menu, tool, scrollCanvas);
 
-        VBox.setVgrow(scrollCanvas, Priority.ALWAYS);
+        //VBox.setVgrow(scrollCanvas, Priority.ALWAYS);
+        mainVBox.setLeft(tool);
+        tool.getChildren().add(0, menu);
+        mainVBox.setCenter(scrollCanvas);
+
 
         canvasController.bindCanvasSize(scrollCanvas);
 

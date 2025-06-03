@@ -15,11 +15,22 @@ public class PolygonView extends ShapeView {
 
         double[] xPoints = new double[n]; //vettore delle coordinate x dei vertici
         double[] yPoints = new double[n]; //vettore delle coordinate y dei vertici
-
+        double sumX = 0, sumY = 0;
         for (int i = 0; i < n; i++) { //mi scorro tutta la lista dei vertici
             xPoints[i] = pol.getVertices().get(i)[0]; //aggiorno i due vettori perchè per disegnare mi servono gli x e gli y da passare ai metodi stroke
             yPoints[i] = pol.getVertices().get(i)[1];
+            sumX += xPoints[i];
+            sumY += yPoints[i];
         }
+
+        double centerX = sumX / n;
+        double centerY = sumY / n;
+        double angle = pol.getRotation();
+
+        gc.save();
+        gc.translate(centerX, centerY);
+        gc.rotate(angle);
+        gc.translate(-centerX, -centerY);
 
         //Imposta i colori dinamicamente
         gc.setStroke(pol.getBorder().toColor());
@@ -31,6 +42,8 @@ public class PolygonView extends ShapeView {
             gc.strokePolygon(xPoints, yPoints, n); //se arruvo a chiudere la figura disegno il poligono
             gc.fillPolygon(xPoints,yPoints,n);
         }
+
+        gc.restore();
     }
 
     @Override
