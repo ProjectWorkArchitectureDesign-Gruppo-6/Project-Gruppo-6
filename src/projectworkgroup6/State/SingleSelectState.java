@@ -3,10 +3,12 @@ package projectworkgroup6.State;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import projectworkgroup6.Command.*;
 import projectworkgroup6.Controller.StateController;
+import projectworkgroup6.Controller.DropDownController;
 import projectworkgroup6.Decorator.BorderDecorator;
 import projectworkgroup6.Decorator.FillDecorator;
 import projectworkgroup6.Decorator.SelectedDecorator;
@@ -15,7 +17,6 @@ import projectworkgroup6.Model.Polygon;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.Model.TextBox;
 import projectworkgroup6.View.ShapeView;
-import javafx.scene.input.MouseButton;
 
 import java.util.*;
 
@@ -40,10 +41,10 @@ public class SingleSelectState implements CanvasState {
 
 
     @Override
-    public void handleClick(MouseEvent e,double x, double y, Map<Shape, ShapeView> map) {
+    public void handleClick(MouseEvent e, double x, double y, Map<Shape, ShapeView> map) {
         System.out.println("Hai cliccato in modalità SELECT su: " + x + ", " + y);
 
-        if (e.getButton()==MouseButton.SECONDARY) {
+        if (e.getButton()== MouseButton.SECONDARY) {
             StateController.getInstance().notifyMouseRightClick(x,y);
         } else
         {
@@ -103,8 +104,7 @@ public class SingleSelectState implements CanvasState {
         }
     }
 
-
-    private void deselectShape(Shape s) {
+private void deselectShape(Shape s) {
         s.setSelected(false);
         //notifica deselezionamento della figura
         StateController.getInstance().notifyShapeDeselected();
@@ -125,6 +125,9 @@ public class SingleSelectState implements CanvasState {
 
     }
 
+    public ShapeView getSelectedShape() {
+        return selectedShape;
+    }
 
     //Gestisce la pressione del mouse su una figura selezionata.
     //Determina se l'utente vuole traslare o ridimensionare la figura.
@@ -149,7 +152,6 @@ public class SingleSelectState implements CanvasState {
 
 
             if (isMoveClicked) {
-
                 TranslationState ts = new TranslationState(selectedShape);
                 ts.startDragging(x,y);
                 ts.setMoveCommand(new MoveCommand(selectedShape.getShape()));
@@ -167,6 +169,17 @@ public class SingleSelectState implements CanvasState {
                     rs.setResizeCommand(new ResizeCommand(selectedShape.getShape()));
                     StateController.getInstance().setState(rs);
 
+                } else {
+                    //controllo se vuole stretchare
+                    AbstractMap.SimpleEntry<Double, Double> stretchPoint;
+                    stretchPoint = checkClickOnStretchHandles(selectedShape, x2, y2);
+                    if (stretchPoint != null) {
+                        StretchState ss = new StretchState(selectedShape);
+                        ss.startDragging(stretchPoint.getKey(), stretchPoint.getValue());
+                        ss.setStretchCommand(new StretchCommand(selectedShape.getShape()));
+                        StateController.getInstance().setState(ss);
+
+                    }
                 }
             }
         }
@@ -201,7 +214,44 @@ public class SingleSelectState implements CanvasState {
         }
     }
 
-    //Verifico se il click è avvenuto sul bottone di spostamento
+
+
+
+
+    private AbstractMap.SimpleEntry<Double, Double> checkClickOnHandles(SelectedDecorator selectedShape, double x, double y) {
+        List<AbstractMap.SimpleEntry<Double, Double>> handles = selectedShape.getHandles();
+        double size = 10; // tolleranza
+
+        for (AbstractMap.SimpleEntry<Double, Double> handle : handles) { // per ogni maniglia
+            double hx = handle.getKey(); // prendo coordinata x
+            double hy = handle.getValue(); // prendo coordinata y
+
+            if (x >= hx && x <= hx + size && y >= hy && y <= hy + size) { // se il click avviene sulla maniglia
+                return new AbstractMap.SimpleEntry<>(hx, hy); // restituisco la maniglia cliccata
+            }
+        }
+
+        return null; // altrimenti nessuna maniglia è stata cliccata
+    }
+
+    //gestico maniglie per lo strch
+    private AbstractMap.SimpleEntry<Double, Double> checkClickOnStretchHandles(SelectedDecorator selectedShape, double x, double y) {
+        List<AbstractMap.SimpleEntry<Double, Double>> stretchHandles = selectedShape.getStretchHandles();
+        double size = 10; // tolleranza
+
+        for (AbstractMap.SimpleEntry<Double, Double> stretchHandle : stretchHandles) { // per ogni maniglia
+            double hx = stretchHandle.getKey(); // prendo coordinata x
+            double hy = stretchHandle.getValue(); // prendo coordinata y
+
+            if (x >= hx && x <= hx + size && y >= hy && y <= hy + size) { // se il click avviene sulla maniglia
+                return new AbstractMap.SimpleEntry<>(hx, hy); // restituisco la maniglia cliccata
+            }
+        }
+
+        return null; // altrimenti nessuna maniglia è stata cliccata
+    }
+
+
     private boolean checkClickOnMoveButton(SelectedDecorator selectedShape, double x, double y) {
         double buttonX = selectedShape.getMoveButtonX();
         double buttonY = selectedShape.getMoveButtonY();
@@ -225,7 +275,7 @@ public class SingleSelectState implements CanvasState {
         return x >= buttonX && x <= buttonX + diameter && y >= buttonY && y <= buttonY + diameter;
     }
 
-    //Metodo per invertire la rotazione di un punto rispetto al centro della shape.
+    //Metodo per inverte la rotazione di un punto rispetto al centro della shape.
     //Serve per riportare il punto cliccato nelle coordinate originali della shape.
     public static Point2D rotatePointBack(double x, double y, Shape shape) {
         double angle = Math.toRadians(-shape.getRotation()); // rotazione inversa
@@ -249,21 +299,6 @@ public class SingleSelectState implements CanvasState {
         return new Point2D(rotatedX, rotatedY);
     }
 
-    private AbstractMap.SimpleEntry<Double, Double> checkClickOnHandles(SelectedDecorator selectedShape, double x, double y) {
-        List<AbstractMap.SimpleEntry<Double, Double>> handles = selectedShape.getHandles();
-        double size = 10; // tolleranza
-
-        for (AbstractMap.SimpleEntry<Double, Double> handle : handles) { // per ogni maniglia
-            double hx = handle.getKey(); // prendo coordinata x
-            double hy = handle.getValue(); // prendo coordinata y
-
-            if (x >= hx && x <= hx + size && y >= hy && y <= hy + size) { 
-                return new AbstractMap.SimpleEntry<>(hx, hy);
-            }
-        }
-
-        return null; 
-    }
 
     @Override
     public void handleMouseDragged(double x, double y) {
@@ -336,7 +371,7 @@ public class SingleSelectState implements CanvasState {
         ColorModel fill = ColorModel.fromColor(currentFill);
 
 
-        // Controllo se ha cambiato il bordo o il riempimento
+
         if(border.toRgbaString().equals(selectedShape.getShape().getBorder().toRgbaString())){
             CommandManager.getInstance().executeCommand(new ChangeFillCommand(selectedShape.getShape(),fill));
 

@@ -37,6 +37,7 @@ public class ResizeCommand implements Command{
         shape.setX(centerX);
         shape.setY(centerY);
         shape.resize(1/factorX,1/factorY,lastX,lastY);
+
     }
 
     public void undofactor(double oldX, double oldY){

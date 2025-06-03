@@ -1,13 +1,12 @@
 package projectworkgroup6.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import javafx.scene.canvas.GraphicsContext;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Ellipse extends Shape {
 
-
-
+    private double diam1;
+    private double diam2;
     public Ellipse() {
         super(0, 0, false, 0,0,new ColorModel(0,0,0,1), new ColorModel(255,255,255,1), 0,0);
     }
@@ -17,6 +16,17 @@ public class Ellipse extends Shape {
 
     }
 
+
+    public double getDiam1() {
+        return diam1;
+    }
+
+
+    public double getDiam2() {
+        return diam2;
+    }
+
+
     @Override
     public double getDim1() {
         return width;
@@ -25,6 +35,15 @@ public class Ellipse extends Shape {
     @Override
     public double getDim2() {
         return height;
+
+    }
+    @Override
+    public void setDim1(double diam1) {
+        this.diam1 = diam1;
+    }
+    @Override
+    public void setDim2(double diam2) {
+        this.diam2 = diam2;
     }
 
     @Override
@@ -50,6 +69,39 @@ public class Ellipse extends Shape {
         width *= factorX;
         height *= factorY;
     }
+
+    /*width e height sono diam1 e diam2*/
+    @Override
+    public void stretch(double dx, double dy, String id) {
+
+        this.x += dx / 2;
+        this.y += dy / 2;
+        if (id.equals("RIGHT") || id.equals("UP")) {
+            this.width = Math.max(width + dx + dy , 1);
+            this.height = Math.max(height - dx -dy, 1);
+        }
+        if (id.equals("LEFT") || id.equals("DOWN")) {
+            this.width = Math.max(width -dx -dy,1);
+            this.height =  Math.max(height +dx +dy,1);
+        }
+
+    }
+        /*@Override
+        public void stretch(double dx, double dy, String id) {
+
+            this.x += dx / 2;
+            this.y += dy / 2;
+            if (id.equals("RIGHT") || id.equals("UP")) {
+                this.diam1 = Math.max(diam2 + dx + dy , 1);
+                this.diam2 = Math.max(diam2 - dx -dy, 1);
+            }
+            if (id.equals("LEFT") || id.equals("DOWN")) {
+                this.diam1 = Math.max(diam1 -dx -dy,1);
+                this.diam2 =  Math.max(diam2 +dx +dy,1);
+            }
+
+
+        }*/
 
     @Override
     public boolean contains(double x, double y) {

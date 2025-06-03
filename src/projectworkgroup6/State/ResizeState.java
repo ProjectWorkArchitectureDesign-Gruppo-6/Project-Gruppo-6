@@ -13,7 +13,6 @@ import projectworkgroup6.View.ShapeView;
 
 import java.util.Map;
 
-import static javafx.geometry.Point2D.*;
 import static projectworkgroup6.State.SingleSelectState.rotatePointBack;
 
 public class ResizeState implements CanvasState{
@@ -65,7 +64,6 @@ public class ResizeState implements CanvasState{
     public void handlePressionRotate(double x, double y) {
 
     }
-
 
     @Override
     public void handleMouseDragged(double x, double y) {
@@ -208,12 +206,10 @@ public class ResizeState implements CanvasState{
         StateController.getInstance().addShape(shape, shapeView);
     }
 
-
-
     // Implementa il ridimensionamento solo a livello logico
     @Override
     public void handleMouseReleased(double x, double y) {
-        // a livello logico riporto la shape alla sua posizione iniziale, undo si basa sullo spostamento incrementale calcolato
+
         Shape shape = shapeView.getShape();
 
         shape.setX(centerX);
@@ -229,9 +225,7 @@ public class ResizeState implements CanvasState{
 
         //mostra il menu a tendina
         StateController.getInstance().notifyShapeSelected(shapeView.getShape());
-
-
-    }
+}
 
     @Override
     public void recoverShapes(Map<Shape, ShapeView> map) {

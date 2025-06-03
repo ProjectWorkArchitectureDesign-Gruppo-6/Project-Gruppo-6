@@ -74,13 +74,18 @@ public class InsertPolygonState implements CanvasState {
 
     @Override
     public void handlePression(double x, double y) {
-       /* if (isClosed || creator.getTempVertices().isEmpty()) return;
+
+    }
+
+    /*@Override
+    public void handlePression(double x, double y) {
+       if (isClosed || creator.getTempVertices().isEmpty()) return;
 
         // Aggiorna l'anteprima con l'ultimo punto fluttuante
-        List<double[]> temp = new ArrayList<>(creator.getTempVertices());
+        ArrayList<double[]> temp = new ArrayList<>(creator.getTempVertices());
         temp.add(new double[]{x, y});
-        previewShape = new Polygon(temp, false);*/
-    }
+        previewShape = new Polygon(temp, false);
+    }*/
 
     @Override
     public void handlePressionRotate(double x, double y) {

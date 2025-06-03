@@ -1,7 +1,6 @@
 package projectworkgroup6.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import javafx.scene.canvas.GraphicsContext;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Line extends Shape {
@@ -44,11 +43,32 @@ public class Line extends Shape {
     @Override
     public double getXc() { // vertice in alto a sinistra
         return this.getX() - width/2;
+
     }
 
     @Override
     public double getYc() { // vertice in alto a sinistra
         return this.getY() - height/2;
+    }
+
+    @Override
+    public void setDim1(double newWidth) {
+        double cx = (x + x2) / 2;
+        double half = newWidth / 2;
+
+        double direction = (x2 >= x) ? 1 : -1; // mantieni la direzione originale
+        x = cx - direction * half;
+        x2 = cx + direction * half;
+    }
+
+    @Override
+    public void setDim2(double newHeight) {
+        double cy = (y + y2) / 2;
+        double half = newHeight / 2;
+
+        double direction = (y2 >= y) ? 1 : -1;
+        y = cy - direction * half;
+        y2 = cy + direction * half;
     }
 
 
@@ -75,10 +95,28 @@ public class Line extends Shape {
         this.y2 = this.getY() + newHeight;
     }
 
+
+    @Override
+    public void stretch(double dx, double dy, String id) {
+        if (id.matches("UP")) {
+            x += dx;
+            y += dy;
+            }
+            else if (id.matches("DOWN"))   {
+            x += dx/2;
+            y += dy/2;
+                x2 += dx;
+                y2 += dy;
+            }
+        }
+
+
+
     @Override
     public boolean contains(double x, double y) {
 
         double tollerance = 3.0; //Aggiunta per il click sulla linea
+
 
         // Coefficienti per il calcolo della distanza punto retta su cui giace la linea
         double a = getYc()-getY2();
@@ -86,7 +124,7 @@ public class Line extends Shape {
         double c = -getYc()*getX2() + getXc()*getY2();
 
         // Calcolo della distanza
-        double distanza = (a*x+b*y+c)/(Math.sqrt(Math.pow(a,2) + Math.pow(b,2)));
+        double distanza = Math.abs(a*x+b*y+c)/(Math.sqrt(Math.pow(a,2) + Math.pow(b,2)));
 
         // Verifico che il click avviene sulla linea, considerando una tolleranza
 
@@ -103,4 +141,11 @@ public class Line extends Shape {
         return new Line(x, y, false, this.x2, this.y2, this.border, this.fill, layer, this.group);
     }
 
+    public void setX1(double x1) {
+        this.x1 = x1;
+    }
+
+    public void setY1(double y1){
+        this.y1=y1;
+    }
 }

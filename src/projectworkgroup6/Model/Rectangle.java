@@ -22,6 +22,16 @@ public class Rectangle extends Shape {
         return height;
     }
 
+    @Override
+    public void setDim1(double dim1) {
+        this.width = dim1;
+    }
+
+    @Override
+    public void setDim2(double dim2) {
+this.height=dim2;
+    }
+
     public double getXc(){
         return this.getX() - width/2;
     } // Xc è la coordinata del lato sinistro
@@ -35,8 +45,15 @@ public class Rectangle extends Shape {
         super(x, y, selected, width, height, border, fill, layer, group);
     }
 
+/*fa lo stesso di getDim2 vedere sostituire dove lo ha usato*/
+    public double getHeight() {
+        return height;
+    }
 
 
+    public void setHeight(double height) {
+        this.height = height;
+    }
 
 
     @Override
@@ -54,6 +71,25 @@ public class Rectangle extends Shape {
 
 
     }
+
+@Override
+public void stretch(double dx, double dy, String id) {
+    this.x += dx / 2;
+   this.y += dy / 2;
+
+    if (id.equals("RIGHT") || id.equals("UP")) {
+        this.width = Math.max(width + dx + dy , 1);
+       this.height = Math.max(height - dx -dy, 1);
+
+    }
+    if (id.equals("LEFT") || id.equals("DOWN")) {
+        this.width = Math.max(width -dx -dy,1);
+        this.height =  Math.max(height +dx +dy,1);
+    }
+
+}
+
+
 
     @Override
     public boolean contains(double x, double y) {

@@ -200,6 +200,7 @@ public class MenuBarController {
     private void undo(ActionEvent event) {
         CommandManager.getInstance().undoLastCommand();
         StateController.getInstance().redrawCanvas();
+        StateController.getInstance().notifyShapeDeselected();
     }
 
     @FXML
