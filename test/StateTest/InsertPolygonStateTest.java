@@ -4,124 +4,120 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import projectworkgroup6.Command.CommandManager;
 import projectworkgroup6.Command.InsertCommand;
 import projectworkgroup6.Controller.StateController;
-import projectworkgroup6.Decorator.SelectedDecorator;
+import projectworkgroup6.Decorator.BorderDecorator;
 import projectworkgroup6.Factory.PolygonCreator;
-import projectworkgroup6.Factory.ShapeCreator;
 import projectworkgroup6.Model.ColorModel;
-import projectworkgroup6.Model.Polygon;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.State.InsertPolygonState;
 import projectworkgroup6.View.ShapeView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class InsertPolygonStateTest {
 
+    private PolygonCreator creator;
     private InsertPolygonState state;
-    private PolygonCreator creatorMock;
-    private CommandManager commandManagerMock;
-    private ShapeView shapeViewMock;
-    private Shape shapeMock;
     private Map<Shape, ShapeView> map;
 
     @BeforeEach
     void setUp() {
-        creatorMock = mock(PolygonCreator.class);
-        shapeMock = mock(Polygon.class);
-        shapeViewMock = mock(ShapeView.class);
+        creator = mock(PolygonCreator.class);
+        when(creator.getTempVertices()).thenReturn(new ArrayList<>());
 
-        commandManagerMock = mock(CommandManager.class);
-        CommandManager.setInstance(commandManagerMock);
-
-        StateController controllerMock = mock(StateController.class);
-        StateController.setInstance(controllerMock);
-
-        when(controllerMock.getStrokeColor()).thenReturn(Color.BLACK);
-        when(controllerMock.getFillColor()).thenReturn(Color.WHITE);
-
-        state = new InsertPolygonState(creatorMock);
         map = new HashMap<>();
+
+        // Mock colori iniziali
+        StateController stateController = mock(StateController.class);
+        when(stateController.getStrokeColor()).thenReturn(Color.BLACK);
+        when(stateController.getFillColor()).thenReturn(Color.RED);
+        StateController.setInstance(stateController);
+
+        // Mock command manager
+        CommandManager.setInstance(mock(CommandManager.class));
+
+        state = new InsertPolygonState(creator);
     }
 
     @Test
-    void testHandleClick_AddsVertexAndCreatesPreviewPolygon() {
-        ArrayList<double[]> vertices = new ArrayList<>();
-        vertices.add(new double[]{10, 20});
-        when(creatorMock.getTempVertices()).thenReturn(vertices);
+    void testHandleClickAddsVertexIfNotClosed() {
+        MouseEvent event = mock(MouseEvent.class);
+        state.handleClick(event, 100.0, 200.0, map);
 
-        MouseEvent mockEvent = mock(MouseEvent.class);
-
-        state.handleClick(mockEvent, 10, 20, map);
-
-        verify(creatorMock).addVertex(10, 20);
+        verify(creator).addVertex(100.0, 200.0);
     }
 
     @Test
-    void testHandleClick_DoubleClickCreatesPolygon() {
-        ArrayList<double[]> vertices = new ArrayList<>();
-        vertices.add(new double[]{0, 0});
-        vertices.add(new double[]{1, 0});
-        vertices.add(new double[]{1, 1});
+    void testHandleClickDoubleClickCreatesPolygon() {
+        MouseEvent event = mock(MouseEvent.class);
 
-        when(creatorMock.getTempVertices()).thenReturn(vertices);
-        when(creatorMock.createShape(anyDouble(), anyDouble(), any(), any())).thenReturn(shapeMock);
-        when(creatorMock.createShapeView(shapeMock)).thenReturn(shapeViewMock);
+        // Mock vertici già presenti
+        List<double[]> tempVertices = Arrays.asList(
+                new double[]{0, 0},
+                new double[]{10, 0},
+                new double[]{5, 10}
+        );
+        when(creator.getTempVertices()).thenReturn((ArrayList<double[]>) tempVertices);
 
-        MouseEvent mockEvent = mock(MouseEvent.class);
+        // Simula creazione shape e vista
+        Shape polygon = mock(Shape.class);
+        ShapeView view = mock(ShapeView.class);
+        when(creator.createShape(anyDouble(), anyDouble(), anyDouble(), anyDouble(), any(), any(), anyInt(), anyInt()))
+                .thenReturn(polygon);
+        when(creator.createShapeView(polygon)).thenReturn(view);
 
         // Primo click
-        state.handleClick(mockEvent, 10, 20, map);
+        state.handleClick(event, 50, 50, map);
 
-        // Simula click entro soglia tempo doppio click
-        try { Thread.sleep(100); } catch (InterruptedException ignored) {}
+        // Simula intervallo breve per doppio click
+        try {
+            Thread.sleep(100); // < 300 ms per simulare doppio click
+        } catch (InterruptedException ignored) {}
 
-        // Secondo click (doppio)
-        state.handleClick(mockEvent, 10, 20, map);
+        // Secondo click → doppio click trigger
+        state.handleClick(event, 50, 50, map);
 
-        verify(creatorMock).resetVertices();
-        verify(commandManagerMock).executeCommand(any(InsertCommand.class));
+        verify(creator).createShape(eq(50.0), eq(50.0), eq(0.0), eq(0.0),
+                any(ColorModel.class), any(ColorModel.class), anyInt(), eq(0));
+        verify(creator).createShapeView(polygon);
+        verify(CommandManager.getInstance()).executeCommand(any(InsertCommand.class));
+        verify(creator).resetVertices();
     }
 
     @Test
-    void testHandleColorChanged() {
-        state.handleColorChanged(Color.RED, Color.BLUE);
-        // Non ci sono assert qui perché setta solo i campi interni (no getter disponibili)
-        // Si testa con gli effetti collaterali nei click (verificabili nei test sopra)
-    }
-
-    @Test
-    void testRecoverShapes_RemovesAndAddsUndecorated() {
+    void testRecoverShapesUndecoratesAndReadds() {
         Shape shape = mock(Shape.class);
-        ShapeView decorated = mock(SelectedDecorator.class);
+        ShapeView decorated = mock(ShapeView.class);
         ShapeView undecorated = mock(ShapeView.class);
-        when(((SelectedDecorator) decorated).undecorate()).thenReturn(undecorated);
+        when(decorated.undecorate()).thenReturn(undecorated);
+
+        map.put(shape, decorated);
 
         StateController controller = mock(StateController.class);
         StateController.setInstance(controller);
 
-        map.put(shape, decorated);
         state.recoverShapes(map);
 
         verify(shape).setSelected(false);
+        verify(shape).setEditing(false);
+        verify(shape).setGroup(0);
         verify(controller).removeShape(shape, decorated);
         verify(controller).addShape(shape, undecorated);
     }
 
     @Test
-    void testHandleDeleteAndKeyTyped_NoOp() {
-        // Coverage only – methods are empty
-        state.handleDelete(null, map);
-        state.handleKeyTyped(null, map);
-        // No exception = pass
+    void testHandleColorChangedUpdatesColors() {
+        Color newStroke = Color.GREEN;
+        Color newFill = Color.BLUE;
+
+        state.handleColorChanged(newStroke, newFill);
+
+        // Non ci sono effetti verificabili pubblicamente, ma non deve lanciare eccezioni
     }
 }
+
 
