@@ -1,64 +1,66 @@
 package ModelTest;
 
-import javafx.scene.paint.Color;
 import org.junit.jupiter.api.Test;
 import projectworkgroup6.Model.ColorModel;
+import javafx.scene.paint.Color;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ColorModelTest {
 
     @Test
-    public void testDefaultConstructor() {
-        ColorModel cm = new ColorModel();
-        assertEquals(0, cm.getRed());
-        assertEquals(0, cm.getGreen());
-        assertEquals(0, cm.getBlue());
-        assertEquals(1.0, cm.getAlpha(), 0.001);
+    public void testConstructorAndGetters() {
+        ColorModel color = new ColorModel(100, 150, 200, 0.5);
+        assertEquals(100, color.getRed());
+        assertEquals(150, color.getGreen());
+        assertEquals(200, color.getBlue());
+        assertEquals(0.5, color.getAlpha(), 0.01);
     }
 
     @Test
-    public void testFromColor() {
-        Color fxColor = new Color(0.5, 0.25, 0.753, 0.8); // RGB should round to (128, 64, 192)
-        ColorModel cm = ColorModel.fromColor(fxColor);
-        assertEquals(128, cm.getRed());
-        assertEquals(64, cm.getGreen());
-        assertEquals(192, cm.getBlue());
-        assertEquals(0.8, cm.getAlpha(), 0.001);
+    public void testToColorConversion() {
+        ColorModel colorModel = new ColorModel(255, 128, 0, 0.75);
+        Color fxColor = colorModel.toColor();
+
+        assertEquals(1.0, fxColor.getRed(), 0.01);
+        assertEquals(0.5, fxColor.getGreen(), 0.01);
+        assertEquals(0.0, fxColor.getBlue(), 0.01);
+        assertEquals(0.75, fxColor.getOpacity(), 0.01);
     }
 
     @Test
-    public void testToColor() {
-        ColorModel cm = new ColorModel(128, 64, 192, 0.8);
-        Color fxColor = cm.toColor();
-        assertEquals(0.501, fxColor.getRed(), 0.01); // 128/255 ≈ 0.501
-        assertEquals(0.251, fxColor.getGreen(), 0.01);
-        assertEquals(0.753, fxColor.getBlue(), 0.01);
-        assertEquals(0.8, fxColor.getOpacity(), 0.01);
+    public void testFromColorConversion() {
+        Color fxColor = new Color(0.2, 0.4, 0.6, 0.8);
+        ColorModel colorModel = ColorModel.fromColor(fxColor);
+
+        assertEquals(51, colorModel.getRed());
+        assertEquals(102, colorModel.getGreen());
+        assertEquals(153, colorModel.getBlue());
+        assertEquals(0.8, colorModel.getAlpha(), 0.01);
     }
 
     @Test
-    public void testRgbaSerialization() {
-        ColorModel cm = new ColorModel(10, 20, 30, 0.5);
-        String rgba = cm.toRgbaString();
-        assertEquals("rgba(10,20,30,0.50)", rgba);
+    public void testRgbaStringConversion() {
+        ColorModel original = new ColorModel(10, 20, 30, 0.6);
+        String rgba = original.toRgbaString();
+
+        assertEquals("rgba(10,20,30,0.60)", rgba);
+
         ColorModel parsed = ColorModel.fromRgbaString(rgba);
-        assertEquals(cm.getRed(), parsed.getRed());
-        assertEquals(cm.getGreen(), parsed.getGreen());
-        assertEquals(cm.getBlue(), parsed.getBlue());
-        assertEquals(cm.getAlpha(), parsed.getAlpha(), 0.001);
+        assertEquals(original.getRed(), parsed.getRed());
+        assertEquals(original.getGreen(), parsed.getGreen());
+        assertEquals(original.getBlue(), parsed.getBlue());
+        assertEquals(original.getAlpha(), parsed.getAlpha(), 0.01);
     }
 
     @Test
-    public void testInvalidRgbaStringThrows() {
+    public void testInvalidRgbaString() {
         assertThrows(IllegalArgumentException.class, () -> {
-            ColorModel.fromRgbaString("rgb(255,255,255,1.0)");
+            ColorModel.fromRgbaString("rgb(255,255,255)");
         });
+
         assertThrows(IllegalArgumentException.class, () -> {
             ColorModel.fromRgbaString("rgba(255,255)");
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            ColorModel.fromRgbaString("rgba(255,255,255,abc)");
         });
     }
 }

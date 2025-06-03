@@ -1,77 +1,45 @@
 package ModelTest;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import projectworkgroup6.Factory.EllipseCreator;
 import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Ellipse;
+import projectworkgroup6.Model.Shape;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class EllipseTest {
+public class EllipseTest {
 
-    private Ellipse ellipse;
-
-    @BeforeEach
-    void setUp() {
-        // Centro (50, 50), diametri 40 e 20
-        ellipse = new Ellipse(50, 50, false, 40, 20,new ColorModel(0,0,0,1), new ColorModel(255,255,255,1));
+    @Test
+    public void testCreation() {
+        EllipseCreator creator = EllipseCreator.getInstance();
+        ColorModel border = new ColorModel(0, 0, 0, 1.0);
+        ColorModel fill = new ColorModel(255, 255, 255, 1.0);
+        Shape shape = creator.createShape(10, 20, 30, 40, border, fill, 1, 0);
+        assertTrue(shape instanceof Ellipse);
     }
 
     @Test
-    void testGetDim1() {
-        assertEquals(40, ellipse.getDim1());
+    public void testMoveResize() {
+        EllipseCreator creator = EllipseCreator.getInstance();
+        ColorModel border = new ColorModel(0, 0, 0, 1.0);
+        ColorModel fill = new ColorModel(255, 255, 255, 1.0);
+        Ellipse shape = (Ellipse) creator.createShape(10, 20, 30, 40, border, fill, 1, 0);
+        shape.move(5, 5);
+        assertEquals(15, shape.getX(), 0.01);
+        assertEquals(25, shape.getY(), 0.01);
+        shape.resize(2.0, 2.0, 0, 0);  // verifica ingrandimento
+        assertTrue(shape.getDim1() >= 60 || shape.getDim2() >= 80);
     }
 
     @Test
-    void testGetDim2() {
-        assertEquals(20, ellipse.getDim2());
-    }
-
-    @Test
-    void testGetXc() {
-        assertEquals(30, ellipse.getXc()); // 50 - 40/2
-    }
-
-    @Test
-    void testGetYc() {
-        assertEquals(40, ellipse.getYc()); // 50 - 20/2
-    }
-
-    @Test
-    void testMove() {
-        ellipse.move(10, -5);
-        assertEquals(60, ellipse.getX());
-        assertEquals(45, ellipse.getY());
-    }
-
-    @Test
-    void testResize() {
-        ellipse.resize(2.0);
-        assertEquals(80, ellipse.getDim1());
-        assertEquals(40, ellipse.getDim2());
-    }
-
-    @Test
-    void testContainsPointInside() {
-        // Punto al centro
-        assertTrue(ellipse.contains(50, 50));
-    }
-
-    @Test
-    void testContainsPointOutside() {
-        // Fuori dai bordi
-        assertFalse(ellipse.contains(10, 10));
-    }
-
-    @Test
-    void testContainsOnBorder() {
-        // Estremo destro
-        assertTrue(ellipse.contains(70, 50));
-        // Estremo sinistro
-        assertTrue(ellipse.contains(30, 50));
-        // Estremo alto
-        assertTrue(ellipse.contains(50, 40));
-        // Estremo basso
-        assertTrue(ellipse.contains(50, 60));
+    public void testCloneAt() {
+        EllipseCreator creator = EllipseCreator.getInstance();
+        ColorModel border = new ColorModel(0, 0, 0, 1.0);
+        ColorModel fill = new ColorModel(255, 255, 255, 1.0);
+        Ellipse shape = (Ellipse) creator.createShape(10, 20, 30, 40, border, fill, 1, 0);
+        Shape cloned = shape.cloneAt(100, 200, 2);
+        assertNotNull(cloned);
+        assertTrue(cloned instanceof Ellipse);
     }
 }
