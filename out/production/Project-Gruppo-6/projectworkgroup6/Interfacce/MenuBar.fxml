@@ -41,6 +41,7 @@
             <Tooltip text="Visualizza" />
         </tooltip>
         <items>
+            <!--
             <Menu text="Zoom In">
                 <items>
                     <MenuItem text="50%" onAction="#zoomIn50"/>
@@ -58,6 +59,7 @@
                     <MenuItem text="-200%" onAction="#zoomOut150"/>
                 </items>
             </Menu>
+            !-->
             <Menu text="Griglia">
                 <items>
                     <MenuItem text="20 x 20" onAction="#grid20x20"/>

@@ -68,12 +68,6 @@ public class MainController implements Initializable {
         toolBarController.setDropDownController(dropDownMenuController);
 
 
-        //loader = new FXMLLoader(getClass().getResource("/projectworkgroup6/Interfacce/GroupMenu.fxml"));
-        //AnchorPane groupMenuPane = loader.load();
-        //groupMenuController = loader.getController();
-        //groupMenuController.setMainController(this);
-        //groupMenuController.setCanvasController(canvasController);
-
         dropDownMenuController.setToolBarController(toolBarController);
 
 

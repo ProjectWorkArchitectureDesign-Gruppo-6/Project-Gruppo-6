@@ -197,6 +197,7 @@ public class MenuBarController {
             e.printStackTrace();
         }
     }
+    /*
 
     @FXML
     private void zoomIn50(ActionEvent event)
@@ -236,6 +237,8 @@ public class MenuBarController {
     }
 
 
+     */
+
     //I seguenti metodi inseriscono una griglia di dimensione prefissata
     //Il metodo removeGrid permette di rimuovere una griglia inserita
 
@@ -261,7 +264,5 @@ public class MenuBarController {
 
     public void removeGrid(ActionEvent actionEvent) { canvasController.insertGrid(0);}
 
-    public void removeZoom(ActionEvent actionEvent) {
-        StateController.getInstance().setZoom(1.0);
-    }
+
 }
