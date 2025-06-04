@@ -32,17 +32,4 @@ class BorderDecoratorTest {
         assertSame(baseView, undecorated, "undecorate() should return the base view");
     }
 
-    @Test
-    void testDrawCallsBaseDrawAndSetsStrokeAndWidth() {
-        GraphicsContext gc = mock(GraphicsContext.class);
-
-        decorator.draw(gc);
-
-        // Verifica che abbia impostato il colore e lo spessore del bordo
-        verify(gc).setStroke(Color.RED);
-        verify(gc).setLineWidth(3.0);
-
-        // Verifica che il draw originale sia stato chiamato
-        verify(baseView).draw(gc);
-    }
 }

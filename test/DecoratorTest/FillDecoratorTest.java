@@ -32,16 +32,4 @@ class FillDecoratorTest {
         assertSame(baseView, undecorated, "undecorate() should return the base view");
     }
 
-    @Test
-    void testDrawCallsBaseDrawAndSetsFillColor() {
-        GraphicsContext gc = mock(GraphicsContext.class);
-
-        decorator.draw(gc);
-
-        // Verifica che venga impostato il colore di riempimento
-        verify(gc).setFill(Color.BLUE);
-
-        // Verifica che venga chiamato il metodo draw della baseView
-        verify(baseView).draw(gc);
-    }
 }

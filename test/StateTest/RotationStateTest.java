@@ -1,8 +1,8 @@
 package StateTest;
 
+import javafx.scene.input.MouseEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import projectworkgroup6.Command.CommandManager;
 import projectworkgroup6.Command.RotateCommand;
 import projectworkgroup6.Controller.StateController;
@@ -10,60 +10,75 @@ import projectworkgroup6.Decorator.SelectedDecorator;
 import projectworkgroup6.Model.Shape;
 import projectworkgroup6.State.RotationState;
 import projectworkgroup6.State.SingleSelectState;
+import projectworkgroup6.View.ShapeView;
+
+import java.util.Collections;
 
 import static org.mockito.Mockito.*;
 
-public class RotationStateTest {
+class RotationStateTest {
 
-    private Shape mockShape;
-    private SelectedDecorator mockShapeView;
-    private RotateCommand mockRotateCommand;
-    private RotationState rotationState;
-    private StateController controllerMock;
-    private CommandManager commandManagerMock;
+    private Shape shape;
+    private SelectedDecorator decorator;
+    private RotateCommand rotateCommand;
+    private RotationState state;
+    private StateController controller;
 
     @BeforeEach
     void setUp() {
-        mockShape = mock(Shape.class);
-        mockShapeView = mock(SelectedDecorator.class);
-        when(mockShapeView.getShape()).thenReturn(mockShape);
+        shape = mock(Shape.class);
+        when(shape.getXc()).thenReturn(100.0);
+        when(shape.getYc()).thenReturn(200.0);
+        when(shape.getDim1()).thenReturn(50.0);
+        when(shape.getDim2()).thenReturn(50.0);
+        when(shape.getRotation()).thenReturn(0.0);
 
-        mockRotateCommand = mock(RotateCommand.class);
+        decorator = mock(SelectedDecorator.class);
+        when(decorator.getShape()).thenReturn(shape);
 
-        when(mockShape.getXc()).thenReturn(50.0);
-        when(mockShape.getYc()).thenReturn(50.0);
-        when(mockShape.getDim1()).thenReturn(20.0);
-        when(mockShape.getDim2()).thenReturn(30.0);
-        when(mockShape.getRotation()).thenReturn(0.0);
+        rotateCommand = mock(RotateCommand.class);
 
-        controllerMock = mock(StateController.class);
-        StateController.setInstance(controllerMock);
+        controller = mock(StateController.class);
+        StateController.setInstance(controller);
+        CommandManager.setInstance(mock(CommandManager.class));
 
-        commandManagerMock = mock(CommandManager.class);
-        CommandManager.setInstance(commandManagerMock);
-
-        rotationState = new RotationState(mockShapeView);
-        rotationState.setRotateCommand(mockRotateCommand);
+        state = new RotationState(decorator);
+        state.setRotateCommand(rotateCommand);
     }
 
     @Test
-    void testHandleMouseDragged_PerformsRotation() {
-        rotationState.startRotating(70, 70);
-
-        rotationState.handleMouseDragged(60, 80);
-
-        verify(mockShape).setRotation(anyDouble());
-        verify(mockRotateCommand).finalizeRotation();
-        verify(controllerMock).notifyCanvasToRepaint();
+    void testStartRotatingInitializesCorrectly() {
+        state.startRotating(120.0, 220.0);
+        // Non verificabile direttamente, ma non deve lanciare errori
     }
 
     @Test
-    void testHandleMouseReleased_ExecutesCommandAndResetsState() {
-        rotationState.startRotating(70, 70);
+    void testHandleMouseDraggedAppliesRotation() {
+        state.startRotating(120.0, 220.0); // punto iniziale per startRotating
 
-        rotationState.handleMouseReleased(70, 70);
+        state.handleMouseDragged(140.0, 240.0); // punto finale simulato
 
-        verify(commandManagerMock).executeCommand(mockRotateCommand);
-        verify(controllerMock).setState(any(SingleSelectState.class));
+        verify(shape).setRotation(anyDouble());
+        verify(rotateCommand).finalizeRotation();
+        verify(controller).notifyCanvasToRepaint();
+    }
+
+    @Test
+    void testHandleMouseReleasedExecutesCommandAndSwitchesState() {
+        state.startRotating(120.0, 220.0); // simula che sia in fase di rotazione
+
+        state.handleMouseReleased(140.0, 240.0);
+
+        verify(CommandManager.getInstance()).executeCommand(rotateCommand);
+        verify(controller).setState(SingleSelectState.getInstance());
+    }
+
+    @Test
+    void testHandleClickSwitchesToSingleSelect() {
+        MouseEvent event = mock(MouseEvent.class);
+
+        state.handleClick(event, 100.0, 100.0, Collections.emptyMap());
+
+        verify(controller).setState(SingleSelectState.getInstance());
     }
 }

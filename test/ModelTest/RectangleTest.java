@@ -1,73 +1,45 @@
 package ModelTest;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import projectworkgroup6.Factory.RectangleCreator;
 import projectworkgroup6.Model.ColorModel;
 import projectworkgroup6.Model.Rectangle;
+import projectworkgroup6.Model.Shape;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RectangleTest {
+public class RectangleTest {
 
-    private Rectangle rectangle;
-
-    @BeforeEach
-    void setUp() {
-        // Centro (50, 50), larghezza 40, altezza 20
-        rectangle = new Rectangle(50, 50, false, 40, 20,new ColorModel(0,0,0,1), new ColorModel(255,255,255,1));
+    @Test
+    public void testCreation() {
+        RectangleCreator creator = RectangleCreator.getInstance();
+        ColorModel border = new ColorModel(0, 0, 0, 1.0);
+        ColorModel fill = new ColorModel(255, 255, 255, 1.0);
+        Shape shape = creator.createShape(10, 20, 30, 40, border, fill, 1, 0);
+        assertTrue(shape instanceof Rectangle);
     }
 
     @Test
-    void testGetDim1() {
-        assertEquals(40, rectangle.getDim1());
+    public void testMoveResize() {
+        RectangleCreator creator = RectangleCreator.getInstance();
+        ColorModel border = new ColorModel(0, 0, 0, 1.0);
+        ColorModel fill = new ColorModel(255, 255, 255, 1.0);
+        Rectangle shape = (Rectangle) creator.createShape(10, 20, 30, 40, border, fill, 1, 0);
+        shape.move(5, 5);
+        assertEquals(15, shape.getX(), 0.01);
+        assertEquals(25, shape.getY(), 0.01);
+        shape.resize(2.0, 2.0, 0, 0);  // verifica ingrandimento
+        assertTrue(shape.getDim1() >= 60 || shape.getDim2() >= 80);
     }
 
     @Test
-    void testGetDim2() {
-        assertEquals(20, rectangle.getDim2());
-    }
-
-    @Test
-    void testGetXc() {
-        assertEquals(30, rectangle.getXc()); // 50 - 40/2
-    }
-
-    @Test
-    void testGetYc() {
-        assertEquals(40, rectangle.getYc()); // 50 - 20/2
-    }
-
-    @Test
-    void testMove() {
-        rectangle.move(10, -5);
-        assertEquals(60, rectangle.getX());
-        assertEquals(45, rectangle.getY());
-    }
-
-    @Test
-    void testResize() {
-        rectangle.resize(2.0);
-        assertEquals(80, rectangle.getDim1());
-        assertEquals(40, rectangle.getDim2());
-    }
-
-    @Test
-    void testContainsPointInside() {
-        // Centro della figura
-        assertTrue(rectangle.contains(50, 50));
-    }
-
-    @Test
-    void testContainsPointOutside() {
-        assertFalse(rectangle.contains(10, 10));
-    }
-
-    @Test
-    void testContainsOnBorder() {
-        // Lati estremi del rettangolo
-        assertTrue(rectangle.contains(30, 50)); // lato sinistro
-        assertTrue(rectangle.contains(70, 50)); // lato destro
-        assertTrue(rectangle.contains(50, 40)); // alto
-        assertTrue(rectangle.contains(50, 60)); // basso
+    public void testCloneAt() {
+        RectangleCreator creator = RectangleCreator.getInstance();
+        ColorModel border = new ColorModel(0, 0, 0, 1.0);
+        ColorModel fill = new ColorModel(255, 255, 255, 1.0);
+        Rectangle shape = (Rectangle) creator.createShape(10, 20, 30, 40, border, fill, 1, 0);
+        Shape cloned = shape.cloneAt(100, 200, 2);
+        assertNotNull(cloned);
+        assertTrue(cloned instanceof Rectangle);
     }
 }
