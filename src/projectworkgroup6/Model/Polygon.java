@@ -50,12 +50,18 @@ public class Polygon extends Shape{
 
     @Override
     public double getXc() {
+        if (vertices == null || vertices.isEmpty()) {
+            return x;
+        }
         // restituisce x del vertice in alto a sinistra
         return vertices.stream().mapToDouble(v->v[0]).min().orElse(x);
     }
 
     @Override
     public double getYc() {
+        if (vertices == null || vertices.isEmpty()) {
+            return y;
+        }
         // restituisce y del vertice in alto a sinistra
         return vertices.stream().mapToDouble(v->v[1]).min().orElse(y);
     }
@@ -80,9 +86,12 @@ public class Polygon extends Shape{
         double scaleX = newWidth / oldWidth;
         double centerX = getXc() + oldWidth / 2;
 
-        for (double[] v : vertices) {
-            v[0] = centerX + (v[0] - centerX) * scaleX;
+        if (vertices != null && !(vertices.isEmpty())) {
+            for (double[] v : vertices) {
+                v[0] = centerX + (v[0] - centerX) * scaleX;
+            }
         }
+
     }
 
     @Override
@@ -92,10 +101,11 @@ public class Polygon extends Shape{
         double scaleY = newHeight / oldHeight;
         double centerY = getYc() + oldHeight / 2;
 
-        for (double[] v : vertices) {
-            v[1] = centerY + (v[1] - centerY) * scaleY;
+        if (vertices != null && !(vertices.isEmpty())) {
+            for (double[] v : vertices) {
+                v[1] = centerY + (v[1] - centerY) * scaleY;
+            }
         }
-
     }
 
     @Override
@@ -199,6 +209,10 @@ public class Polygon extends Shape{
 
     @Override
     public void setX(double x) {
+        if (vertices == null || vertices.isEmpty()) {
+            this.x = x;
+            return;
+        }
         double oldc = this.getX();
         this.x = x;
         double dx = x-oldc;
@@ -209,6 +223,10 @@ public class Polygon extends Shape{
 
     @Override
     public void setY(double y) {
+        if (vertices == null || vertices.isEmpty()) {
+            this.y = y;
+            return;
+        }
         double oldc = this.getY();
         this.y = y;
         double dy = y-oldc;
